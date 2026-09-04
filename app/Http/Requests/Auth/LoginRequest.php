@@ -27,7 +27,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'string', 'email'],
+            'email' => ['required', 'string'],
             'password' => ['required', 'string'],
         ];
     }
@@ -41,11 +41,16 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        if (! Auth::attempt($this->only('email', 'password'))) {
+        $login = $this->email;
+        
+        $credentialsByNim = ['nim' => $login, 'password' => $this->password];
+        $credentialsByEmail = ['email' => $login, 'password' => $this->password];
+
+        if (! Auth::attempt($credentialsByNim) && ! Auth::attempt($credentialsByEmail)) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([
-                'email' => 'Email atau kata sandi yang Anda masukkan salah.',
+                'email' => 'NIM/Email atau kata sandi yang Anda masukkan salah.',
             ]);
         }
 
