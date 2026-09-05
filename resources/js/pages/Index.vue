@@ -21,7 +21,7 @@ const currentTime = ref(new Date());
 let interval: number | null = null;
 
 const timeRemaining = computed(() => {
-    const target = new Date(props.kegiatan?.waktu_mulai_raw ?? "");
+    const target = new Date(props.kegiatan?.waktu_mulai ?? "");
     const now = currentTime.value;
     const diff = target.getTime() - now.getTime();
     if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true };
@@ -95,7 +95,7 @@ const ctaLink = computed(() => auth.value.user ? `/vote/${props.kegiatan?.id}` :
 
                 <!-- Description text -->
                 <p class="text-sm md:text-base max-w-lg mb-2 leading-relaxed" style="color:#5A2A34;">
-                    Selamat datang di Bilik Suara Digital MUSMA LM FMIPA {{ dayjs().year() }}. Gunakan hak suaramu untuk memilih Ketua Dewan Perwakilan Mahasiswa FMIPA periode {{ dayjs().year() + 1 }}–{{ dayjs().year() + 3 }}.
+                    Selamat datang di Bilik Suara Digital MUSMA LM FMIPA {{ dayjs().year() }}. Gunakan hak suaramu untuk memilih Ketua Dewan Perwakilan Mahasiswa FMIPA periode {{ dayjs().year() + 1 }}.
                 </p>
                 <p class="text-xs md:text-sm italic mb-8" style="color:#9A6A72;">&ldquo;Satu Suara, Satu Perubahan Nyata.&rdquo;</p>
 

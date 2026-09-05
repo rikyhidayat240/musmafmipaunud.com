@@ -13,11 +13,16 @@ const step = ref<0 | 1 | 2 | 4>(0);
 const selectedKandidat = ref<Kandidat | null>(null);
 const isProcessing = ref(false);
 const showConfirm = ref(false);
+const showStartConfirm = ref(false);
 const expandedMisi = ref<Record<number, boolean>>({});
 
 watch(step, () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
-function goToVote() { step.value = 2; }
+function confirmStartVote() {
+    showStartConfirm.value = false;
+    step.value = 2;
+}
+
 function goToAturan() { step.value = 0; }
 function goToKandidat() { step.value = 1; }
 
@@ -131,7 +136,7 @@ const formatMisi = (misi: string): string[] => {
                         <ChevronLeft class="w-4 h-4" />
                         Kembali ke Beranda
                     </Link>
-                    <button @click="goToVote" class="musma-btn flex items-center gap-2 justify-center">
+                    <button @click="showStartConfirm = true" class="musma-btn flex items-center gap-2 justify-center">
                         Mulai Pemilihan
                         <ChevronRight class="w-4 h-4" />
                     </button>
@@ -374,11 +379,40 @@ const formatMisi = (misi: string): string[] => {
                     </div>
 
                     <!-- Buttons -->
-                    <div class="flex gap-3">
-                        <button @click="cancelConfirm" class="musma-btn-outline flex-1 py-2.5" :disabled="isProcessing">Batal</button>
-                        <button @click="confirmVote" class="musma-btn flex-1 py-2.5" :disabled="isProcessing">
-                            <LoaderCircle v-if="isProcessing" class="h-4 w-4 animate-spin" />
+                    <div class="flex items-center justify-center gap-3">
+                        <button @click="cancelConfirm" class="musma-btn-outline flex-1 py-2.5 flex items-center justify-center text-center" :disabled="isProcessing">Batal</button>
+                        <button @click="confirmVote" class="musma-btn flex-1 py-2.5 flex items-center justify-center text-center" :disabled="isProcessing">
+                            <LoaderCircle v-if="isProcessing" class="h-4 w-4 animate-spin mr-2" />
                             <span v-else>Ya, Yakin</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </Teleport>
+
+        <!-- ============================
+             KONFIRMASI MASUK BILIK SUARA OVERLAY
+             ============================ -->
+        <Teleport to="body">
+            <div v-if="showStartConfirm" class="fixed inset-0 z-[9999] flex items-center justify-center p-4">
+                <!-- Blurred backdrop -->
+                <div class="absolute inset-0 bg-black/40 backdrop-blur-sm" @click="showStartConfirm = false"></div>
+
+                <!-- Modal -->
+                <div class="relative musma-card w-full max-w-sm shadow-2xl p-7 text-center">
+                    <!-- Warning icon -->
+                    <div class="w-12 h-12 rounded-full mx-auto mb-5 flex items-center justify-center" style="background:rgba(81,7,27,0.1);">
+                        <TriangleAlert class="w-6 h-6 mt-0.5" style="color:#51071B;" />
+                    </div>
+
+                    <h2 class="musma-section-title text-xl mb-3">Perhatian</h2>
+                    <p class="text-sm mb-6 leading-relaxed px-2" style="color:#5A2A34;">Apakah Anda telah membaca, memahami, dan menyetujui seluruh Syarat &amp; Ketentuan pemilihan ini?</p>
+
+                    <!-- Buttons -->
+                    <div class="flex items-center justify-center gap-3">
+                        <button @click="showStartConfirm = false" class="musma-btn-outline flex-1 py-2.5 flex items-center justify-center text-center">Belum</button>
+                        <button @click="confirmStartVote" class="musma-btn flex-1 py-2.5 flex items-center justify-center text-center">
+                            Ya, Setuju
                         </button>
                     </div>
                 </div>

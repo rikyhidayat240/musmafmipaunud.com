@@ -266,7 +266,7 @@ const submit = () => {
                 class="aspect-video h-full w-full border rounded-md object-contain" />
               <img v-else :src="kandidatData?.foto
                 ? `/storage/${kandidatData.foto}`
-                : '/images/blank-photo-icon.jpg'" alt="Foto" :class="cn(
+                : '/assets/blank-profile-picture.webp'" alt="Foto" :class="cn(
                   form.errors.foto ? 'border-red-500' : '',
                   'aspect-video h-full w-full border rounded-md object-contain'
                 )" />

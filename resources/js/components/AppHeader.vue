@@ -41,7 +41,7 @@ const isActive = (href: string) => page.url === href;
 
 <template>
   <div class="sticky top-0 z-50" style="background-color:#51071B;">
-    <div class="mx-auto flex h-16 items-center justify-between px-4 md:px-8 max-w-7xl">
+    <div class="mx-auto flex h-16 items-center justify-between px-4 md:px-8 w-full">
 
       <!-- Left: Logo -->
       <Link href="/" class="flex items-center gap-3 group">

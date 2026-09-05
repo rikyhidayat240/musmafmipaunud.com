@@ -3,8 +3,8 @@ import dayjs from "dayjs";
 </script>
 
 <template>
-  <footer style="background-color:#51071B;" class="w-full">
-    <div class="mx-auto max-w-7xl px-4 md:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-2">
+  <footer style="background-color:#51071B;" class="w-full relative z-50">
+    <div class="mx-auto px-4 md:px-8 py-5 flex flex-col sm:flex-row items-center justify-between gap-2 w-full">
       <!-- Left: Logo + name -->
       <div class="flex items-center gap-3">
         <img src="/logo 2026.png" alt="Logo MUSMA" class="h-8 w-auto object-contain opacity-80" />

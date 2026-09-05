@@ -200,9 +200,8 @@ watch(isViewDialogOpen, (newValue) => {
     <div class="flex flex-col w-full gap-4">
         <!-- Header -->
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-            <div class="space-y-1 mb-2 md:mb-4">
-                <h2 class="text-xl md:text-2xl font-bold tracking-tight">Data Mahasiswa</h2>
-                <p class="text-muted-foreground">Kelola data mahasiswa FMIPA</p>
+            <div class="space-y-1 mb-4">
+                <h2 class="musma-section-title text-lg md:text-xl">Daftar Mahasiswa</h2>
             </div>
 
             <div class="flex items-center justify-center max-w-lg gap-4">
@@ -350,7 +349,7 @@ watch(isViewDialogOpen, (newValue) => {
         </div>
 
         <!-- Data Table -->
-        <div class="border rounded-md">
+        <div class="rounded-xl overflow-hidden" style="border:1.5px solid #C8B8BB; box-shadow: 0 2px 8px rgba(81,7,27,0.06);">
             <Table>
                 <!-- Active Filters -->
                 <TableHeader v-if="globalFilter || activeFilters.length > 0">
@@ -385,8 +384,10 @@ watch(isViewDialogOpen, (newValue) => {
 
                 <!-- Table Header -->
                 <TableHeader v-if="table.getRowModel().rows?.length">
-                    <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id">
-                        <TableHead v-for="header in headerGroup.headers" :key="header.id" class="py-2">
+                    <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id"
+                        style="background-color:#51071B; border-bottom:none;">
+                        <TableHead v-for="header in headerGroup.headers" :key="header.id" class="py-3"
+                            style="color:#EBCE67; font-weight:700; font-size:0.8rem; letter-spacing:0.05em; text-transform:uppercase;">
                             <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
                                 :props="header.getContext()" />
                         </TableHead>

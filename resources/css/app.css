@@ -270,3 +270,10 @@
     align-items: flex-start;
     gap: 0.5rem;
 }
+
+/* Legacy accent colors */
+.bg-accent-red { background-color: #51071B; }
+.bg-accent-orange { background-color: #C5AA6C; }
+
+/* Admin panel table theme */
+.musma-table-header th { color: #51071B; }

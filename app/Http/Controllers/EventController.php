@@ -7,7 +7,9 @@ use Inertia\Inertia;
 use App\Models\Kegiatan;
 use App\Models\ProgramStudi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class EventController extends Controller
 {
@@ -58,17 +60,15 @@ class EventController extends Controller
             // Store foto if exists
             $fotoPath = null;
             if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
-                // Get the uploaded file
                 $fotoFile = $request->file('foto');
-                $fotoName = time() . '_' . $fotoFile->getClientOriginalName();
+                // SECURITY: Use random name only — never trust client-supplied filename
+                $fotoName = time() . '_' . Str::random(16) . '.' . $fotoFile->getClientOriginalExtension();
 
-                // Define the avatar destination path
                 $fotoDestination = Storage::disk('public')->path('foto-kegiatan');
                 if (!file_exists($fotoDestination)) {
                     mkdir($fotoDestination, 0755, true);
                 }
 
-                // Store the foto file
                 Storage::disk('public')->putFileAs('foto-kegiatan', $fotoFile, $fotoName);
                 $fotoPath = 'foto-kegiatan/' . $fotoName;
             }
@@ -86,7 +86,8 @@ class EventController extends Controller
             // Redirect with success message
             return to_route('events.index')->with('alert', ['type' => 'success', 'title' => 'Berhasil menambah kegiatan', 'message' => 'Data kegiatan pemilihan baru berhasil ditambah']);
         } catch (\Exception $e) {
-            return back()->with('alert', ['type' => 'error', 'title' => 'Kesalahan Penambahan Data', 'message' => 'Terjadi kesalahan saat membuat data kegiatan: ' . $e->getMessage()]);
+            Log::error('[EVENT] Gagal membuat kegiatan', ['error' => $e->getMessage()]);
+            return back()->with('alert', ['type' => 'error', 'title' => 'Kesalahan Penambahan Data', 'message' => 'Terjadi kesalahan saat membuat data kegiatan. Silakan coba lagi.']);
         }
     }
 
@@ -134,14 +135,13 @@ class EventController extends Controller
             // Handle foto upload
             $fotoPath = $kegiatan->foto;
             if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
-                // Delete old foto if exists
                 if ($fotoPath && Storage::disk('public')->exists($fotoPath)) {
                     Storage::disk('public')->delete($fotoPath);
                 }
 
-                // Store new foto
                 $fotoFile = $request->file('foto');
-                $fotoName = time() . '_' . $fotoFile->getClientOriginalName();
+                // SECURITY: Use random name only — never trust client-supplied filename
+                $fotoName = time() . '_' . Str::random(16) . '.' . $fotoFile->getClientOriginalExtension();
                 Storage::disk('public')->putFileAs('foto-kegiatan', $fotoFile, $fotoName);
                 $fotoPath = 'foto-kegiatan/' . $fotoName;
             }
@@ -158,7 +158,8 @@ class EventController extends Controller
             // Redirect with success message
             return to_route('events.index')->with('alert', ['type' => 'success', 'title' => 'Berhasil mengedit kegiatan', 'message' => 'Data kegiatan pemilihan berhasil diubah']);
         } catch (\Exception $e) {
-            return back()->with('alert', ['type' => 'error', 'title' => 'Kesalahan Pengeditan Data', 'message' => 'Terjadi kesalahan saat mengedit data kegiatan: ' . $e->getMessage()]);
+            Log::error('[EVENT] Gagal mengedit kegiatan', ['id' => $id, 'error' => $e->getMessage()]);
+            return back()->with('alert', ['type' => 'error', 'title' => 'Kesalahan Pengeditan Data', 'message' => 'Terjadi kesalahan saat mengedit data kegiatan. Silakan coba lagi.']);
         }
     }
 
