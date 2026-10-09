@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import InputError from "@/components/InputError.vue";
 import AuthBase from "@/layouts/AuthLayout.vue";
+import OrnamentDivider from "@/components/OrnamentDivider.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
 import { LoaderCircle, Eye, EyeOff } from "lucide-vue-next";
 import { ref } from "vue";
@@ -28,96 +29,96 @@ const submit = () => {
 
 <template>
     <AuthBase>
-        <Head title="Masuk" />
+        <Head title="Masuk - Login Pemilih" />
 
-        <!-- Login Card -->
-        <div class="musma-card shadow-xl overflow-hidden">
-            <!-- Card header band -->
-            <div class="py-5 px-6 flex items-center gap-3" style="background-color:#51071B;">
-                <img src="/logo 2026.png" alt="Logo" class="h-10 w-auto object-contain" />
-                <div class="flex flex-col leading-tight">
-                    <span class="text-xs text-white/60 font-medium uppercase tracking-widest">MUSMA LM FMIPA {{ new Date().getFullYear() }}</span>
-                    <span class="text-base font-bold text-white">Login Pemilih</span>
+        <!-- Login Card matching Figma Node 251:936 -->
+        <div class="relative bg-[#FFFDFB] rounded-3xl p-8 max-w-md w-full shadow-2xl border border-[#3B0613]/15 overflow-hidden">
+            <!-- Balinese corner ornament watermark -->
+            <img src="/image 63.png" class="absolute -top-3 -right-3 w-24 h-auto opacity-20 pointer-events-none select-none" alt="" />
+
+            <!-- Card Header -->
+            <div class="flex items-center gap-3.5 mb-3 relative z-10">
+                <img src="/logo 2026.png" alt="Logo" class="h-10 w-auto object-contain select-none" />
+                <div>
+                    <p class="text-[10px] font-bold tracking-[0.2em] text-[#DA8278] uppercase">MUSMA LM FMIPA {{ new Date().getFullYear() }}</p>
+                    <h2 class="font-serif font-bold text-2xl text-[#3B0613] leading-tight">Login Pemilih</h2>
                 </div>
             </div>
 
-            <!-- Decorative divider -->
-            <div class="flex items-center justify-center py-4">
-                <div class="musma-divider w-4/5">
-                    <span class="text-xs text-[#C5AA6C] select-none">✦</span>
-                </div>
+            <!-- Flourish Divider -->
+            <OrnamentDivider variant="large" class="mb-6 relative z-10" />
+
+            <!-- Status banner if any -->
+            <div v-if="status" class="mb-4 text-center text-sm font-medium text-[#3B0613] bg-[#F5ECEE] rounded-xl px-4 py-2.5 border border-[#3B0613]/20">
+                {{ status }}
             </div>
 
-            <!-- Form body -->
-            <div class="px-8 pb-8">
-                <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-700 bg-green-50 rounded-lg px-4 py-2">
-                    {{ status }}
+            <!-- Form -->
+            <form method="POST" @submit.prevent="submit" class="flex flex-col gap-5 relative z-10">
+                <!-- NIM field -->
+                <div class="flex flex-col gap-1.5">
+                    <label for="email" class="text-xs font-bold text-[#3B0613] tracking-wide">
+                        Nomor Induk Mahasiswa (NIM)
+                    </label>
+                    <input
+                        id="email"
+                        type="text"
+                        v-model="form.email"
+                        placeholder="Contoh: 24059328"
+                        required
+                        autofocus
+                        autocomplete="email"
+                        class="w-full px-4 py-3 rounded-xl text-sm border transition-all focus:outline-none focus:ring-2 focus:ring-[#3B0613]/25"
+                        style="background-color:#FAF7F2; border-color:rgba(59,6,19,0.18); color:#3B0613;"
+                    />
+                    <InputError :message="form.errors.email" />
                 </div>
 
-                <form method="POST" @submit.prevent="submit" class="flex flex-col gap-5">
-                    <!-- NIM field -->
-                    <div class="flex flex-col gap-1.5">
-                        <label for="email" class="text-sm font-semibold text-[#51071B]">
-                            Nomor Induk Mahasiswa (NIM)
-                        </label>
+                <!-- Password field -->
+                <div class="flex flex-col gap-1.5">
+                    <label for="password" class="text-xs font-bold text-[#3B0613] tracking-wide">
+                        Password
+                    </label>
+                    <div class="relative">
                         <input
-                            id="email"
-                            type="text"
-                            v-model="form.email"
-                            placeholder="Contoh: 2008511001"
+                            id="password"
+                            :type="showPassword ? 'text' : 'password'"
+                            v-model="form.password"
+                            placeholder="Masukkan password"
                             required
-                            autofocus
-                            autocomplete="email"
-                            class="w-full px-4 py-2.5 rounded-lg text-sm border transition-all focus:outline-none focus:ring-2 focus:ring-[#51071B]/30"
-                            style="background-color:#FFFFFF; border-color:#E3D7D9; color:#51071B;"
+                            autocomplete="current-password"
+                            class="w-full px-4 py-3 pr-11 rounded-xl text-sm border transition-all focus:outline-none focus:ring-2 focus:ring-[#3B0613]/25"
+                            style="background-color:#FAF7F2; border-color:rgba(59,6,19,0.18); color:#3B0613;"
                         />
-                        <InputError :message="form.errors.email" />
+                        <button
+                            type="button"
+                            @click="showPassword = !showPassword"
+                            class="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#9A6A72] hover:text-[#3B0613] transition-colors"
+                        >
+                            <Eye v-if="!showPassword" class="h-4 w-4" />
+                            <EyeOff v-else class="h-4 w-4" />
+                        </button>
                     </div>
+                    <InputError :message="form.errors.password" />
+                </div>
 
-                    <!-- Password field -->
-                    <div class="flex flex-col gap-1.5">
-                        <label for="password" class="text-sm font-semibold text-[#51071B]">Password</label>
-                        <div class="relative">
-                            <input
-                                id="password"
-                                :type="showPassword ? 'text' : 'password'"
-                                v-model="form.password"
-                                placeholder="Masukkan password"
-                                required
-                                autocomplete="current-password"
-                                class="w-full px-4 py-2.5 pr-11 rounded-lg text-sm border transition-all focus:outline-none focus:ring-2 focus:ring-[#51071B]/30"
-                                style="background-color:#FFFFFF; border-color:#E3D7D9; color:#51071B;"
-                            />
-                            <button
-                                type="button"
-                                @click="showPassword = !showPassword"
-                                class="absolute right-3 top-1/2 -translate-y-1/2 text-[#7A4A52] hover:text-[#51071B] transition-colors"
-                            >
-                                <Eye v-if="!showPassword" class="h-4 w-4" />
-                                <EyeOff v-else class="h-4 w-4" />
-                            </button>
-                        </div>
-                        <InputError :message="form.errors.password" />
-                    </div>
+                <!-- Submit Button -->
+                <button
+                    type="submit"
+                    :disabled="form.processing"
+                    class="w-full mt-2 py-3.5 px-6 rounded-xl font-bold text-sm bg-[#3B0613] hover:bg-[#51071B] text-white shadow-lg transition-transform hover:scale-[1.01] flex items-center justify-center gap-2"
+                >
+                    <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin mr-1" />
+                    <span>Masuk ke Bilik Suara</span>
+                </button>
 
-                    <!-- Submit -->
-                    <button
-                        type="submit"
-                        :disabled="form.processing"
-                        class="musma-btn w-full mt-2 py-3 text-base"
-                    >
-                        <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
-                        Masuk ke Bilik Suara
-                    </button>
-
-                    <!-- Cancel link -->
-                    <div class="text-center">
-                        <Link href="/" class="text-sm font-medium text-[#7A4A52] hover:text-[#51071B] transition-colors">
-                            Batal / Kembali
-                        </Link>
-                    </div>
-                </form>
-            </div>
+                <!-- Cancel link -->
+                <div class="text-center mt-1">
+                    <Link href="/" class="text-xs font-bold text-[#DA8278] hover:text-[#3B0613] transition-colors">
+                        Batal / Kembali
+                    </Link>
+                </div>
+            </form>
         </div>
 
     </AuthBase>

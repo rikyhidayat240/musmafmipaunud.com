@@ -1,190 +1,295 @@
 <script setup lang="ts">
 import AppLayout from "@/layouts/AppLayout.vue";
+import KotakSuaraIllustration from "@/components/KotakSuaraIllustration.vue";
+import LoginModal from "@/components/LoginModal.vue";
+import OrnamentDivider from "@/components/OrnamentDivider.vue";
 import { BreadcrumbItem, Kegiatan } from "@/types";
 import { Head, Link, usePage } from "@inertiajs/vue3";
 import dayjs from "dayjs";
+import { ArrowRight, Lock, Vote, ShieldCheck, HelpCircle } from "lucide-vue-next";
 import { computed, onMounted, onUnmounted, ref } from "vue";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const props = defineProps<{
-    kegiatan?: Kegiatan;
+  kegiatan?: Kegiatan;
 }>();
 
 const page = usePage();
 const auth = computed(() => page.props.auth);
-const title = auth.value.user ? "Beranda" : "Selamat Datang";
+const showLoginModal = ref(false);
 
 const breadcrumbs: BreadcrumbItem[] = [{ title: "Beranda", href: "/" }];
 
-// Countdown
+// Countdown timer logic
 const currentTime = ref(new Date());
-let interval: number | null = null;
+let timerInterval: number | null = null;
 
 const timeRemaining = computed(() => {
-    const target = new Date(props.kegiatan?.waktu_mulai ?? "");
-    const now = currentTime.value;
-    const diff = target.getTime() - now.getTime();
-    if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true };
-    return {
-        days: Math.floor(diff / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
-        seconds: Math.floor((diff % (1000 * 60)) / 1000),
-        expired: false,
-    };
+  if (!props.kegiatan?.waktu_mulai) {
+    return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true };
+  }
+  const target = new Date(props.kegiatan.waktu_mulai);
+  const now = currentTime.value;
+  const diff = target.getTime() - now.getTime();
+  if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true };
+  return {
+    days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+    hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+    minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
+    seconds: Math.floor((diff % (1000 * 60)) / 1000),
+    expired: false,
+  };
 });
 
 const formatTime = (t: number) => t.toString().padStart(2, "0");
 
-onMounted(() => { interval = setInterval(() => { currentTime.value = new Date(); }, 1000); });
-onUnmounted(() => { if (interval) clearInterval(interval); });
+onMounted(() => {
+  timerInterval = setInterval(() => {
+    currentTime.value = new Date();
+  }, 1000);
+
+  // Check if URL parameter requested login modal
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get("login") === "true") {
+    showLoginModal.value = true;
+  }
+});
+
+onUnmounted(() => {
+  if (timerInterval) clearInterval(timerInterval);
+});
+
+const eventYear = computed(() => props.kegiatan?.tahun || dayjs().year());
 
 const accordionItems = [
-    { value: "item-1", title: "Apa saja syarat untuk mengikuti pemilihan?", content: `Anda harus terdaftar sebagai calon fungsionaris DPM FMIPA periode ${dayjs().year() + 1} dan mahasiswa aktif di fakultas dan program studi yang sesuai pada tahun ${dayjs().year()}.` },
-    { value: "item-2", title: "Bagaimana cara melakukan registrasi akun?", content: "Anda cukup menyiapkan NIM dan nama lengkap yang sesuai dengan profil pada laman IMISSU. Kemudian, ikuti langkah-langkah yang terdapat pada laman registrasi akun." },
-    { value: "item-3", title: "Bagaimana cara login ke dalam laman pemilihan?", content: "Anda dapat melakukan login dengan menggunakan email dan kata sandi yang telah Anda daftarkan sebelumnya." },
-    { value: "item-4", title: "Bagaimana jika saya lupa kata sandi?", content: 'Anda dapat melakukan reset kata sandi melalui laman login dengan mengklik tautan "Lupa kata sandi?".' },
-    { value: "item-5", title: "Kegiatan apa saja yang dapat saya ikuti?", content: `Anda dapat mengikuti kegiatan pemilihan calon ketua DPM FMIPA periode ${dayjs().year() + 1}.` },
-    { value: "item-6", title: "Bagaimana tata cara melakukan pemilihan?", content: "Anda diharuskan untuk memiliki akun dan login terlebih dahulu untuk dapat melakukan pemilihan." },
-    { value: "item-7", title: "Apakah saya dapat mengubah pilihan saya setelah memilih?", content: 'Tidak, setelah Anda mengklik tombol "Vote", pilihan Anda akan terkunci dan tidak dapat diubah.' },
-    { value: "item-8", title: "Bagaimana cara memperbarui profil dan akun?", content: "Anda dapat memperbarui profil dan akun Anda melalui halaman pengaturan akun." },
+  {
+    value: "item-1",
+    title: "Apa saja syarat untuk mengikuti pemilihan?",
+    content: `Anda harus terdaftar sebagai mahasiswa aktif program studi sarjana di lingkungan Fakultas Matematika dan Ilmu Pengetahuan Alam Universitas Udayana pada tahun ${dayjs().year()}.`,
+  },
+  {
+    value: "item-2",
+    title: "Bagaimana cara melakukan login akun?",
+    content:
+      "Gunakan Nomor Induk Mahasiswa (NIM) serta password yang telah didaftarkan atau diverifikasi oleh panitia pemilihan.",
+  },
+  {
+    value: "item-3",
+    title: "Apakah saya dapat mengubah pilihan saya setelah memilih?",
+    content:
+      'Tidak. Setelah Anda mengonfirmasi pilihan dengan menekan tombol "Ya, Yakin", suara Anda langsung terkunci dan tidak dapat diubah kembali.',
+  },
+  {
+    value: "item-4",
+    title: "Apakah kerahasiaan pilihan saya terjamin?",
+    content:
+      "Ya, sistem menggunakan enkripsi terstandar dan azas LUBERJURDIL. Identitas pemilih dan surat suara yang diberikan diproses secara terpisah dan anonim.",
+  },
 ];
-
-const ctaLink = computed(() => auth.value.user ? `/vote/${props.kegiatan?.id}` : "/login");
 </script>
 
 <template>
-    <Head :title="title" />
+  <Head title="Beranda - MUSMA LM FMIPA" />
 
-    <AppLayout :breadcrumbs="breadcrumbs">
-        <!-- Page wrapper -->
-        <div class="musma-bg min-h-full flex flex-col">
+  <AppLayout :breadcrumbs="breadcrumbs">
+    <div class="relative w-full min-h-screen bg-[#FAF7F2] text-[#3B0613] overflow-hidden flex flex-col justify-between">
+      
+      <!-- Top-Right Balinese Botanical Corner Foliage (Figma Asset) -->
+      <img
+        src="/image 63.png"
+        alt=""
+        class="absolute -top-10 -right-10 w-44 sm:w-72 lg:w-96 h-auto opacity-75 select-none pointer-events-none z-0"
+      />
 
-            <!-- Global Decorations -->
-            <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-                <!-- Center Watermark (Foxes) -->
-                <img src="/logo 2026.png" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] md:w-[600px] h-auto object-contain opacity-[0.04] dark:opacity-[0.06] select-none" alt="" />
-                <!-- Corner Ornaments -->
-                <img src="/image 62.png" class="absolute top-0 left-0 w-[120px] md:w-[220px] h-auto object-contain opacity-60 dark:opacity-40 rotate-180 -translate-x-1/4 -translate-y-1/4 select-none" alt="" />
-                <img src="/image 63.png" class="absolute top-0 right-0 w-[90px] md:w-[180px] h-auto object-contain opacity-60 dark:opacity-40 rotate-180 translate-x-1/4 -translate-y-1/4 select-none" alt="" />
-                <img src="/image 63.png" class="absolute bottom-0 left-0 w-[90px] md:w-[180px] h-auto object-contain opacity-60 dark:opacity-40 -translate-x-1/4 translate-y-1/4 select-none" alt="" />
-                <img src="/image 62.png" class="absolute bottom-0 right-0 w-[120px] md:w-[220px] h-auto object-contain opacity-60 dark:opacity-40 translate-x-1/4 translate-y-1/4 select-none" alt="" />
+      <!-- Bottom-Left Balinese Botanical Corner Foliage (Figma Asset) -->
+      <img
+        src="/image 62.png"
+        alt=""
+        class="absolute -bottom-10 -left-10 w-44 sm:w-72 lg:w-96 h-auto opacity-75 select-none pointer-events-none z-0"
+      />
+
+      <!-- Center Background Subtle Watermark -->
+      <img
+        src="/logo 2026.png"
+        alt=""
+        class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[380px] sm:w-[540px] h-auto object-contain opacity-[0.035] select-none pointer-events-none z-0"
+      />
+
+      <!-- ===== HERO SECTION (Figma Node 251:800) ===== -->
+      <section class="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 pt-8 sm:pt-14 pb-12 sm:pb-20 w-full flex-1 flex flex-col justify-center">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+          
+          <!-- Left Column: Typography & CTAs -->
+          <div class="lg:col-span-7 flex flex-col items-start text-left">
+            <!-- Eyebrow Tag -->
+            <div class="flex items-center gap-3 mb-3 sm:mb-4">
+              <div class="w-8 h-0.5 bg-[#DA8278]"></div>
+              <span class="text-xs sm:text-sm font-bold tracking-[0.2em] uppercase text-[#3B0613]/80">
+                SUARAMU, MASA DEPAN KITA
+              </span>
             </div>
 
-            <!-- ===== HERO SECTION ===== -->
-            <section class="relative z-10 flex flex-col items-center text-center px-4 pt-12 pb-10 md:pt-16">
+            <!-- Main Display Heading -->
+            <h1 class="font-serif font-black text-6xl sm:text-7xl lg:text-8xl text-[#3B0613] tracking-tight leading-[0.95] mb-1">
+              MUSMA
+            </h1>
+            <h2 class="font-serif italic font-normal text-4xl sm:text-5xl lg:text-6xl text-[#DA8278] leading-tight mb-5 sm:mb-6">
+              LM FMIPA {{ eventYear }}
+            </h2>
 
-                <!-- Mandala Ornament (Inline) -->
-                <img src="/image 61.png" class="w-20 md:w-28 h-auto object-contain mb-4 select-none" alt="Mandala" />
+            <!-- Narrative Paragraph -->
+            <p class="text-[#5A2A34] text-base sm:text-lg max-w-xl leading-relaxed mb-8">
+              Saatnya menentukan pemimpin yang akan membawa aspirasi dan perubahan bagi seluruh mahasiswa FMIPA periode {{ Number(eventYear) }}/{{ Number(eventYear) + 1 }}.
+            </p>
 
-                <!-- Subtitle tag -->
-                <p class="text-xs md:text-sm font-semibold tracking-[0.2em] uppercase mb-3" style="color:#9A6A72;">
-                    Musyawarah Mahasiswa &bull; Lembaga Mahasiswa
-                </p>
-
-                <!-- Main title -->
-                <h1 class="musma-section-title text-5xl md:text-7xl font-extrabold leading-tight mb-1">MUSMA</h1>
-                <h2 class="text-3xl md:text-5xl font-bold mb-6" style="color:#DA8278; font-family:'Playfair Display',serif;">LM FMIPA {{ dayjs().year() }}</h2>
-
-                <!-- Gold ornament divider -->
-                <div class="flex items-center gap-3 mb-6 w-full max-w-sm">
-                    <div class="flex-1 h-px" style="background:linear-gradient(90deg,transparent,#C5AA6C,transparent);"></div>
-                    <span class="text-sm" style="color:#C5AA6C;">✦ ✦ ✦</span>
-                    <div class="flex-1 h-px" style="background:linear-gradient(90deg,transparent,#C5AA6C,transparent);"></div>
+            <!-- Countdown Timer (if countdown is still running) -->
+            <div v-if="kegiatan && !timeRemaining.expired" class="mb-8 w-full max-w-md">
+              <p class="text-xs font-bold uppercase tracking-wider text-[#9A6A72] mb-2">
+                Pemilihan Dimulai Dalam:
+              </p>
+              <div class="flex gap-2.5 sm:gap-4">
+                <div
+                  v-for="(val, label) in { Hari: timeRemaining.days, Jam: timeRemaining.hours, Menit: timeRemaining.minutes, Detik: timeRemaining.seconds }"
+                  :key="label"
+                  class="flex-1 bg-[#FFFDFB] border border-[#3B0613]/15 rounded-2xl py-2.5 sm:py-3 text-center shadow-sm"
+                >
+                  <span class="font-serif font-bold text-xl sm:text-2xl text-[#3B0613] block">
+                    {{ formatTime(val) }}
+                  </span>
+                  <span class="text-[10px] sm:text-xs font-semibold text-[#9A6A72] uppercase tracking-wider block">
+                    {{ label }}
+                  </span>
                 </div>
+              </div>
+            </div>
 
-                <!-- Description text -->
-                <p class="text-sm md:text-base max-w-lg mb-2 leading-relaxed" style="color:#5A2A34;">
-                    Selamat datang di Bilik Suara Digital MUSMA LM FMIPA {{ dayjs().year() }}. Gunakan hak suaramu untuk memilih Ketua Dewan Perwakilan Mahasiswa FMIPA periode {{ dayjs().year() + 1 }}.
-                </p>
-                <p class="text-xs md:text-sm italic mb-8" style="color:#9A6A72;">&ldquo;Satu Suara, Satu Perubahan Nyata.&rdquo;</p>
+            <!-- Call to Action Buttons -->
+            <div class="flex flex-wrap items-center gap-4">
+              <!-- Guest: Open Login Modal -->
+              <button
+                v-if="!auth.user"
+                type="button"
+                @click="showLoginModal = true"
+                class="group px-8 py-3.5 sm:py-4 rounded-full font-semibold text-sm sm:text-base text-white bg-[#3B0613] hover:bg-[#50071B] active:scale-[0.98] transition-all shadow-lg hover:shadow-xl inline-flex items-center gap-3 cursor-pointer"
+              >
+                <span>Masuk untuk memilih</span>
+                <ArrowRight class="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </button>
 
-                <!-- Countdown (shown when kegiatan exists and not expired) -->
-                <div v-if="kegiatan && !timeRemaining.expired" class="flex gap-4 md:gap-6 mb-8 items-start">
-                    <div v-for="(val, label) in {Hari: timeRemaining.days, Jam: timeRemaining.hours, Menit: timeRemaining.minutes, Detik: timeRemaining.seconds}" :key="label" class="text-center">
-                        <div class="musma-card w-16 h-16 md:w-20 md:h-20 flex items-center justify-center shadow-md">
-                            <span class="text-2xl md:text-3xl font-bold" style="color:#51071B;">{{ formatTime(val) }}</span>
-                        </div>
-                        <p class="text-xs font-medium mt-1" style="color:#7A4A52;">{{ label }}</p>
-                    </div>
-                </div>
+              <!-- Authenticated: Go to Bilik Suara -->
+              <Link
+                v-else-if="kegiatan"
+                :href="`/vote/${kegiatan.id}`"
+                class="group px-8 py-3.5 sm:py-4 rounded-full font-semibold text-sm sm:text-base text-white bg-[#3B0613] hover:bg-[#50071B] active:scale-[0.98] transition-all shadow-lg hover:shadow-xl inline-flex items-center gap-3"
+              >
+                <span>Masuk ke Bilik Suara</span>
+                <ArrowRight class="w-4 h-4 transition-transform group-hover:translate-x-1" />
+              </Link>
 
-                <!-- CTA Button -->
-                <Link v-if="kegiatan" :href="ctaLink" class="musma-btn text-base px-8 py-3.5 shadow-lg">
-                    Masuk ke Bilik Suara
-                </Link>
-                <div v-else class="musma-card px-8 py-6 max-w-sm text-center shadow">
-                    <p class="text-2xl font-bold musma-section-title mb-1">Coming Soon</p>
-                    <p class="text-sm" style="color:#7A4A52;">Musma FMIPA {{ dayjs().year() }} akan segera hadir!</p>
-                </div>
+              <!-- No active election currently -->
+              <div
+                v-else
+                class="px-6 py-3 rounded-2xl bg-[#FFFDFB] border border-[#3B0613]/15 text-sm text-[#7A4A52] shadow-sm"
+              >
+                Jadwal pemilihan akan segera diumumkan panitia.
+              </div>
+            </div>
 
-                <!-- Divider bottom -->
-                <div class="flex items-center gap-3 mt-12 w-full max-w-sm">
-                    <div class="flex-1 h-px" style="background:linear-gradient(90deg,transparent,#C5AA6C,transparent);"></div>
-                    <span class="text-sm" style="color:#C5AA6C;">✦</span>
-                    <div class="flex-1 h-px" style="background:linear-gradient(90deg,transparent,#C5AA6C,transparent);"></div>
-                </div>
-            </section>
+          </div>
 
-            <!-- ===== FEATURE ICONS ===== -->
-            <section class="relative z-10 px-4 pb-12">
-                <div class="max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
-                    <div class="flex flex-col items-center gap-3">
-                        <div class="w-14 h-14 rounded-full flex items-center justify-center" style="background-color:rgba(81,7,27,0.08);">
-                            <img src="/gembok.png" alt="Gembok" class="w-7 h-7 object-contain" />
-                        </div>
-                        <div>
-                            <p class="font-bold text-sm" style="color:#51071B;">Rahasia &amp; Aman</p>
-                            <p class="text-xs mt-1" style="color:#9A6A72;">Identitas dan pilihan Anda dijaga kerahasiaannya.</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-col items-center gap-3">
-                        <div class="w-14 h-14 rounded-full flex items-center justify-center" style="background-color:rgba(81,7,27,0.08);">
-                            <img src="/petir.png" alt="Petir" class="w-7 h-7 object-contain" />
-                        </div>
-                        <div>
-                            <p class="font-bold text-sm" style="color:#51071B;">Login Untuk Memilih</p>
-                            <p class="text-xs mt-1" style="color:#9A6A72;">Gunakan akun yang sudah di sajikan panitia.</p>
-                        </div>
-                    </div>
-                    <div class="flex flex-col items-center gap-3">
-                        <div class="w-14 h-14 rounded-full flex items-center justify-center" style="background-color:rgba(81,7,27,0.08);">
-                            <img src="/gembok.png" alt="Satu Suara" class="w-7 h-7 object-contain" />
-                        </div>
-                        <div>
-                            <p class="font-bold text-sm" style="color:#51071B;">Satu Orang, Satu Suara</p>
-                            <p class="text-xs mt-1" style="color:#9A6A72;">Setiap pemilih hanya dapat memilih satu kali.</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- bottom divider -->
-                <div class="flex items-center gap-3 mt-10 max-w-md mx-auto">
-                    <div class="flex-1 h-px" style="background:linear-gradient(90deg,transparent,#C5AA6C,transparent);"></div>
-                    <span class="text-sm" style="color:#C5AA6C;">✦ ✦ ✦</span>
-                    <div class="flex-1 h-px" style="background:linear-gradient(90deg,transparent,#C5AA6C,transparent);"></div>
-                </div>
-            </section>
-
-            <!-- ===== FAQ ===== -->
-            <section class="relative z-10 px-4 pb-16">
-                <div class="max-w-3xl mx-auto">
-                    <h2 class="musma-section-title text-xl md:text-2xl text-center mb-8">Yang Sering Ditanyakan</h2>
-                    <Accordion type="single" class="w-full" collapsible default-value="item-1">
-                        <AccordionItem
-                            v-for="item in accordionItems"
-                            :key="item.value"
-                            :value="item.value"
-                            class="border-b"
-                            style="border-color:#E3D7D9;"
-                        >
-                            <AccordionTrigger class="text-sm font-semibold text-left" style="color:#51071B;">{{ item.title }}</AccordionTrigger>
-                            <AccordionContent class="text-sm" style="color:#7A4A52;">{{ item.content }}</AccordionContent>
-                        </AccordionItem>
-                    </Accordion>
-                </div>
-            </section>
+          <!-- Right Column: 3D Kotak Suara & Floating Ballots (Figma Node 250:552) -->
+          <div class="lg:col-span-5 flex justify-center lg:justify-end">
+            <KotakSuaraIllustration :year="eventYear" />
+          </div>
 
         </div>
-    </AppLayout>
+      </section>
+
+      <!-- ===== THREE PILLARS / VALUES SECTION ===== -->
+      <section class="relative z-10 max-w-6xl mx-auto px-4 sm:px-8 py-10 w-full">
+        <OrnamentDivider size="sm" class="mb-8" />
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="bg-[#FFFDFB] border border-[#3B0613]/15 rounded-3xl p-6 sm:p-7 shadow-sm flex flex-col items-start text-left hover:shadow-md transition-shadow">
+            <div class="size-12 rounded-2xl bg-[#3B0613]/10 flex items-center justify-center mb-4 text-[#3B0613]">
+              <Lock class="w-6 h-6" />
+            </div>
+            <h3 class="font-serif font-bold text-lg text-[#3B0613] mb-1.5">
+              Rahasia &amp; Terenkripsi
+            </h3>
+            <p class="text-xs sm:text-sm text-[#5A2A34] leading-relaxed">
+              Pilihan suara Anda dienkripsi dan dijamin kerahasiaannya dengan sistem integritas satu mahasiswa satu suara.
+            </p>
+          </div>
+
+          <div class="bg-[#FFFDFB] border border-[#3B0613]/15 rounded-3xl p-6 sm:p-7 shadow-sm flex flex-col items-start text-left hover:shadow-md transition-shadow">
+            <div class="size-12 rounded-2xl bg-[#3B0613]/10 flex items-center justify-center mb-4 text-[#3B0613]">
+              <Vote class="w-6 h-6" />
+            </div>
+            <h3 class="font-serif font-bold text-lg text-[#3B0613] mb-1.5">
+              Bilik Suara Mandiri
+            </h3>
+            <p class="text-xs sm:text-sm text-[#5A2A34] leading-relaxed">
+              Pemberian suara dapat diakses secara fleksibel dan transparan dari perangkat mana saja selama sesi pemungutan suara berlangsung.
+            </p>
+          </div>
+
+          <div class="bg-[#FFFDFB] border border-[#3B0613]/15 rounded-3xl p-6 sm:p-7 shadow-sm flex flex-col items-start text-left hover:shadow-md transition-shadow">
+            <div class="size-12 rounded-2xl bg-[#3B0613]/10 flex items-center justify-center mb-4 text-[#3B0613]">
+              <ShieldCheck class="w-6 h-6" />
+            </div>
+            <h3 class="font-serif font-bold text-lg text-[#3B0613] mb-1.5">
+              Luber &amp; Jurdil
+            </h3>
+            <p class="text-xs sm:text-sm text-[#5A2A34] leading-relaxed">
+              Berdasarkan asas Langsung, Umum, Bebas, Rahasia, Jujur, dan Adil untuk suksesi demokrasi mahasiswa FMIPA.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ===== FAQ ACCORDION SECTION ===== -->
+      <section class="relative z-10 max-w-4xl mx-auto px-4 sm:px-8 py-10 w-full">
+        <div class="text-center mb-6">
+          <span class="text-xs font-bold uppercase tracking-[0.2em] text-[#DA8278]">
+            Informasi Pemilih
+          </span>
+          <h2 class="font-serif font-bold text-2xl sm:text-3xl text-[#3B0613] mt-1">
+            Pertanyaan yang Sering Diajukan
+          </h2>
+        </div>
+
+        <div class="bg-[#FFFDFB] border border-[#3B0613]/15 rounded-3xl p-6 sm:p-8 shadow-sm">
+          <Accordion type="single" collapsible class="w-full">
+            <AccordionItem
+              v-for="item in accordionItems"
+              :key="item.value"
+              :value="item.value"
+              class="border-b border-[#3B0613]/10 last:border-b-0 py-1"
+            >
+              <AccordionTrigger class="text-left font-serif font-semibold text-[#3B0613] text-sm sm:text-base hover:text-[#50071B] hover:no-underline">
+                {{ item.title }}
+              </AccordionTrigger>
+              <AccordionContent class="text-xs sm:text-sm text-[#5A2A34] leading-relaxed pt-1 pb-3">
+                {{ item.content }}
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </div>
+      </section>
+
+      <!-- Login Modal Overlay (Figma Node 251:936) -->
+      <LoginModal
+        :open="showLoginModal"
+        :year="eventYear"
+        @close="showLoginModal = false"
+      />
+
+    </div>
+  </AppLayout>
 </template>

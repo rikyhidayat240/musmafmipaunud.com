@@ -47,13 +47,13 @@
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-ring: var(--sidebar-ring);
-    --color-musma-maroon: #51071B;
-    --color-musma-maroon-light: #5A2A34;
-    --color-musma-maroon-deep: #3B0312;
+    --color-musma-maroon: #3B0613;
+    --color-musma-maroon-light: #50071B;
+    --color-musma-maroon-deep: #28030B;
     --color-musma-gold: #EBCE67;
     --color-musma-gold-muted: #C5AA6C;
-    --color-musma-cream: #F5EFE6;
-    --color-musma-cream-2: #FFF8F8;
+    --color-musma-cream: #FAF7F2;
+    --color-musma-cream-2: #FFFDFB;
     --color-musma-blush: #DA8278;
     --color-musma-rose: #E3D7D9;
 }
@@ -71,33 +71,33 @@
 }
 
 :root {
-    --background: #F5EFE6;
-    --foreground: #51071B;
-    --card: #FFF8F8;
-    --card-foreground: #51071B;
-    --popover: #FFF8F8;
-    --popover-foreground: #51071B;
-    --primary: #51071B;
-    --primary-foreground: #F5EFE6;
+    --background: #FAF7F2;
+    --foreground: #3B0613;
+    --card: #FFFDFB;
+    --card-foreground: #3B0613;
+    --popover: #FFFDFB;
+    --popover-foreground: #3B0613;
+    --primary: #3B0613;
+    --primary-foreground: #FAF7F2;
     --secondary: #E3D7D9;
-    --secondary-foreground: #51071B;
+    --secondary-foreground: #3B0613;
     --muted: #F5ECEE;
     --muted-foreground: #7A4A52;
     --accent: #EBCE67;
-    --accent-foreground: #51071B;
+    --accent-foreground: #3B0613;
     --destructive: hsl(0 84.2% 60.2%);
     --destructive-foreground: hsl(0 0% 98%);
-    --border: #E3D7D9;
-    --input: #E3D7D9;
-    --ring: #51071B;
+    --border: rgba(59, 6, 19, 0.14);
+    --input: rgba(59, 6, 19, 0.18);
+    --ring: #3B0613;
     --chart-1: hsl(12 76% 61%);
     --chart-2: hsl(173 58% 39%);
     --chart-3: hsl(197 37% 24%);
     --chart-4: hsl(43 74% 66%);
     --chart-5: hsl(27 87% 67%);
-    --radius: 0.5rem;
-    --sidebar-background: #51071B;
-    --sidebar-foreground: #F5EFE6;
+    --radius: 0.75rem;
+    --sidebar-background: #3B0613;
+    --sidebar-foreground: #FAF7F2;
     --sidebar-primary: #EBCE67;
     --sidebar-primary-foreground: #51071B;
     --sidebar-accent: #5A2A34;
@@ -169,8 +169,8 @@
 .musma-float { animation: musma-float 6s ease-in-out infinite; }
 
 .musma-btn {
-    background-color: #51071B;
-    color: #F5EFE6;
+    background-color: #3B0613;
+    color: #FAF7F2;
     font-weight: 600;
     padding: 0.75rem 2rem;
     border-radius: 9999px;
@@ -184,16 +184,38 @@
     text-decoration: none;
 }
 .musma-btn:hover {
-    background-color: #3B0312;
-    box-shadow: 0 4px 20px rgba(81,7,27,0.35);
+    background-color: #50071B;
+    box-shadow: 0 6px 24px rgba(59,6,19,0.35);
     transform: translateY(-1px);
 }
 .musma-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
+.musma-btn-gold {
+    background: linear-gradient(135deg, #FCCE88 0%, #F8A858 100%);
+    color: #3B0613;
+    font-weight: 700;
+    padding: 0.75rem 2rem;
+    border-radius: 9999px;
+    border: none;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(248,168,88,0.35);
+}
+.musma-btn-gold:hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(248,168,88,0.45);
+}
+
 .musma-btn-outline {
     background-color: transparent;
-    color: #51071B;
-    border: 1.5px solid #51071B;
+    color: #3B0613;
+    border: 1.5px solid rgba(59,6,19,0.4);
     padding: 0.65rem 1.5rem;
     border-radius: 9999px;
     font-weight: 600;
@@ -204,18 +226,36 @@
     cursor: pointer;
     text-decoration: none;
 }
-.musma-btn-outline:hover { background-color: rgba(81,7,27,0.08); }
+.musma-btn-outline:hover { background-color: rgba(59,6,19,0.06); }
 
 .musma-card {
-    background-color: #FFF8F8;
-    border: 1px solid #E3D7D9;
-    border-radius: 0.75rem;
+    background-color: #FFFDFB;
+    border: 1px solid rgba(59,6,19,0.12);
+    border-radius: 1.25rem;
 }
 
 .musma-election-card {
-    background: linear-gradient(135deg, #51071B 0%, #3B0312 100%);
-    border-radius: 0.75rem;
-    color: #F5EFE6;
+    background: linear-gradient(135deg, #3B0613 0%, #28030B 100%);
+    border-radius: 1.25rem;
+    color: #FAF7F2;
+}
+
+@keyframes float-ballot-1 {
+    0%, 100% { transform: translateY(0px) rotate(-6deg); }
+    50% { transform: translateY(-8px) rotate(-4.5deg); }
+}
+
+@keyframes float-ballot-2 {
+    0%, 100% { transform: translateY(0px) rotate(6deg); }
+    50% { transform: translateY(-9px) rotate(7.5deg); }
+}
+
+.animate-float-ballot-1 {
+    animation: float-ballot-1 4s ease-in-out infinite;
+}
+
+.animate-float-ballot-2 {
+    animation: float-ballot-2 4.5s ease-in-out infinite;
 }
 
 .musma-badge-ongoing {
