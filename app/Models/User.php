@@ -39,6 +39,7 @@ class User extends Authenticatable
         'status',
         'is_admin',
         'email_verified_at',
+        'credentials_sent_at',
     ];
 
     /**
@@ -86,6 +87,7 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'credentials_sent_at' => 'datetime',
             'password' => 'hashed',
             'two_factor_confirmed_at' => 'datetime',
         ];

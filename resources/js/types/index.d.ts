@@ -47,6 +47,7 @@ export interface User {
     is_admin: number | boolean;
     id_program_studi: number;
     email_verified_at: string | null;
+    credentials_sent_at?: string | null;
     status: 'aktif' | 'nonaktif';
     created_at: string;
     updated_at: string;

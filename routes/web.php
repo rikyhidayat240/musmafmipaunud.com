@@ -26,7 +26,18 @@ Route::resource('users', MahasiswaController::class)
 Route::post('users/sync-data/{year}', [MahasiswaController::class, 'syncMahasiswa'])
         ->name('users.sync-data')->middleware(['auth', 'verified', IsAdmin::class]);
 
+Route::post('users/send-bulk-credentials', [MahasiswaController::class, 'sendBulkCredentials'])
+        ->name('users.send-bulk-credentials')->middleware(['auth', 'verified', IsAdmin::class]);
+
+Route::post('users/{nim}/send-credentials', [MahasiswaController::class, 'sendCredentials'])
+        ->name('users.send-credentials')->middleware(['auth', 'verified', IsAdmin::class]);
+
 Route::get('result', [EventController::class, 'hasil'])->middleware(['auth', IsAdmin::class]);
+
+Route::get('/linkstorage', function () {
+    \Illuminate\Support\Facades\Artisan::call('storage:link');
+    return 'Storage linked successfully!';
+});
 
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
