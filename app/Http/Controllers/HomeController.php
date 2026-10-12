@@ -12,21 +12,20 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $year = now()->year;
-        $kegiatan = Kegiatan::with('kandidat.mahasiswa')
+        $activeKegiatan = Kegiatan::with('kandidat.mahasiswa')
             ->where('tahun', $year)
             ->where('waktu_selesai', '>', now())
             ->first();
         
-        if ($kegiatan) {
-            $kegiatan->toResource();
+        if ($activeKegiatan) {
+            $kegiatan = $activeKegiatan->toResource();
+        } else {
+            $latestKegiatan = Kegiatan::with('kandidat.mahasiswa')
+                ->latest()
+                ->first();
+            $kegiatan = $latestKegiatan ? $latestKegiatan->toResource() : null;
         }
 
-        if (!$kegiatan) {
-            $kegiatan = Kegiatan::with('kandidat.mahasiswa')
-                ->latest()
-                ->first()
-                ->toResource();
-        }
         return Inertia::render('Index', ['kegiatan' => $kegiatan]);
     }
 }

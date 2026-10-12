@@ -193,14 +193,14 @@ class MahasiswaController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'nim'              => 'required|string|digits:10|unique:mahasiswa,nim',
+            'nim'              => 'required|string|max:15|unique:mahasiswa,nim',
             'nama'             => 'required|string|max:255',
             'email'            => 'nullable|email|max:255|unique:mahasiswa,email',
             'id_program_studi' => 'required|exists:program_studi,id',
             'angkatan'         => 'required|integer|min:2000|max:2100',
             'avatar'           => 'nullable|image|max:4096|mimes:jpeg,png,jpg,webp',
         ], [
-            'nim.digits'              => 'NIM harus terdiri dari 10 digit.',
+            'nim.max'                 => 'NIM maksimal 15 digit.',
             'nim.unique'              => 'NIM sudah terdaftar.',
             'nama.max'                => 'Nama maksimal 255 karakter.',
             'email.max'               => 'Email maksimal 255 karakter.',
@@ -265,14 +265,14 @@ class MahasiswaController extends Controller
     public function update(Request $request, string $nim)
     {
         $validatedData = $request->validate([
-            'nim'              => 'required|string|digits:10',
+            'nim'              => 'required|string|max:15',
             'nama'             => 'required|string|max:255',
             'email'            => 'nullable|email|max:255',
             'id_program_studi' => 'required|exists:program_studi,id',
             'angkatan'         => 'required|integer|min:2000|max:2100',
             'avatar'           => 'nullable|image|max:4096|mimes:jpeg,png,jpg,webp',
         ], [
-            'nim.digits'              => 'NIM harus terdiri dari 10 digit.',
+            'nim.max'                 => 'NIM maksimal 15 digit.',
             'nama.max'                => 'Nama maksimal 255 karakter.',
             'email.max'               => 'Email maksimal 255 karakter.',
             'id_program_studi.exists' => 'Program studi tidak valid.',
