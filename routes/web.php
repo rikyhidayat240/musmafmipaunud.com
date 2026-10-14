@@ -33,11 +33,5 @@ Route::post('users/{nim}/send-credentials', [MahasiswaController::class, 'sendCr
         ->name('users.send-credentials')->middleware(['auth', 'verified', IsAdmin::class]);
 
 Route::get('result', [EventController::class, 'hasil'])->middleware(['auth', IsAdmin::class]);
-
-Route::get('/linkstorage', function () {
-    \Illuminate\Support\Facades\Artisan::call('storage:link');
-    return 'Storage linked successfully!';
-});
-
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';
