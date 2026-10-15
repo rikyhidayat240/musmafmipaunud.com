@@ -33,10 +33,11 @@ const timeRemaining = computed(() => {
   if (!props.kegiatan?.waktu_mulai) {
     return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true };
   }
-  const target = new Date(props.kegiatan.waktu_mulai);
+  const rawTime = props.kegiatan.waktu_mulai_raw || props.kegiatan.waktu_mulai;
+  const target = new Date(rawTime.includes('T') ? rawTime : rawTime.replace(' ', 'T'));
   const now = currentTime.value;
   const diff = target.getTime() - now.getTime();
-  if (diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true };
+  if (isNaN(diff) || diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true };
   return {
     days: Math.floor(diff / (1000 * 60 * 60 * 24)),
     hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
