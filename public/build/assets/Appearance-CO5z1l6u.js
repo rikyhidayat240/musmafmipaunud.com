@@ -1,0 +1,16 @@
+import{d as m,V as k,j as p,F as y,G as g,l as r,c as d,S as x,q as b,k as f,u as s,o as t,w as l,g as e,E as v}from"./app-BjWrjqiJ.js";import{c as o}from"./createLucideIcon-BocG1Y_I.js";import{_ as M,a as w}from"./Layout.vue_vue_type_script_setup_true_lang-DUz_9Kf6.js";import{_ as I}from"./AppLayout.vue_vue_type_script_setup_true_lang-Cc0z-7L8.js";import"./index-Bheb_3Ai.js";import"./useForwardExpose-Bjh1bmTE.js";import"./index-C_SHgnPd.js";import"./index-BMKB-lBE.js";import"./useForwardPropsEmits-DIQLqW59.js";import"./DialogTitle.vue_vue_type_script_setup_true_lang-Bx7gT3j7.js";import"./Dialog.vue_vue_type_script_setup_true_lang-BJWe7AVT.js";import"./useArrowNavigation-C6Y-ieo6.js";import"./check-Bj_dfRPf.js";import"./usePrimitiveElement-DGU5aJVh.js";import"./index-SjmasQVa.js";import"./index-ikzcNs2d.js";/**
+ * @license lucide-vue-next v0.468.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const C=o("MonitorIcon",[["rect",{width:"20",height:"14",x:"2",y:"3",rx:"2",key:"48i651"}],["line",{x1:"8",x2:"16",y1:"21",y2:"21",key:"1svkeh"}],["line",{x1:"12",x2:"12",y1:"17",y2:"21",key:"vw1qmm"}]]);/**
+ * @license lucide-vue-next v0.468.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const $=o("MoonIcon",[["path",{d:"M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z",key:"a7tn18"}]]);/**
+ * @license lucide-vue-next v0.468.0 - ISC
+ *
+ * This source code is licensed under the ISC license.
+ * See the LICENSE file in the root directory of this source tree.
+ */const A=o("SunIcon",[["circle",{cx:"12",cy:"12",r:"4",key:"4exip2"}],["path",{d:"M12 2v2",key:"tus03m"}],["path",{d:"M12 20v2",key:"1lh1kg"}],["path",{d:"m4.93 4.93 1.41 1.41",key:"149t6j"}],["path",{d:"m17.66 17.66 1.41 1.41",key:"ptbguv"}],["path",{d:"M2 12h2",key:"1t8f8n"}],["path",{d:"M20 12h2",key:"1q8mjw"}],["path",{d:"m6.34 17.66-1.41 1.41",key:"1m8zz5"}],["path",{d:"m19.07 4.93-1.41 1.41",key:"1shlcs"}]]),S={class:"inline-flex gap-1 rounded-lg bg-neutral-100 p-1 dark:bg-neutral-800"},B=["onClick"],P={class:"ml-1.5 text-sm"},T=m({__name:"AppearanceTabs",setup(u){const{appearance:a,updateAppearance:c}=k(),i=[{value:"light",Icon:A,label:"Light"},{value:"dark",Icon:$,label:"Dark"},{value:"system",Icon:C,label:"System"}];return(q,z)=>(t(),p("div",S,[(t(),p(y,null,g(i,({value:n,Icon:_,label:h})=>r("button",{key:n,onClick:D=>s(c)(n),class:f(["flex items-center rounded-md px-3.5 py-1.5 transition-colors",s(a)===n?"bg-white shadow-xs dark:bg-neutral-700 dark:text-neutral-100":"text-neutral-500 hover:bg-neutral-200/60 hover:text-black dark:text-neutral-400 dark:hover:bg-neutral-700/60"])},[(t(),d(x(_),{class:"-ml-1 h-4 w-4"})),r("span",P,b(h),1)],10,B)),64))]))}}),j={class:"space-y-6"},Y=m({__name:"Appearance",setup(u){const a=[{title:"Pengaturan Tampilan",href:"/settings/appearance"}];return(c,i)=>(t(),d(I,{breadcrumbs:a},{default:l(()=>[e(s(v),{title:"Pengaturan Tampilan"}),e(M,null,{default:l(()=>[r("div",j,[e(w,{title:"Pengaturan Tampilan",description:"Perbarui pengaturan tampilan akun Anda"}),e(T)])]),_:1})]),_:1}))}});export{Y as default};

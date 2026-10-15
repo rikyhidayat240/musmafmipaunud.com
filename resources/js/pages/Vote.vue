@@ -185,7 +185,7 @@ const formatMisi = (misi: string): string[] => {
                                 </div>
                                 <!-- Affiliation badge -->
                                 <span class="px-5 py-1 rounded-full text-xs font-bold text-[#3B0613] bg-[#F5C249] shadow-sm uppercase tracking-wider">
-                                    {{ kandidat.mahasiswa?.[0]?.program_studi?.kode || kandidat.mahasiswa?.[0]?.program_studi?.nama || 'FMIPA' }}
+                                    {{ kandidat.mahasiswa?.[0]?.program_studi?.nama || 'FMIPA' }}
                                 </span>
                             </div>
 
