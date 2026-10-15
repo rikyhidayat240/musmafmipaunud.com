@@ -1,14 +1,23 @@
 <script setup lang="ts">
-withDefaults(
+import { computed } from "vue";
+
+const props = withDefaults(
   defineProps<{
     size?: "sm" | "md" | "lg";
+    variant?: "small" | "large" | "sm" | "md" | "lg";
     class?: string;
   }>(),
   {
-    size: "md",
     class: "",
   }
 );
+
+const resolvedSize = computed(() => {
+  if (props.size) return props.size;
+  if (props.variant === "small" || props.variant === "sm") return "sm";
+  if (props.variant === "large" || props.variant === "lg") return "lg";
+  return "md";
+});
 </script>
 
 <template>
@@ -17,22 +26,22 @@ withDefaults(
     :class="class"
   >
     <img
-      v-if="size === 'sm'"
+      v-if="resolvedSize === 'sm'"
       src="/image 66.png"
       alt="Ornamen"
       class="h-5 sm:h-6 w-auto object-contain opacity-75"
     />
     <img
-      v-else-if="size === 'lg'"
-      src="/image 65.png"
+      v-else-if="resolvedSize === 'lg'"
+      src="/image 66.png"
       alt="Ornamen"
-      class="h-9 sm:h-12 w-auto object-contain opacity-85"
+      class="h-7 sm:h-9 w-auto object-contain opacity-85"
     />
     <img
       v-else
-      src="/image 65.png"
+      src="/image 66.png"
       alt="Ornamen"
-      class="h-7 sm:h-9 w-auto object-contain opacity-80"
+      class="h-6 sm:h-8 w-auto object-contain opacity-80"
     />
   </div>
 </template>

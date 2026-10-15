@@ -96,10 +96,10 @@ withDefaults(
 
           <!-- Circular Gold DPM Seal -->
           <div class="w-16 sm:w-20 h-16 sm:h-20 rounded-full border border-[#EBCE67]/70 flex items-center justify-center mb-2.5 relative shadow-inner">
-            <div class="w-[90%] h-[90%] rounded-full border border-dashed border-[#EBCE67]/40 flex items-center justify-center">
-              <span class="font-serif text-[#FCCE88] font-bold text-sm sm:text-base tracking-widest select-none">
-                ✦ DPM ✦
-              </span>
+            <div class="w-[90%] h-[90%] rounded-full border border-dashed border-[#EBCE67]/40 flex flex-col items-center justify-center select-none leading-none">
+              <span class="text-[9px] sm:text-[10px] text-[#FCCE88] leading-none mb-0.5">✦</span>
+              <span class="font-serif text-[#FCCE88] font-bold text-xs sm:text-sm tracking-widest leading-none my-0.5">DPM</span>
+              <span class="text-[9px] sm:text-[10px] text-[#FCCE88] leading-none mt-0.5">✦</span>
             </div>
           </div>
 
