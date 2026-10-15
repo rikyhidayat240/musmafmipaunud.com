@@ -82,20 +82,20 @@ const formatMisi = (misi: string): string[] => {
                 <p class="text-xs font-bold tracking-[0.25em] uppercase text-[#9A6A72] mb-3 text-center">BILIK SUARA DIGITAL</p>
 
                 <!-- Title -->
-                <h1 class="font-serif text-3xl md:text-5xl font-bold text-[#3B0613] text-center mb-5 tracking-tight">
+                <h1 class="font-serif text-2xl sm:text-3xl md:text-5xl font-bold text-[#3B0613] text-center mb-5 tracking-tight px-2">
                     {{ kegiatan?.nama || 'Pemilihan Ketua DPM FMIPA ' + (dayjs().year() + 1) }}
                 </h1>
 
                 <!-- Large Flourish Divider -->
-                <OrnamentDivider variant="large" class="mb-8" />
+                <OrnamentDivider variant="large" class="mb-6 sm:mb-8" />
 
                 <!-- Syarat & Ketentuan card -->
-                <div class="musma-card w-full max-w-2xl px-8 py-7 mb-6 border border-[#3B0613]/25 rounded-2xl shadow-sm bg-[#FFFDFB]">
-                    <div class="flex items-center gap-3 mb-5">
+                <div class="musma-card w-full max-w-2xl px-5 sm:px-8 py-5 sm:py-7 mb-6 border border-[#3B0613]/25 rounded-2xl shadow-sm bg-[#FFFDFB]">
+                    <div class="flex items-center gap-3 mb-4 sm:mb-5">
                         <div class="w-1.5 h-6 rounded-full bg-[#3B0613]"></div>
-                        <h2 class="font-bold text-lg font-serif text-[#3B0613]">Syarat &amp; Ketentuan</h2>
+                        <h2 class="font-bold text-base sm:text-lg font-serif text-[#3B0613]">Syarat &amp; Ketentuan</h2>
                     </div>
-                    <div class="space-y-3.5 text-sm leading-relaxed text-[#5A2A34]">
+                    <div class="space-y-3 sm:space-y-3.5 text-xs sm:text-sm leading-relaxed text-[#5A2A34]">
                         <p>Pemilih adalah mahasiswa aktif program studi sarjana Fakultas MIPA.</p>
                         <p>Setiap akun hanya dapat melakukan pemilihan sebanyak satu kali.</p>
                         <p>Gunakan hak pilih secara mandiri dengan berlandaskan Luberjurdil.</p>
@@ -105,27 +105,27 @@ const formatMisi = (misi: string): string[] => {
                 </div>
 
                 <!-- Small Flourish Divider -->
-                <OrnamentDivider variant="small" class="mb-8" />
+                <OrnamentDivider variant="small" class="mb-6 sm:mb-8" />
 
                 <!-- Event card (Kotak Info Pemilihan) -->
-                <div class="w-full max-w-md rounded-2xl overflow-hidden shadow-xl border border-[#3B0613]/15 mb-10 transition-transform duration-300 hover:scale-[1.01]">
+                <div class="w-full max-w-md rounded-2xl overflow-hidden shadow-xl border border-[#3B0613]/15 mb-8 sm:mb-10 transition-transform duration-300 hover:scale-[1.01]">
                     <!-- Top warm cream header with logo -->
-                    <div class="bg-[#FAF7F2] py-6 px-6 flex flex-col items-center justify-center border-b border-[#3B0613]/10">
-                        <img src="/logo 2026.png" class="h-14 w-auto object-contain mb-2 select-none" alt="Musma Logo" />
-                        <p class="text-[11px] font-bold tracking-[0.2em] text-[#3B0613] uppercase">MUSMA LM FMIPA &bull; {{ dayjs().year() }}</p>
+                    <div class="bg-[#FAF7F2] py-5 sm:py-6 px-4 sm:px-6 flex flex-col items-center justify-center border-b border-[#3B0613]/10">
+                        <img src="/logo 2026.png" class="h-12 sm:h-14 w-auto object-contain mb-2 select-none" alt="Musma Logo" />
+                        <p class="text-[10px] sm:text-[11px] font-bold tracking-[0.2em] text-[#3B0613] uppercase">MUSMA LM FMIPA &bull; {{ dayjs().year() }}</p>
                     </div>
                     <!-- Bottom deep wine section -->
-                    <div class="bg-[#3B0613] p-6 text-center text-white">
-                        <h3 class="font-serif font-bold text-xl mb-1 text-white">{{ kegiatan?.nama || 'Pemilihan Ketua DPM FMIPA' }}</h3>
-                        <p class="text-xs font-semibold text-[#F5C249] mb-5 tracking-wide">Sedang berlangsung</p>
-                        <button @click="goToKandidat" class="inline-block text-xs font-bold px-6 py-2 rounded-full border border-white/40 text-white hover:bg-white/10 transition-colors">
+                    <div class="bg-[#3B0613] p-5 sm:p-6 text-center text-white">
+                        <h3 class="font-serif font-bold text-lg sm:text-xl mb-1 text-white">{{ kegiatan?.nama || 'Pemilihan Ketua DPM FMIPA' }}</h3>
+                        <p class="text-xs font-semibold text-[#F5C249] mb-4 sm:mb-5 tracking-wide">Sedang berlangsung</p>
+                        <button @click="goToKandidat" class="inline-block text-xs font-bold px-5 sm:px-6 py-2 rounded-full border border-white/40 text-white hover:bg-white/10 transition-colors">
                             Lihat Kandidat
                         </button>
                     </div>
                 </div>
 
                 <!-- Action CTA buttons -->
-                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md">
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 sm:gap-4 w-full max-w-md">
                     <Link href="/" class="w-full sm:w-auto px-6 py-3 rounded-xl font-bold text-sm bg-[#3B0613] text-white hover:bg-[#51071B] transition-colors flex items-center justify-center gap-2 shadow-md">
                         <ChevronLeft class="w-4 h-4" />
                         Kembali ke Beranda
@@ -168,10 +168,10 @@ const formatMisi = (misi: string): string[] => {
                          class="w-full bg-[#FFFDFB] rounded-3xl border border-[#3B0613]/30 shadow-md overflow-hidden transition-shadow hover:shadow-lg">
                         <div class="flex flex-col md:flex-row">
                             <!-- Left column (Portrait + Number + Badge) -->
-                            <div class="md:w-72 flex-shrink-0 flex flex-col items-center justify-center p-8 bg-[#FAF7F2] md:border-r border-b md:border-b-0 border-[#3B0613]/20">
-                                <div class="relative mb-4">
+                            <div class="md:w-72 flex-shrink-0 flex flex-col items-center justify-center p-6 sm:p-8 bg-[#FAF7F2] md:border-r border-b md:border-b-0 border-[#3B0613]/20">
+                                <div class="relative mb-3 sm:mb-4">
                                     <!-- Circular photo with dark maroon border -->
-                                    <div class="w-36 h-36 rounded-full overflow-hidden border-2 border-[#3B0613] shadow-md bg-white">
+                                    <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-full overflow-hidden border-2 border-[#3B0613] shadow-md bg-white">
                                         <img
                                             :src="kandidat.foto ? `/storage/${kandidat.foto}` : '/assets/blank-profile-picture.webp'"
                                             alt="Foto Kandidat"
@@ -179,30 +179,30 @@ const formatMisi = (misi: string): string[] => {
                                         />
                                     </div>
                                     <!-- No. 01 badge -->
-                                    <div class="absolute -top-1 -right-2 px-3 py-0.5 rounded-full bg-white border border-[#3B0613] text-[#3B0613] font-bold text-xs shadow-sm">
+                                    <div class="absolute -top-1 -right-2 px-2.5 sm:px-3 py-0.5 rounded-full bg-white border border-[#3B0613] text-[#3B0613] font-bold text-xs shadow-sm">
                                         No. {{ String(kandidat.no_urut).padStart(2, '0') }}
                                     </div>
                                 </div>
                                 <!-- Affiliation badge -->
-                                <span class="px-5 py-1 rounded-full text-xs font-bold text-[#3B0613] bg-[#F5C249] shadow-sm uppercase tracking-wider">
+                                <span class="px-4 sm:px-5 py-1 rounded-full text-xs font-bold text-[#3B0613] bg-[#F5C249] shadow-sm uppercase tracking-wider text-center max-w-full">
                                     {{ kandidat.mahasiswa?.[0]?.program_studi?.nama || 'FMIPA' }}
                                 </span>
                             </div>
 
                             <!-- Right column (Name, Role, Visi, Misi) -->
-                            <div class="flex-1 p-6 md:p-8 flex flex-col">
+                            <div class="flex-1 p-5 sm:p-8 flex flex-col">
                                 <!-- Candidate Name -->
-                                <h2 class="font-serif font-bold text-2xl text-[#3B0613] mb-2">
+                                <h2 class="font-serif font-bold text-xl sm:text-2xl text-[#3B0613] mb-2">
                                     <span v-for="(mhs, i) in kandidat.mahasiswa" :key="mhs.nim">
                                         {{ mhs.nama }}<span v-if="i < kandidat.mahasiswa!.length - 1"> &amp; </span>
                                     </span>
                                 </h2>
 
                                 <!-- Role & Affiliation pill -->
-                                <div class="flex flex-wrap gap-2 mb-5">
+                                <div class="flex flex-wrap gap-2 mb-4 sm:mb-5">
                                     <span v-for="mhs in kandidat.mahasiswa" :key="mhs.nim"
-                                        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border border-[#3B0613]/30 text-[#3B0613] bg-[#FAF7F2]">
-                                        <svg class="w-3.5 h-3.5 text-[#3B0613]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                                        class="inline-flex flex-wrap items-center gap-1.5 px-3 py-1 rounded-2xl text-xs font-semibold border border-[#3B0613]/30 text-[#3B0613] bg-[#FAF7F2] max-w-full text-wrap break-words leading-relaxed">
+                                        <svg class="w-3.5 h-3.5 text-[#3B0613] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
                                         {{ mhs.program_studi?.nama || 'FMIPA' }}'{{ mhs.angkatan ? String(mhs.angkatan).slice(-2) : '' }} &mdash; Calon {{ mhs.pivot?.jabatan?.charAt(0).toUpperCase() + mhs.pivot?.jabatan?.slice(1) }}
                                     </span>
                                 </div>
@@ -270,26 +270,26 @@ const formatMisi = (misi: string): string[] => {
                          class="rounded-3xl overflow-hidden shadow-xl border border-[#3B0613]/15 flex flex-col bg-[#FFFDFB]">
 
                         <!-- Top banner with maroon gradient and portrait -->
-                        <div class="relative pt-6 pb-0 px-6 flex flex-col justify-between overflow-hidden"
-                             style="background: linear-gradient(135deg, #7D2D3D 0%, #3B0613 100%); min-height: 230px;">
+                        <div class="relative pt-5 sm:pt-6 pb-0 px-4 sm:px-6 flex flex-col justify-between overflow-hidden"
+                             style="background: linear-gradient(135deg, #7D2D3D 0%, #3B0613 100%); min-height: 200px;">
                             <!-- Subtle corner ornament watermark -->
-                            <img src="/image 63.png" class="absolute -top-4 -right-4 w-24 h-auto opacity-20 rotate-180 pointer-events-none select-none" alt="" />
+                            <img src="/image 63.png" class="absolute -top-4 -right-4 w-20 sm:w-24 h-auto opacity-20 rotate-180 pointer-events-none select-none" alt="" />
 
                             <!-- Candidate info overlay top left -->
                             <div class="relative z-10 text-left">
-                                <h3 class="font-serif font-bold text-white text-base leading-tight">
+                                <h3 class="font-serif font-bold text-white text-sm sm:text-base leading-tight">
                                     <span v-for="(mhs, i) in kandidat.mahasiswa" :key="mhs.nim">
                                         {{ mhs.nama }}<span v-if="i < kandidat.mahasiswa!.length - 1"> &amp; </span>
                                     </span>
                                 </h3>
-                                <p class="text-xs text-white/80 font-medium mt-0.5">
+                                <p class="text-[11px] sm:text-xs text-white/80 font-medium mt-0.5">
                                     {{ kandidat.mahasiswa?.[0]?.program_studi?.nama || 'FMIPA' }} {{ kandidat.mahasiswa?.[0]?.angkatan ? String(kandidat.mahasiswa?.[0]?.angkatan).slice(-2) : '' }}
                                 </p>
                             </div>
 
                             <!-- Portrait in center/bottom -->
                             <div class="relative z-10 flex justify-center items-end mt-2">
-                                <div class="w-36 h-44 overflow-hidden rounded-t-2xl">
+                                <div class="w-32 sm:w-36 h-36 sm:h-44 overflow-hidden rounded-t-2xl">
                                     <img
                                         :src="kandidat.foto ? `/storage/${kandidat.foto}` : '/assets/blank-profile-picture.webp'"
                                         alt="Foto Kandidat"
@@ -299,13 +299,13 @@ const formatMisi = (misi: string): string[] => {
                             </div>
 
                             <!-- Overlapping number badge -->
-                            <div class="absolute bottom-3 left-4 z-20 w-12 h-12 rounded-full bg-[#3B0613] border-2 border-[#FFFDFB] text-white flex items-center justify-center font-black text-xl shadow-lg">
+                            <div class="absolute bottom-2 sm:bottom-3 left-3 sm:left-4 z-20 w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-[#3B0613] border-2 border-[#FFFDFB] text-white flex items-center justify-center font-black text-lg sm:text-xl shadow-lg">
                                 {{ kandidat.no_urut }}
                             </div>
                         </div>
 
                         <!-- Card body -->
-                        <div class="p-6 flex flex-col flex-1 text-left">
+                        <div class="p-5 sm:p-6 flex flex-col flex-1 text-left">
                             <!-- Candidate Name -->
                             <h2 class="font-serif font-bold text-lg text-[#3B0613] mb-0.5">
                                 <span v-for="(mhs, i) in kandidat.mahasiswa" :key="mhs.nim">

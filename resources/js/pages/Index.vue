@@ -161,33 +161,33 @@ const accordionItems = [
             </div>
 
             <!-- Main Display Heading -->
-            <h1 class="font-serif font-black text-6xl sm:text-7xl lg:text-8xl text-[#3B0613] tracking-tight leading-[0.95] mb-1">
+            <h1 class="font-serif font-black text-5xl sm:text-7xl lg:text-8xl text-[#3B0613] tracking-tight leading-[0.95] mb-1">
               MUSMA
             </h1>
-            <h2 class="font-serif italic font-normal text-4xl sm:text-5xl lg:text-6xl text-[#DA8278] leading-tight mb-5 sm:mb-6">
+            <h2 class="font-serif italic font-normal text-3xl sm:text-5xl lg:text-6xl text-[#DA8278] leading-tight mb-4 sm:mb-6">
               LM FMIPA {{ eventYear }}
             </h2>
 
             <!-- Narrative Paragraph -->
-            <p class="text-[#5A2A34] text-base sm:text-lg max-w-xl leading-relaxed mb-8">
+            <p class="text-[#5A2A34] text-sm sm:text-lg max-w-xl leading-relaxed mb-6 sm:mb-8">
               Saatnya menentukan pemimpin yang akan membawa aspirasi dan perubahan bagi seluruh mahasiswa FMIPA periode {{ Number(eventYear) }}/{{ Number(eventYear) + 1 }}.
             </p>
 
             <!-- Countdown Timer (if countdown is still running) -->
-            <div v-if="kegiatan && !timeRemaining.expired" class="mb-8 w-full max-w-md">
+            <div v-if="kegiatan && !timeRemaining.expired" class="mb-6 sm:mb-8 w-full max-w-md">
               <p class="text-xs font-bold uppercase tracking-wider text-[#9A6A72] mb-2">
                 {{ timeRemaining.label }}
               </p>
-              <div class="flex gap-2.5 sm:gap-4">
+              <div class="grid grid-cols-4 gap-2 sm:gap-4">
                 <div
                   v-for="(val, label) in { Hari: timeRemaining.days, Jam: timeRemaining.hours, Menit: timeRemaining.minutes, Detik: timeRemaining.seconds }"
                   :key="label"
-                  class="flex-1 bg-[#FFFDFB] border border-[#3B0613]/15 rounded-2xl py-2.5 sm:py-3 text-center shadow-sm"
+                  class="bg-[#FFFDFB] border border-[#3B0613]/15 rounded-xl sm:rounded-2xl py-2 sm:py-3 px-1 text-center shadow-sm"
                 >
-                  <span class="font-serif font-bold text-xl sm:text-2xl text-[#3B0613] block">
+                  <span class="font-serif font-bold text-lg sm:text-2xl text-[#3B0613] block">
                     {{ formatTime(val) }}
                   </span>
-                  <span class="text-[10px] sm:text-xs font-semibold text-[#9A6A72] uppercase tracking-wider block">
+                  <span class="text-[9px] sm:text-xs font-semibold text-[#9A6A72] uppercase tracking-wider block">
                     {{ label }}
                   </span>
                 </div>
@@ -195,13 +195,13 @@ const accordionItems = [
             </div>
 
             <!-- Call to Action Buttons -->
-            <div class="flex flex-wrap items-center gap-4">
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 sm:gap-4 w-full sm:w-auto">
               <!-- Guest: Open Login Modal -->
               <button
                 v-if="!auth.user"
                 type="button"
                 @click="showLoginModal = true"
-                class="group px-8 py-3.5 sm:py-4 rounded-full font-semibold text-sm sm:text-base text-white bg-[#3B0613] hover:bg-[#50071B] active:scale-[0.98] transition-all shadow-lg hover:shadow-xl inline-flex items-center gap-3 cursor-pointer"
+                class="group px-6 sm:px-8 py-3.5 sm:py-4 rounded-full font-semibold text-sm sm:text-base text-white bg-[#3B0613] hover:bg-[#50071B] active:scale-[0.98] transition-all shadow-lg hover:shadow-xl inline-flex items-center justify-center gap-3 cursor-pointer"
               >
                 <span>Masuk untuk memilih</span>
                 <ArrowRight class="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -211,7 +211,7 @@ const accordionItems = [
               <Link
                 v-else-if="kegiatan"
                 :href="`/vote/${kegiatan.id}`"
-                class="group px-8 py-3.5 sm:py-4 rounded-full font-semibold text-sm sm:text-base text-white bg-[#3B0613] hover:bg-[#50071B] active:scale-[0.98] transition-all shadow-lg hover:shadow-xl inline-flex items-center gap-3"
+                class="group px-6 sm:px-8 py-3.5 sm:py-4 rounded-full font-semibold text-sm sm:text-base text-white bg-[#3B0613] hover:bg-[#50071B] active:scale-[0.98] transition-all shadow-lg hover:shadow-xl inline-flex items-center justify-center gap-3"
               >
                 <span>Masuk ke Bilik Suara</span>
                 <ArrowRight class="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -220,7 +220,7 @@ const accordionItems = [
               <!-- No active election currently -->
               <div
                 v-else
-                class="px-6 py-3 rounded-2xl bg-[#FFFDFB] border border-[#3B0613]/15 text-sm text-[#7A4A52] shadow-sm"
+                class="px-6 py-3 rounded-2xl bg-[#FFFDFB] border border-[#3B0613]/15 text-sm text-[#7A4A52] shadow-sm text-center"
               >
                 Jadwal pemilihan akan segera diumumkan panitia.
               </div>
