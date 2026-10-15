@@ -30,20 +30,45 @@ const currentTime = ref(new Date());
 let timerInterval: number | null = null;
 
 const timeRemaining = computed(() => {
-  if (!props.kegiatan?.waktu_mulai) {
-    return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true };
+  if (!props.kegiatan) {
+    return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true, label: "" };
   }
-  const rawTime = props.kegiatan.waktu_mulai_raw || props.kegiatan.waktu_mulai;
-  const target = new Date(rawTime.includes('T') ? rawTime : rawTime.replace(' ', 'T'));
-  const now = currentTime.value;
-  const diff = target.getTime() - now.getTime();
-  if (isNaN(diff) || diff <= 0) return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true };
+
+  const parseTarget = (raw?: string, formatted?: string) => {
+    const val = raw || formatted;
+    if (!val) return NaN;
+    return new Date(val.includes("T") ? val : val.replace(" ", "T")).getTime();
+  };
+
+  const startTime = parseTarget(props.kegiatan.waktu_mulai_raw, props.kegiatan.waktu_mulai);
+  const endTime = parseTarget(props.kegiatan.waktu_selesai_raw, props.kegiatan.waktu_selesai);
+  const now = currentTime.value.getTime();
+
+  let targetTime: number;
+  let label = "Pemilihan Dimulai Dalam:";
+
+  if (!isNaN(startTime) && now < startTime) {
+    targetTime = startTime;
+    label = "Pemilihan Dimulai Dalam:";
+  } else if (!isNaN(endTime) && now < endTime) {
+    targetTime = endTime;
+    label = "Pemilihan Berakhir Dalam:";
+  } else {
+    return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true, label: "" };
+  }
+
+  const diff = targetTime - now;
+  if (isNaN(diff) || diff <= 0) {
+    return { days: 0, hours: 0, minutes: 0, seconds: 0, expired: true, label: "" };
+  }
+
   return {
     days: Math.floor(diff / (1000 * 60 * 60 * 24)),
     hours: Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
     minutes: Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60)),
     seconds: Math.floor((diff % (1000 * 60)) / 1000),
     expired: false,
+    label,
   };
 });
 
@@ -151,7 +176,7 @@ const accordionItems = [
             <!-- Countdown Timer (if countdown is still running) -->
             <div v-if="kegiatan && !timeRemaining.expired" class="mb-8 w-full max-w-md">
               <p class="text-xs font-bold uppercase tracking-wider text-[#9A6A72] mb-2">
-                Pemilihan Dimulai Dalam:
+                {{ timeRemaining.label }}
               </p>
               <div class="flex gap-2.5 sm:gap-4">
                 <div
