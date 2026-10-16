@@ -40,15 +40,15 @@ const breadcrumbs: BreadcrumbItem[] = [
         <div class="w-full md:max-w-7xl mx-auto px-4 py-8">
             <!-- Decorative divider -->
             <div class="flex items-center gap-3 mb-6">
-                <div class="h-px flex-1" style="background:linear-gradient(90deg, rgba(81,7,27,0.15), transparent);"></div>
-                <img src="/image 61.png" class="h-6 w-auto opacity-40" alt="" />
-                <div class="h-px flex-1" style="background:linear-gradient(90deg, transparent, rgba(81,7,27,0.15));"></div>
+                <div class="h-px flex-1 bg-gradient-to-r from-[#51071B]/15 dark:from-[rgba(252,206,136,0.25)] to-transparent"></div>
+                <img src="/image 61.png" class="h-6 w-auto opacity-40 dark:opacity-60 dark:invert" alt="" />
+                <div class="h-px flex-1 bg-gradient-to-r from-transparent to-[#51071B]/15 dark:to-[rgba(252,206,136,0.25)]"></div>
             </div>
 
             <!-- DataTable card wrapper -->
-            <div class="rounded-2xl overflow-hidden shadow-xl" style="background:#FFF8F8; border:1px solid #E3D7D9;">
+            <div class="rounded-2xl overflow-hidden shadow-xl bg-[#FFF8F8] dark:bg-[#27060F] border border-[#E3D7D9] dark:border-[rgba(252,206,136,0.2)] dark:shadow-[0_10px_35px_rgba(0,0,0,0.5)]">
                 <!-- Card top bar -->
-                <div class="h-1" style="background:linear-gradient(90deg,#51071B,#8B1A2E,#C5AA6C);"></div>
+                <div class="h-1 bg-gradient-to-r from-[#51071B] via-[#8B1A2E] to-[#C5AA6C] dark:from-[#FCCE88] dark:via-[#DA8278] dark:to-[#3B0613]"></div>
                 <div class="p-6">
                     <DataTable :columns="columns" :data="kandidat" :helpers="{
                         mahasiswa: mahasiswa,

@@ -38,10 +38,10 @@ export const columns: ColumnDef<Kegiatan>[] = [
             return h(Button, {
                 variant: "ghost",
                 onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
-                class: "flex place-self-start",
+                class: "flex place-self-start text-[#EBCE67] dark:text-[#FCCE88] hover:bg-white/10",
             }, () => ["Nama", h(ArrowUpDown, { class: "h-4 w-4" })])
         },
-        cell: ({ row }) => h('div', { class: 'text-left truncate' }, row.getValue('nama')),
+        cell: ({ row }) => h('div', { class: 'text-left truncate font-medium text-[#3B0613] dark:text-[#FAF4EB]' }, row.getValue('nama')),
     },
     {
         accessorKey: "tahun",
@@ -49,16 +49,16 @@ export const columns: ColumnDef<Kegiatan>[] = [
             return h(Button, {
                 variant: "ghost",
                 onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
-                class: "flex place-self-center",
+                class: "flex place-self-center text-[#EBCE67] dark:text-[#FCCE88] hover:bg-white/10",
             }, () => ["Tahun", h(ArrowUpDown, { class: "h-4 w-4" })])
         },
         cell: ({ row }) => {
             const tahun = row.getValue("tahun") as number;
             const colorClasses = [
-                "text-center bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
-                "text-center bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
-                "text-center bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
-                "text-center bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                "text-center bg-blue-100 text-blue-800 dark:bg-blue-950/70 dark:text-blue-300 dark:border dark:border-blue-700/40",
+                "text-center bg-green-100 text-green-800 dark:bg-green-950/70 dark:text-green-300 dark:border dark:border-green-700/40",
+                "text-center bg-yellow-100 text-yellow-800 dark:bg-yellow-950/70 dark:text-yellow-300 dark:border dark:border-yellow-700/40",
+                "text-center bg-red-100 text-red-800 dark:bg-red-950/70 dark:text-red-300 dark:border dark:border-red-700/40"
             ];
             const colorClass = colorClasses[tahun % 4];
             return h("span", { class: `${colorClass} px-2 py-1 rounded-md font-medium flex place-self-center mx-auto` }, tahun);
@@ -66,24 +66,29 @@ export const columns: ColumnDef<Kegiatan>[] = [
     },
     {
     accessorKey: 'waktu_mulai',
-    header: () => h('div', 'Waktu Mulai'),
+    header: () => h('div', { class: 'text-left text-[#EBCE67] dark:text-[#FCCE88]' }, 'Waktu Mulai'),
     cell: ({ row }) => {
-      return h('div', { class: 'text-left' }, row.getValue('waktu_mulai'))
+      return h('div', { class: 'text-left text-sm text-[#3B0613] dark:text-[#FAF4EB]' }, row.getValue('waktu_mulai'))
     },
   },
   {
     accessorKey: 'waktu_selesai',
-    header: () => h('div', 'Waktu Selesai'),
+    header: () => h('div', { class: 'text-left text-[#EBCE67] dark:text-[#FCCE88]' }, 'Waktu Selesai'),
     cell: ({ row }) => {
-      return h('div', { class: 'text-left' }, row.getValue('waktu_selesai'))
+      return h('div', { class: 'text-left text-sm text-[#3B0613] dark:text-[#FAF4EB]' }, row.getValue('waktu_selesai'))
     },
   },
   {
     accessorKey: 'status',
-    header: () => h('div', 'Status'),
+    header: () => h('div', { class: 'text-left text-[#EBCE67] dark:text-[#FCCE88]' }, 'Status'),
     cell: ({ row }) => {
       const status: Kegiatan['status'] = row.getValue('status')
-      return h('div', { class: 'inline-block text-xs px-2 py-1.5 rounded-md font-medium ' + (status == 'Coming Soon' ? 'bg-yellow-100 text-yellow-800' : (status == 'Sedang Berlangsung' ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800')) }, status)
+      const statusClass = status == 'Coming Soon'
+        ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-950/70 dark:text-yellow-300 dark:border dark:border-yellow-700/40'
+        : (status == 'Sedang Berlangsung'
+            ? 'bg-blue-100 text-blue-800 dark:bg-blue-950/70 dark:text-blue-300 dark:border dark:border-blue-700/40'
+            : 'bg-green-100 text-green-800 dark:bg-green-950/70 dark:text-green-300 dark:border dark:border-green-700/40');
+      return h('div', { class: `inline-block text-xs px-2 py-1.5 rounded-md font-medium ${statusClass}` }, status)
     },
   },
     {
@@ -92,7 +97,7 @@ export const columns: ColumnDef<Kegiatan>[] = [
             return h(Button, {
                 variant: "ghost",
                 onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
-                class: "flex place-self-center",
+                class: "flex place-self-center text-[#EBCE67] dark:text-[#FCCE88] hover:bg-white/10",
             }, () => ["Jumlah Pemilih", h(ArrowUpDown, { class: "h-4 w-4" })])
         },
         cell: ({ row }) => {
@@ -101,8 +106,8 @@ export const columns: ColumnDef<Kegiatan>[] = [
             const percentage = totalMahasiswa > 0 ? ((jumlahPemilih / totalMahasiswa) * 100).toFixed(1) : '0.0';
 
             return h('div', { class: 'text-center' }, [
-                h('div', { class: 'font-semibold' }, `${jumlahPemilih} / ${totalMahasiswa}`),
-                h('div', { class: 'text-xs text-muted-foreground' }, `${percentage}%`)
+                h('div', { class: 'font-semibold text-[#3B0613] dark:text-[#FAF4EB]' }, `${jumlahPemilih} / ${totalMahasiswa}`),
+                h('div', { class: 'text-xs text-muted-foreground dark:text-[#FAF4EB]/60' }, `${percentage}%`)
             ]);
         },
     },

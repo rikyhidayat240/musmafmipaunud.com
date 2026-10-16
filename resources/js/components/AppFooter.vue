@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 </script>
 
 <template>
-  <footer class="w-full bg-[#3B0613] text-white relative z-40 overflow-hidden border-t border-white/10">
+  <footer class="w-full bg-[#3B0613] dark:bg-[#140206] text-white relative z-40 overflow-hidden border-t border-white/10 dark:border-[#FCCE88]/20 transition-colors">
     <!-- Subtle Corner Flourishes inside footer -->
     <img
       src="/image 62.png"

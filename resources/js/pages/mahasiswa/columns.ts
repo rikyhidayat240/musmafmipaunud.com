@@ -38,10 +38,10 @@ export const columns: ColumnDef<User>[] = [
             return h(Button, {
                 variant: "ghost",
                 onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
-                class: "flex place-self-center",
+                class: "flex place-self-center text-[#EBCE67] dark:text-[#FCCE88] hover:bg-white/10",
             }, () => ["NIM", h(ArrowUpDown, { class: "h-4 w-4" })])
         },
-        cell: ({ row }) => h('div', { class: 'text-center' }, row.getValue('nim')),
+        cell: ({ row }) => h('div', { class: 'text-center font-mono text-sm text-[#3B0613] dark:text-[#FAF4EB]' }, row.getValue('nim')),
     },
     {
         accessorKey: 'nama',
@@ -49,10 +49,10 @@ export const columns: ColumnDef<User>[] = [
             return h(Button, {
                 variant: "ghost",
                 onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
-                class: "flex place-self-start",
+                class: "flex place-self-start text-[#EBCE67] dark:text-[#FCCE88] hover:bg-white/10",
             }, () => ["Nama", h(ArrowUpDown, { class: "h-4 w-4" })])
         },
-        cell: ({ row }) => h('div', { class: 'text-left truncate' }, row.getValue('nama')),
+        cell: ({ row }) => h('div', { class: 'text-left truncate font-medium text-[#3B0613] dark:text-[#FAF4EB]' }, row.getValue('nama')),
     },
     {
         accessorKey: 'id_program_studi',
@@ -60,7 +60,7 @@ export const columns: ColumnDef<User>[] = [
             return h(Button, {
                 variant: "ghost",
                 onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
-                class: "flex place-self-center",
+                class: "flex place-self-center text-[#EBCE67] dark:text-[#FCCE88] hover:bg-white/10",
             }, () => ["Prodi", h(ArrowUpDown, { class: "h-4 w-4" })])
         },
         cell: ({ row, table }) => {
@@ -69,17 +69,17 @@ export const columns: ColumnDef<User>[] = [
             const programStudiName = helpers?.programStudi?.find(ps => ps.id === idProgramStudi)?.nama || 'N/A';
 
             const colorMap: { [key: number]: string } = {
-                1: 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-200',
-                2: 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200',
-                3: 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200',
-                4: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200',
-                5: 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200',
-                6: 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200'
+                1: 'bg-purple-100 text-purple-800 dark:bg-purple-950/70 dark:text-purple-300 dark:border dark:border-purple-700/40',
+                2: 'bg-blue-100 text-blue-800 dark:bg-blue-950/70 dark:text-blue-300 dark:border dark:border-blue-700/40',
+                3: 'bg-green-100 text-green-800 dark:bg-green-950/70 dark:text-green-300 dark:border dark:border-green-700/40',
+                4: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-950/70 dark:text-yellow-300 dark:border dark:border-yellow-700/40',
+                5: 'bg-red-100 text-red-800 dark:bg-red-950/70 dark:text-red-300 dark:border dark:border-red-700/40',
+                6: 'bg-gray-100 text-gray-800 dark:bg-zinc-800 dark:text-zinc-200 dark:border dark:border-zinc-700/40'
             };
 
-            const colorClass = colorMap[idProgramStudi] || 'bg-gray-100 text-gray-800';
+            const colorClass = colorMap[idProgramStudi] || 'bg-gray-100 text-gray-800 dark:bg-zinc-800 dark:text-zinc-200';
 
-            return h('span', { class: `${colorClass} px-2 py-1 rounded-md font-medium flex place-self-center mx-auto` }, programStudiName);
+            return h('span', { class: `${colorClass} px-2 py-1 rounded-md font-medium flex place-self-center mx-auto text-xs` }, programStudiName);
         },
         filterFn: (row, id, value) => {
             return String(row.getValue(id)) === String(value);
@@ -91,9 +91,10 @@ export const columns: ColumnDef<User>[] = [
             return h(Button, {
                 variant: "ghost",
                 onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
+                class: "flex place-self-start text-[#EBCE67] dark:text-[#FCCE88] hover:bg-white/10",
             }, () => ["Email", h(ArrowUpDown, { class: "h-4 w-4" })])
         },
-        cell: ({ row }) => h("div", { class: "text-left truncate" }, row.getValue("email") ?? "Belum terdaftar"),
+        cell: ({ row }) => h("div", { class: "text-left truncate text-sm text-[#3B0613] dark:text-[#FAF4EB]" }, row.getValue("email") ?? "Belum terdaftar"),
     },
     {
         accessorKey: "angkatan",
@@ -101,30 +102,30 @@ export const columns: ColumnDef<User>[] = [
             return h(Button, {
                 variant: "ghost",
                 onClick: () => column.toggleSorting(column.getIsSorted() === "asc"),
-                class: "flex place-self-center",
+                class: "flex place-self-center text-[#EBCE67] dark:text-[#FCCE88] hover:bg-white/10",
             }, () => ["Akt", h(ArrowUpDown, { class: "h-4 w-4" })])
         },
         cell: ({ row }) => {
             const angkatan = row.getValue("angkatan") as number;
             const colorClasses = [
-                "text-center bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
-                "text-center bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
-                "text-center bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200",
-                "text-center bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200"
+                "text-center bg-blue-100 text-blue-800 dark:bg-blue-950/70 dark:text-blue-300 dark:border dark:border-blue-700/40",
+                "text-center bg-green-100 text-green-800 dark:bg-green-950/70 dark:text-green-300 dark:border dark:border-green-700/40",
+                "text-center bg-yellow-100 text-yellow-800 dark:bg-yellow-950/70 dark:text-yellow-300 dark:border dark:border-yellow-700/40",
+                "text-center bg-red-100 text-red-800 dark:bg-red-950/70 dark:text-red-300 dark:border dark:border-red-700/40"
             ];
             const colorClass = colorClasses[angkatan % 4];
-            return h("span", { class: `${colorClass} px-2 py-1 rounded-md font-medium flex place-self-center mx-auto` }, angkatan);
+            return h("span", { class: `${colorClass} px-2 py-1 rounded-md font-medium flex place-self-center mx-auto text-xs` }, angkatan);
         },
     },
     {
         accessorKey: 'status',
-        header: () => h('div', { class: 'text-center' }, 'Status'),
+        header: () => h('div', { class: 'text-center text-[#EBCE67] dark:text-[#FCCE88]' }, 'Status'),
         cell: ({ row }) => {
             const status = row.getValue('status') as string
             if (status === 'aktif') {
-                return h('span', { class: 'px-2 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-md font-medium flex place-self-center mx-auto' }, 'Aktif')
+                return h('span', { class: 'px-2 py-1 bg-green-100 text-green-800 dark:bg-green-950/70 dark:text-green-300 dark:border dark:border-green-700/40 rounded-md font-medium flex place-self-center mx-auto text-xs' }, 'Aktif')
             } else {
-                return h('span', { class: 'px-2 py-1 bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 rounded-md font-medium flex place-self-center mx-auto' }, 'Nonaktif')
+                return h('span', { class: 'px-2 py-1 bg-red-100 text-red-800 dark:bg-red-950/70 dark:text-red-300 dark:border dark:border-red-700/40 rounded-md font-medium flex place-self-center mx-auto text-xs' }, 'Nonaktif')
             }
         },
         filterFn: (row, id, value) => {
@@ -133,13 +134,13 @@ export const columns: ColumnDef<User>[] = [
     },
     {
         accessorKey: 'email_verified_at',
-        header: () => h('div', { class: 'text-center' }, 'Verifikasi'),
+        header: () => h('div', { class: 'text-center text-[#EBCE67] dark:text-[#FCCE88]' }, 'Verifikasi'),
         cell: ({ row }) => {
             const verifiedAt = row.getValue('email_verified_at') as string | null
             if (verifiedAt) {
-                return h('span', { class: 'px-2 py-1 bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200 rounded-md font-medium flex place-self-center' }, 'Sudah')
+                return h('span', { class: 'px-2 py-1 bg-green-100 text-green-800 dark:bg-green-950/70 dark:text-green-300 dark:border dark:border-green-700/40 rounded-md font-medium flex place-self-center text-xs' }, 'Sudah')
             } else {
-                return h('span', { class: 'px-2 py-1 bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200 rounded-md font-medium flex place-self-center' }, 'Belum')
+                return h('span', { class: 'px-2 py-1 bg-red-100 text-red-800 dark:bg-red-950/70 dark:text-red-300 dark:border dark:border-red-700/40 rounded-md font-medium flex place-self-center text-xs' }, 'Belum')
             }
         },
         filterFn: (row, id, value) => {

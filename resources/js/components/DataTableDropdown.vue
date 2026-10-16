@@ -41,7 +41,7 @@ const handleDelete = () => {
 <template>
     <DropdownMenu>
         <DropdownMenuTrigger as-child>
-            <Button variant="ghost" class="w-8 h-8 p-0" @click.stop>
+            <Button variant="ghost" class="w-8 h-8 p-0 text-foreground dark:text-[#FAF4EB] hover:bg-black/5 dark:hover:bg-white/10" @click.stop>
                 <span class="sr-only">Open menu</span>
                 <MoreVertical class="w-4 h-4" />
             </Button>
@@ -50,8 +50,8 @@ const handleDelete = () => {
             <!-- Edit Dialog with Slot -->
             <Dialog v-model:open="isEditDialogOpen">
                 <DialogTrigger as-child>
-                    <DropdownMenuItem class="flex items-center" @select.prevent>
-                        <Pencil class="w-4 h-4 mr-1" />
+                    <DropdownMenuItem class="flex items-center text-foreground dark:text-[#FAF4EB]" @select.prevent>
+                        <Pencil class="w-4 h-4 mr-1 text-muted-foreground dark:text-[#FAF4EB]/70" />
                         Ubah
                     </DropdownMenuItem>
                 </DialogTrigger>
@@ -62,9 +62,9 @@ const handleDelete = () => {
             <!-- Delete Dialog -->
             <Dialog v-model:open="isDeleteDialogOpen">
                 <DialogTrigger as-child>
-                    <DropdownMenuItem variant="destructive" class="flex items-center" @select.prevent>
-                        <Trash2 class="w-4 h-4 mr-1" color="hsl(0 84.2% 60.2%)" />
-                        <span class="text-red-700">Hapus</span>
+                    <DropdownMenuItem variant="destructive" class="flex items-center text-red-600 dark:text-red-400" @select.prevent>
+                        <Trash2 class="w-4 h-4 mr-1" />
+                        <span>Hapus</span>
                     </DropdownMenuItem>
                 </DialogTrigger>
                 <!-- Dialog untuk konfirmasi hapus -->
@@ -84,7 +84,7 @@ const handleDelete = () => {
                         </Button>
                         <Button variant="destructive" @click="handleDelete" :disabled="isDeleting">
                             <LoaderCircle v-if="isDeleting" class="h-4 w-4 animate-spin" />
-                            <span class="text-red-700">Hapus</span>
+                            <span>Hapus</span>
                         </Button>
                     </div>
                 </DialogContent>
