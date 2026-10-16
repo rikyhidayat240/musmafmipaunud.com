@@ -49,7 +49,7 @@ watch(() => page.props.alert, (newFlash) => {
       }
     }" />
     <AppHeader :breadcrumbs="breadcrumbs" />
-    <AppContent class="flex-1 w-full bg-[#FAF7F2]">
+    <AppContent class="flex-1 w-full bg-[#FAF7F2] dark:bg-[#190308] text-[#3B0613] dark:text-[#FAF4EB]">
       <slot />
     </AppContent>
     <AppFooter />

@@ -1,14 +1,29 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import OrnamentDivider from '@/components/OrnamentDivider.vue';
+import MaterialIcon from '@/components/MaterialIcon.vue';
 import { Kegiatan } from '@/types';
-import { Head, Link } from '@inertiajs/vue3';
-import { computed } from 'vue';
+import { Head, Link, router } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
 import dayjs from 'dayjs';
 
 const props = defineProps<{
   kegiatan?: Kegiatan | null
 }>()
+
+const isRefreshing = ref(false);
+
+const refreshHasil = () => {
+  isRefreshing.value = true;
+  router.reload({
+    only: ['kegiatan'],
+    onFinish: () => {
+      setTimeout(() => {
+        isRefreshing.value = false;
+      }, 400);
+    },
+  });
+};
 
 const totalSuara = props.kegiatan?.kandidat?.reduce((acc, val) => acc + val.jumlah_suara, 0) || 0;
 const kandidat = computed(() => {
@@ -60,20 +75,32 @@ const kandidat = computed(() => {
 
         <!-- No event state -->
         <div v-if="!kegiatan || !kegiatan.kandidat || kegiatan.kandidat.length === 0"
-          class="flex flex-col items-center justify-center py-20 px-6 text-center bg-[#FFFDFB] rounded-3xl border border-[#3B0613]/15 shadow-md">
+          class="flex flex-col items-center justify-center py-20 px-6 text-center bg-[#FFFDFB] dark:bg-[#27060F] rounded-3xl border border-[#3B0613]/15 dark:border-[#FCCE88]/20 shadow-md">
           <img src="/image 61.png" class="w-24 h-auto opacity-30 mb-4" alt="" />
-          <h2 class="font-serif text-2xl font-bold text-[#3B0613] mb-2">Tidak Ada Pemilihan yang Berlangsung</h2>
-          <p class="text-sm text-[#9A6A72] max-w-sm mb-6">Hasil perolehan suara akan ditampilkan secara otomatis setelah kegiatan pemilihan selesai.</p>
-          <Link href="/" class="px-6 py-2.5 rounded-xl font-bold text-sm bg-[#3B0613] text-white hover:bg-[#51071B] transition-colors shadow-md">
-            Kembali ke Beranda
-          </Link>
+          <h2 class="font-serif text-2xl font-bold text-[#3B0613] dark:text-[#FAF4EB] mb-2">Tidak Ada Pemilihan yang Berlangsung</h2>
+          <p class="text-sm text-[#9A6A72] dark:text-[#D4BAC1] max-w-sm mb-6">Hasil perolehan suara akan ditampilkan secara otomatis setelah kegiatan pemilihan selesai.</p>
+          <div class="flex flex-wrap items-center justify-center gap-3">
+            <button
+              type="button"
+              @click="refreshHasil"
+              :disabled="isRefreshing"
+              class="px-5 py-2.5 rounded-xl font-bold text-sm bg-[#FFFDFB] dark:bg-[#1A0308] text-[#3B0613] dark:text-[#FCCE88] border border-[#3B0613]/20 dark:border-[#FCCE88]/30 hover:bg-[#FAF7F2] dark:hover:bg-[#2A050E] transition-all shadow-md inline-flex items-center gap-2 cursor-pointer disabled:opacity-60"
+            >
+              <MaterialIcon icon="refresh" :class="['text-lg', isRefreshing ? 'animate-spin' : '']" />
+              <span>Perbarui</span>
+            </button>
+            <Link href="/" class="px-6 py-2.5 rounded-xl font-bold text-sm bg-[#3B0613] dark:bg-[#FCCE88] text-white dark:text-[#2A050E] hover:bg-[#51071B] dark:hover:bg-[#E2B771] transition-all shadow-md inline-flex items-center gap-2">
+              <MaterialIcon icon="arrow_back" class="text-lg" />
+              <span>Kembali ke Beranda</span>
+            </Link>
+          </div>
         </div>
 
         <div v-if="kegiatan && kegiatan.kandidat && kegiatan.kandidat.length > 0">
 
           <!-- Total suara summary badge -->
           <div class="flex justify-center mb-10">
-            <div class="text-center px-12 py-6 shadow-xl rounded-3xl border border-[#3B0613]/20 relative overflow-hidden"
+            <div class="text-center px-12 py-6 shadow-xl rounded-3xl border border-[#3B0613]/20 dark:border-[#FCCE88]/25 relative overflow-hidden"
                  style="background: linear-gradient(135deg, #3B0613 0%, #51071B 100%);">
               <img src="/image 63.png" class="absolute -top-3 -right-3 w-16 h-auto opacity-15 rotate-180 pointer-events-none select-none" alt="" />
               <p class="text-xs font-bold tracking-[0.2em] uppercase mb-1 text-[#F5C249]">Total Suara Masuk</p>
@@ -87,7 +114,7 @@ const kandidat = computed(() => {
             <div
               v-for="(calon, i) in kandidat"
               :key="calon.id"
-              class="bg-[#FFFDFB] rounded-3xl overflow-hidden shadow-xl border border-[#3B0613]/15 flex flex-col relative"
+              class="bg-[#FFFDFB] dark:bg-[#27060F] rounded-3xl overflow-hidden shadow-xl border border-[#3B0613]/15 dark:border-[#FCCE88]/20 flex flex-col relative"
             >
               <!-- Top accent banner -->
               <div class="h-2.5 w-full" :style="{
@@ -97,7 +124,7 @@ const kandidat = computed(() => {
               }"></div>
 
               <!-- Number badge -->
-              <div class="absolute top-5 left-5 w-12 h-12 rounded-full flex items-center justify-center shadow-lg z-10 font-serif font-bold text-xl border-2 border-white"
+              <div class="absolute top-5 left-5 w-12 h-12 rounded-full flex items-center justify-center shadow-lg z-10 font-serif font-bold text-xl border-2 border-white dark:border-[#FCCE88]/60"
                    :style="{
                      background: i % 2 === 0 ? '#3B0613' : '#F5C249',
                      color: i % 2 === 0 ? '#FFFFFF' : '#3B0613',
@@ -106,8 +133,8 @@ const kandidat = computed(() => {
               </div>
 
               <!-- Photo section -->
-              <div class="flex justify-center items-end pt-8 pb-0 relative overflow-hidden"
-                   style="min-height: 250px; background: linear-gradient(180deg, #FAF7F2 0%, #F5ECEE 100%);">
+              <div class="flex justify-center items-end pt-8 pb-0 relative overflow-hidden bg-gradient-to-b from-[#FAF7F2] to-[#F5ECEE] dark:from-[#350813] dark:to-[#1A0308]"
+                   style="min-height: 250px;">
                 <img
                   :src="calon.foto ? `/storage/${calon.foto}` : '/assets/blank-profile-picture.webp'"
                   class="relative z-10 w-auto h-56 object-cover object-top"
@@ -118,12 +145,12 @@ const kandidat = computed(() => {
               <!-- Info section -->
               <div class="p-6 flex-1 flex flex-col text-left">
                 <!-- Name -->
-                <h3 class="font-serif font-bold text-xl text-[#3B0613] mb-1">
+                <h3 class="font-serif font-bold text-xl text-[#3B0613] dark:text-[#FAF4EB] mb-1">
                   <span v-for="(mhs, idx) in calon.mahasiswa" :key="mhs.nim">
                     {{ mhs.nama }}<span v-if="idx < (calon.mahasiswa?.length ?? 0) - 1"> &amp; </span>
                   </span>
                 </h3>
-                <p class="text-xs font-semibold text-[#9A6A72] mb-4">
+                <p class="text-xs font-semibold text-[#9A6A72] dark:text-[#D4BAC1] mb-4">
                   {{ calon.mahasiswa?.[0]?.program_studi?.nama || 'FMIPA' }}
                   {{ calon.mahasiswa?.[0]?.angkatan ? String(calon.mahasiswa?.[0]?.angkatan).slice(-2) : '' }}
                 </p>
@@ -135,20 +162,20 @@ const kandidat = computed(() => {
 
                 <!-- Vote count & percentage -->
                 <div class="py-4 text-center">
-                  <p class="text-5xl font-serif font-black text-[#3B0613] leading-none mb-1">{{ calon.jumlah_suara }}</p>
-                  <p class="text-xs font-semibold uppercase tracking-wider text-[#9A6A72]">Suara Sah</p>
+                  <p class="text-5xl font-serif font-black text-[#3B0613] dark:text-[#FAF4EB] leading-none mb-1">{{ calon.jumlah_suara }}</p>
+                  <p class="text-xs font-semibold uppercase tracking-wider text-[#9A6A72] dark:text-[#D4BAC1]">Suara Sah</p>
                 </div>
 
                 <!-- Percentage Bar -->
                 <div class="mt-auto pt-2">
                   <div class="flex items-center justify-between mb-2 text-xs font-bold">
-                    <span class="text-[#9A6A72]">Perolehan</span>
-                    <span class="text-base font-serif" :style="{ color: i % 2 === 0 ? '#3B0613' : '#B8935A' }">
+                    <span class="text-[#9A6A72] dark:text-[#D4BAC1]">Perolehan</span>
+                    <span class="text-base font-serif" :style="{ color: i % 2 === 0 ? '#DA8278' : '#F5C249' }">
                       {{ calon.jumlah_suara_persen }}%
                     </span>
                   </div>
                   <!-- Progress track -->
-                  <div class="w-full h-4 rounded-full overflow-hidden bg-[#FAF7F2] border border-[#3B0613]/15">
+                  <div class="w-full h-4 rounded-full overflow-hidden bg-[#FAF7F2] dark:bg-[#1A0308] border border-[#3B0613]/15 dark:border-[#FCCE88]/20">
                     <div
                       class="h-full rounded-full transition-all duration-1000 ease-out"
                       :style="{
@@ -164,10 +191,25 @@ const kandidat = computed(() => {
             </div>
           </div>
 
-          <!-- Bottom Return Link -->
-          <div class="mt-12 text-center">
-            <Link href="/" class="px-8 py-3 rounded-xl font-bold text-sm bg-[#3B0613] text-white hover:bg-[#51071B] transition-colors shadow-md inline-flex items-center gap-2">
-              &larr; Kembali ke Beranda
+          <!-- Bottom Action Buttons: Refresh & Return -->
+          <div class="mt-12 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+            <button
+              type="button"
+              @click="refreshHasil"
+              :disabled="isRefreshing"
+              class="px-6 py-3 rounded-xl font-bold text-sm bg-[#FFFDFB] dark:bg-[#27060F] text-[#3B0613] dark:text-[#FCCE88] border border-[#3B0613]/20 dark:border-[#FCCE88]/30 hover:bg-[#FAF7F2] dark:hover:bg-[#350914] transition-all shadow-md inline-flex items-center gap-2 active:scale-95 disabled:opacity-60 cursor-pointer"
+              title="Perbarui Hasil Suara"
+            >
+              <MaterialIcon icon="refresh" :class="['text-xl', isRefreshing ? 'animate-spin' : '']" />
+              <span>{{ isRefreshing ? 'Memperbarui...' : 'Perbarui Hasil' }}</span>
+            </button>
+
+            <Link
+              href="/"
+              class="px-7 py-3 rounded-xl font-bold text-sm bg-[#3B0613] dark:bg-[#FCCE88] text-white dark:text-[#2A050E] hover:bg-[#51071B] dark:hover:bg-[#E2B771] transition-all shadow-md inline-flex items-center gap-2 active:scale-95 cursor-pointer"
+            >
+              <MaterialIcon icon="arrow_back" class="text-xl" />
+              <span>Kembali ke Beranda</span>
             </Link>
           </div>
 

@@ -29,36 +29,44 @@ withDefaults(
 
     <!-- Container for floating ballots + box -->
     <div class="relative w-full max-w-[300px] sm:max-w-[420px] flex flex-col items-center px-1">
-      <!-- Floating Ballots Section -->
-      <div class="relative w-full max-w-[270px] sm:max-w-[380px] h-[115px] sm:h-[160px] flex justify-between px-3 sm:px-8 -mb-8 sm:-mb-12 z-10">
+      <!-- Floating Ballots Section (Clearly floating above the ballot box) -->
+      <div class="relative w-full max-w-[280px] sm:max-w-[390px] flex justify-between px-2 sm:px-6 mb-4 sm:mb-6 z-20">
         <!-- Ballot 01 (Left, Terracotta) -->
-        <div
-          class="animate-float-ballot-1 w-20 sm:w-28 h-28 sm:h-36 rounded-xl border-2 sm:border-[2.5px] border-white shadow-xl flex flex-col items-center justify-between p-2 sm:p-3 text-white cursor-pointer hover:scale-105 transition-transform shrink-0"
-          style="background: linear-gradient(145deg, #DA8278, #C4685E); box-shadow: 0 14px 28px rgba(59,6,19,0.22);"
-        >
-          <div class="w-8 sm:w-12 h-8 sm:h-12 rounded-full bg-[#3B0613]/90 flex items-center justify-center shadow-inner">
-            <div class="w-4 sm:w-5 h-4 sm:h-5 rounded-full bg-white/20"></div>
+        <div class="relative flex flex-col items-center">
+          <div
+            class="animate-float-ballot-1 w-20 sm:w-28 h-28 sm:h-36 rounded-xl border-2 sm:border-[2.5px] border-white/90 dark:border-[#FCCE88]/60 shadow-2xl flex flex-col items-center justify-between p-2 sm:p-3 text-white cursor-pointer hover:scale-105 transition-all shrink-0"
+            style="background: linear-gradient(145deg, #DA8278, #C4685E); box-shadow: 0 16px 32px rgba(218, 130, 120, 0.35);"
+          >
+            <div class="w-8 sm:w-12 h-8 sm:h-12 rounded-full bg-[#3B0613]/90 dark:bg-[#1A0308] flex items-center justify-center shadow-inner">
+              <div class="w-4 sm:w-5 h-4 sm:h-5 rounded-full bg-white/20"></div>
+            </div>
+            <div class="w-full flex flex-col items-center gap-0.5 sm:gap-1">
+              <div class="w-8 sm:w-12 h-1 rounded-full bg-white/40"></div>
+              <div class="w-5 sm:w-8 h-1 rounded-full bg-white/30"></div>
+            </div>
+            <span class="font-serif font-extrabold text-xl sm:text-3xl text-white tracking-wider">01</span>
           </div>
-          <div class="w-full flex flex-col items-center gap-0.5 sm:gap-1">
-            <div class="w-8 sm:w-12 h-1 rounded-full bg-white/40"></div>
-            <div class="w-5 sm:w-8 h-1 rounded-full bg-white/30"></div>
-          </div>
-          <span class="font-serif font-extrabold text-xl sm:text-3xl text-white tracking-wider">01</span>
+          <!-- Soft ambient float shadow below ballot 01 -->
+          <div class="w-14 sm:w-20 h-2 rounded-full bg-black/20 dark:bg-[#EBCE67]/10 blur-sm mt-2 animate-float-shadow-1"></div>
         </div>
 
-        <!-- Ballot 02 (Right, Ochre/Sage) -->
-        <div
-          class="animate-float-ballot-2 w-20 sm:w-28 h-28 sm:h-36 rounded-xl border-2 sm:border-[2.5px] border-white shadow-xl flex flex-col items-center justify-between p-2 sm:p-3 text-[#3B0613] cursor-pointer hover:scale-105 transition-transform shrink-0"
-          style="background: linear-gradient(145deg, #F3CE8A, #D6A85B); box-shadow: 0 14px 28px rgba(59,6,19,0.22);"
-        >
-          <div class="w-8 sm:w-12 h-8 sm:h-12 rounded-full bg-[#3B0613] flex items-center justify-center shadow-inner">
-            <div class="w-4 sm:w-5 h-4 sm:h-5 rounded-full bg-white/20"></div>
+        <!-- Ballot 02 (Right, Ochre/Gold) -->
+        <div class="relative flex flex-col items-center">
+          <div
+            class="animate-float-ballot-2 w-20 sm:w-28 h-28 sm:h-36 rounded-xl border-2 sm:border-[2.5px] border-white/90 dark:border-[#FCCE88]/80 shadow-2xl flex flex-col items-center justify-between p-2 sm:p-3 text-[#3B0613] cursor-pointer hover:scale-105 transition-all shrink-0"
+            style="background: linear-gradient(145deg, #F3CE8A, #D6A85B); box-shadow: 0 16px 32px rgba(243, 206, 138, 0.35);"
+          >
+            <div class="w-8 sm:w-12 h-8 sm:h-12 rounded-full bg-[#3B0613] dark:bg-[#1A0308] flex items-center justify-center shadow-inner">
+              <div class="w-4 sm:w-5 h-4 sm:h-5 rounded-full bg-white/20"></div>
+            </div>
+            <div class="w-full flex flex-col items-center gap-0.5 sm:gap-1">
+              <div class="w-8 sm:w-12 h-1 rounded-full bg-[#3B0613]/30"></div>
+              <div class="w-5 sm:w-8 h-1 rounded-full bg-[#3B0613]/20"></div>
+            </div>
+            <span class="font-serif font-extrabold text-xl sm:text-3xl text-[#3B0613] tracking-wider">02</span>
           </div>
-          <div class="w-full flex flex-col items-center gap-0.5 sm:gap-1">
-            <div class="w-8 sm:w-12 h-1 rounded-full bg-[#3B0613]/30"></div>
-            <div class="w-5 sm:w-8 h-1 rounded-full bg-[#3B0613]/20"></div>
-          </div>
-          <span class="font-serif font-extrabold text-xl sm:text-3xl text-[#3B0613] tracking-wider">02</span>
+          <!-- Soft ambient float shadow below ballot 02 -->
+          <div class="w-14 sm:w-20 h-2 rounded-full bg-black/20 dark:bg-[#EBCE67]/10 blur-sm mt-2 animate-float-shadow-2"></div>
         </div>
       </div>
 
