@@ -114,10 +114,10 @@ export const columns: ColumnDef<Kandidat>[] = [
         accessorKey: 'visi',
         header: () => h('div', { class: 'text-left text-[#EBCE67] dark:text-[#FCCE88]' }, 'Visi'),
         cell: ({ row }) => {
-            const visi = (row.getValue('visi') as string) || '-';
+            const visi = (row.getValue('visi') as string) || '';
             const formattedVisi = visi.replace(/(\d+\.\s)/g, '\n$1').trim();
-            return h('div', { class: 'text-left max-w-xs whitespace-normal break-words' },
-                h('p', { class: 'text-sm whitespace-pre-line leading-relaxed text-[#3B0613] dark:text-[#FAF4EB]' }, formattedVisi)
+            return h('div', { class: 'text-left max-w-64' },
+                h('pre', { class: 'text-sm text-wrap font-sans line-clamp-5 text-[#3B0613] dark:text-[#FAF4EB]' }, formattedVisi)
             );
         },
     },
@@ -127,14 +127,9 @@ export const columns: ColumnDef<Kandidat>[] = [
         cell: ({ row }) => {
             const misi = (row.getValue('misi') as string) || '';
             const misiItems = misi.split(/\d+\.\s/).filter(item => item.trim());
-            
-            if (misiItems.length === 0) {
-                return h('div', { class: 'text-left text-sm text-muted-foreground' }, misi || '-');
-            }
-
-            return h('div', { class: 'text-left max-w-sm whitespace-normal break-words' },
-                h('ol', { class: 'list-decimal list-inside space-y-1.5' },
-                    misiItems.map(item => h('li', { class: 'text-sm whitespace-normal break-words leading-relaxed text-[#3B0613] dark:text-[#FAF4EB]' }, item.trim()))
+            return h('div', { class: 'text-left' },
+                h('ol', { class: 'list-decimal list-inside space-y-1' },
+                    misiItems.map(item => h('li', { class: 'text-sm truncate max-w-80 text-[#3B0613] dark:text-[#FAF4EB]' }, item.trim()))
                 )
             );
         },
