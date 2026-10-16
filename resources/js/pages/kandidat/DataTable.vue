@@ -241,7 +241,7 @@ watch(isViewDialogOpen, (newValue) => {
                     <template v-if="table.getRowModel().rows?.length">
                         <TableRow v-for="row in table.getRowModel().rows" :key="row.id"
                             :data-state="row.getIsSelected() ? 'selected' : undefined">
-                            <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id" class="truncate max-w-96">
+                            <TableCell v-for="cell in row.getVisibleCells()" :key="cell.id" class="py-3 px-4 align-top whitespace-normal">
                                 <FlexRender :render="cell.column.columnDef.cell" :props="cell.getContext()" />
                             </TableCell>
                         </TableRow>
