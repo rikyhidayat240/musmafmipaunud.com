@@ -151,139 +151,159 @@ const submit = () => {
 </script>
 
 <template>
-  <DialogContent class="max-w-4xl max-h-[92vh] flex flex-col p-6 overflow-hidden">
+  <DialogContent class="max-w-4xl max-h-[90vh] flex flex-col p-6 overflow-hidden">
     <!-- Dialog Header -->
-    <DialogHeader class="shrink-0 pb-2">
-      <DialogTitle>
+    <DialogHeader class="shrink-0 pb-3 border-b border-border/40">
+      <DialogTitle class="text-lg font-bold text-[#3B0613] dark:text-[#FCCE88]">
         {{ mode === 'create' ? 'Tambah' : mode === 'edit' ? 'Ubah' : 'Detail' }} Data Kandidat
       </DialogTitle>
-      <DialogDescription>
+      <DialogDescription class="text-sm text-muted-foreground dark:text-[#FAF4EB]/70">
         {{ mode === 'create'
-          ? 'Isi form untuk menambahkan data kandidat baru.'
+          ? 'Isi form berikut untuk menambahkan data kandidat baru.'
           : mode === 'edit'
-            ? 'Ubah form untuk mengubah data kandidat.'
-            : 'Lihat detail data kandidat yang dipilih.'
+            ? 'Ubah data kandidat yang diperlukan pada form di bawah.'
+            : 'Lihat detail lengkap data kandidat yang dipilih.'
         }}
       </DialogDescription>
     </DialogHeader>
 
     <!-- Form Content -->
     <form method="POST" @submit.prevent="submit" class="flex flex-col flex-1 min-h-0">
-      <div class="mt-2 grid sm:grid-cols-2 overflow-y-auto max-h-[calc(92vh-10rem)] pr-2 items-start gap-6">
-        <div class="grid grid-cols-3 items-start gap-4">
-          <!-- Kegiatan -->
-          <div class="grid col-span-3 lg:col-span-2 gap-2">
-            <Label for="id_kegiatan">
-              Kegiatan
-              <span v-if="mode !== 'view'" class='text-red-500'>*</span>
-            </Label>
-            <Select :model-value="form.id_kegiatan" @update:model-value="handleKegiatanChange" :tabindex="1"
-              :disabled="form.processing || mode === 'view'" :required="mode !== 'view'">
-              <SelectTrigger id="id_kegiatan">
-                <SelectValue placeholder="Pilih Kegiatan" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem v-for="k in kegiatan" :key="k.id" :value="k.id">
-                  {{ k.nama.replace('Kegiatan ', '') }}
-                </SelectItem>
-              </SelectContent>
-            </Select>
-            <InputError :message="form.errors.id_kegiatan" />
-          </div>
+      <div class="mt-4 overflow-y-auto max-h-[calc(90vh-11rem)] pr-3 space-y-5">
+        <!-- Top Section: Data Utama & Foto -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-5 items-start">
+          <!-- Kolom Kiri: Kegiatan, No Urut, Ketua (7 cols) -->
+          <div class="md:col-span-7 space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <!-- Kegiatan -->
+              <div class="sm:col-span-2 space-y-1.5">
+                <Label for="id_kegiatan">
+                  Kegiatan
+                  <span v-if="mode !== 'view'" class="text-red-500">*</span>
+                </Label>
+                <Select :model-value="form.id_kegiatan" @update:model-value="handleKegiatanChange" :tabindex="1"
+                  :disabled="form.processing || mode === 'view'" :required="mode !== 'view'">
+                  <SelectTrigger id="id_kegiatan">
+                    <SelectValue placeholder="Pilih Kegiatan" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem v-for="k in kegiatan" :key="k.id" :value="k.id">
+                      {{ k.nama.replace('Kegiatan ', '') }}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+                <InputError :message="form.errors.id_kegiatan" />
+              </div>
 
-          <!-- Nomor Urut -->
-          <div class="grid col-span-3 lg:col-span-1 gap-2">
-            <Label for="no_urut">
-              No. Urut
-              <span v-if="mode !== 'view'" class='text-red-500'>*</span>
-            </Label>
-            <Input id="no_urut" type="text" :tabindex="2" v-model="form.no_urut" :required="mode !== 'view'"
-              :disabled="form.processing || mode === 'view'" :readonly="mode === 'view'" placeholder="Contoh: 01" />
-            <InputError :message="form.errors.no_urut" />
-          </div>
-
-          <!-- Ketua with Search Input -->
-          <div class="grid col-span-3 gap-2 relative">
-            <Label for="nim_ketua">
-              Ketua
-              <span v-if="mode !== 'view'" class='text-red-500'>*</span>
-            </Label>
-            <Input id="nim_ketua" type="text" :tabindex="3" v-model="searchKetua" @focus="showKetuaSuggestions = true"
-              @blur="handleKetuaBlur"
-              :disabled="form.processing || mode === 'view' || !form.id_kegiatan" :readonly="mode === 'view'"
-              placeholder="Cari mahasiswa..." autocomplete="off" />
-            <!-- Suggestions Dropdown with clear readable theme colors -->
-            <div v-if="showKetuaSuggestions && filteredKetuaSuggestions.length > 0 && mode !== 'view'"
-              class="absolute top-full left-0 right-0 mt-1 bg-[#28030B] border border-[#EBCE67]/30 rounded-md shadow-2xl max-h-56 overflow-y-auto z-50 divide-y divide-[#EBCE67]/10">
-              <div v-for="m in filteredKetuaSuggestions" :key="m.nim" @mousedown.prevent="selectKetua(m)"
-                class="px-3 py-2.5 hover:bg-[#50071B] cursor-pointer text-sm transition-colors flex items-center justify-between text-[#FAF4EB]">
-                <span class="font-medium text-[#FAF4EB]">{{ m.nama }}</span>
-                <span class="text-xs text-[#EBCE67] font-mono ml-2">({{ m.nim }})</span>
+              <!-- Nomor Urut -->
+              <div class="sm:col-span-1 space-y-1.5">
+                <Label for="no_urut">
+                  No. Urut
+                  <span v-if="mode !== 'view'" class="text-red-500">*</span>
+                </Label>
+                <Input id="no_urut" type="text" :tabindex="2" v-model="form.no_urut" :required="mode !== 'view'"
+                  :disabled="form.processing || mode === 'view'" :readonly="mode === 'view'" placeholder="Contoh: 01" />
+                <InputError :message="form.errors.no_urut" />
               </div>
             </div>
-            <p v-if="!form.id_kegiatan" class="text-xs text-muted-foreground">
-              Pilih kegiatan terlebih dahulu
-            </p>
-            <InputError :message="form.errors.nim_ketua" />
+
+            <!-- Ketua with Search Input -->
+            <div class="space-y-1.5 relative">
+              <Label for="nim_ketua">
+                Ketua
+                <span v-if="mode !== 'view'" class="text-red-500">*</span>
+              </Label>
+              <Input id="nim_ketua" type="text" :tabindex="3" v-model="searchKetua" @focus="showKetuaSuggestions = true"
+                @blur="handleKetuaBlur"
+                :disabled="form.processing || mode === 'view' || !form.id_kegiatan" :readonly="mode === 'view'"
+                placeholder="Cari nama atau NIM mahasiswa..." autocomplete="off" />
+              
+              <!-- Suggestions Dropdown with clear readable theme colors -->
+              <div v-if="showKetuaSuggestions && filteredKetuaSuggestions.length > 0 && mode !== 'view'"
+                class="absolute top-full left-0 right-0 mt-1 bg-[#28030B] border border-[#EBCE67]/40 rounded-lg shadow-2xl max-h-52 overflow-y-auto z-50 divide-y divide-[#EBCE67]/15">
+                <div v-for="m in filteredKetuaSuggestions" :key="m.nim" @mousedown.prevent="selectKetua(m)"
+                  class="px-3.5 py-2.5 hover:bg-[#50071B] cursor-pointer text-sm transition-colors flex items-center justify-between text-[#FAF4EB]">
+                  <span class="font-medium text-[#FAF4EB]">{{ m.nama }}</span>
+                  <span class="text-xs text-[#EBCE67] font-mono ml-2">({{ m.nim }})</span>
+                </div>
+              </div>
+              <p v-if="!form.id_kegiatan" class="text-xs text-muted-foreground dark:text-[#FAF4EB]/60">
+                Pilih kegiatan terlebih dahulu untuk mencari mahasiswa
+              </p>
+              <InputError :message="form.errors.nim_ketua" />
+            </div>
           </div>
 
+          <!-- Kolom Kanan: Foto Upload & Preview Compact (5 cols) -->
+          <div class="md:col-span-5 p-3.5 rounded-lg border border-border/40 bg-black/5 dark:bg-[#1C040A] space-y-3">
+            <Label for="foto" class="block font-medium">
+              Foto Kandidat
+              <span v-if="mode !== 'view'" class="text-red-500">*</span>
+            </Label>
+            
+            <div class="flex items-center gap-4">
+              <!-- Preview Box -->
+              <div class="w-24 h-28 shrink-0 rounded-md border border-border/60 overflow-hidden bg-black/10 dark:bg-black/30 flex items-center justify-center">
+                <img v-if="fotoPreview !== null" :src="fotoPreview" alt="Foto Preview"
+                  class="w-full h-full object-cover" />
+                <img v-else :src="kandidatData?.foto
+                  ? `/storage/${kandidatData.foto}`
+                  : '/assets/blank-profile-picture.webp'" alt="Foto"
+                  class="w-full h-full object-cover" />
+              </div>
+
+              <!-- Upload Button / Info -->
+              <div class="flex-1 space-y-1.5 min-w-0">
+                <Input id="foto" type="file" accept="image/png, image/jpeg, image/jpg, image/webp" :tabindex="7"
+                  @change="handleFotoChange" :disabled="form.processing || mode === 'view'" :readonly="mode === 'view'"
+                  :class="cn(form.errors.foto ? 'border-red-500' : '', 'w-full text-xs file:text-xs')" />
+                <p class="text-[11px] text-muted-foreground dark:text-[#FAF4EB]/60">
+                  Format: PNG, JPG, WEBP (Maks. 2MB)
+                </p>
+                <InputError :message="form.errors.foto" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Section: Visi & Misi (Full Width) -->
+        <div class="space-y-4 pt-2 border-t border-border/30">
           <!-- Visi -->
-          <div class="grid col-span-3 gap-2">
+          <div class="space-y-1.5">
             <Label for="visi">
-              Visi
-              <span v-if="mode !== 'view'" class='text-red-500'>*</span>
+              Visi Kandidat
+              <span v-if="mode !== 'view'" class="text-red-500">*</span>
             </Label>
             <Textarea id="visi" :tabindex="5" v-model="form.visi" :required="mode !== 'view'"
-              :disabled="form.processing || mode === 'view'" :readonly="mode === 'view'" placeholder="Masukkan Visi"
-              class="min-h-20" />
+              :disabled="form.processing || mode === 'view'" :readonly="mode === 'view'"
+              placeholder="Tuliskan visi kandidat secara jelas..."
+              class="w-full min-h-[90px] text-sm leading-relaxed" />
             <InputError :message="form.errors.visi" />
           </div>
 
           <!-- Misi -->
-          <div class="grid col-span-3 gap-2">
+          <div class="space-y-1.5">
             <Label for="misi">
-              Misi
-              <span v-if="mode !== 'view'" class='text-red-500'>*</span>
+              Misi Kandidat
+              <span v-if="mode !== 'view'" class="text-red-500">*</span>
             </Label>
             <Textarea id="misi" :tabindex="6" v-model="form.misi" :required="mode !== 'view'"
-              :disabled="form.processing || mode === 'view'" :readonly="mode === 'view'" placeholder="Masukkan Misi"
-              class="min-h-24" />
+              :disabled="form.processing || mode === 'view'" :readonly="mode === 'view'"
+              placeholder="Tuliskan misi kandidat (gunakan format penomoran: 1. Misi satu 2. Misi dua...)"
+              class="w-full min-h-[140px] text-sm leading-relaxed" />
             <InputError :message="form.errors.misi" />
-          </div>
-        </div>
-
-        <!-- Foto Upload and Preview -->
-        <div class="grid grid-cols-2 items-start gap-4">
-          <div class="grid col-span-2 items-start gap-2">
-            <Label for="foto">
-              Foto Kandidat
-              <span v-if="mode !== 'view'" class='text-red-500'>*</span>
-            </Label>
-            <Input id="foto" type="file" accept="image/png, image/jpeg, image/jpg, image/webp" :tabindex="7"
-              @change="handleFotoChange" :disabled="form.processing || mode === 'view'" :readonly="mode === 'view'"
-              :class="cn(form.errors.foto ? 'border-red-500' : '', 'w-full')" />
-            <InputError :message="form.errors.foto" />
-          </div>
-          <div class="grid col-span-2 gap-4">
-            <AspectRatio :ratio="16 / 11" class="relative max-h-72 flex items-center justify-center bg-black/10 rounded-md overflow-hidden">
-              <img v-if="fotoPreview !== null" :src="fotoPreview" alt="Foto Preview"
-                class="h-full w-full border rounded-md object-contain" />
-              <img v-else :src="kandidatData?.foto
-                ? `/storage/${kandidatData.foto}`
-                : '/assets/blank-profile-picture.webp'" alt="Foto" :class="cn(
-                  form.errors.foto ? 'border-red-500' : '',
-                  'h-full w-full border rounded-md object-contain'
-                )" />
-            </AspectRatio>
           </div>
         </div>
       </div>
 
       <!-- Form Actions -->
-      <div v-if="mode !== 'view'" class="flex justify-end gap-2 mt-4 pt-2 border-t border-border/50 shrink-0">
+      <div v-if="mode !== 'view'" class="flex justify-end gap-2.5 mt-4 pt-3 border-t border-border/50 shrink-0">
+        <Button type="button" variant="outline" @click="$emit('success')" :disabled="form.processing">
+          Batal
+        </Button>
         <Button type="submit" :disabled="form.processing">
           <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
-          {{ mode === 'create' ? 'Tambah' : 'Simpan' }}
+          {{ mode === 'create' ? 'Tambah Kandidat' : 'Simpan Perubahan' }}
         </Button>
       </div>
     </form>
