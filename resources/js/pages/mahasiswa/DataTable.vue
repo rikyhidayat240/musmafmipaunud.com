@@ -243,8 +243,8 @@ watch(isViewDialogOpen, (newValue) => {
         <!-- Header -->
         <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
             <div class="space-y-1 mb-2 md:mb-4">
-                <h2 class="musma-section-title text-lg md:text-xl">Daftar Mahasiswa</h2>
-                <p class="text-xs text-muted-foreground">Kelola akun dan distribusi password peserta MUSMA</p>
+                <h2 class="musma-section-title text-lg md:text-xl text-[#3B0613] dark:text-[#FCCE88]">Daftar Mahasiswa</h2>
+                <p class="text-xs text-muted-foreground dark:text-[#FAF4EB]/60">Kelola akun dan distribusi password peserta MUSMA</p>
             </div>
 
             <div class="flex flex-wrap items-center justify-end w-full md:w-auto gap-2">
@@ -252,13 +252,13 @@ watch(isViewDialogOpen, (newValue) => {
                 <div class="flex items-center">
                     <Input placeholder="Cari mahasiswa..." :model-value="globalFilter"
                         @update:model-value="table.setGlobalFilter($event)"
-                        class="text-sm w-44 sm:w-56" />
+                        class="text-sm w-44 sm:w-56 bg-white dark:bg-[#1E040B] border-[#C8B8BB] dark:border-[rgba(252,206,136,0.25)] text-foreground dark:text-[#FAF4EB] placeholder:text-muted-foreground/60 dark:placeholder:text-[#FAF4EB]/40 focus-visible:ring-[#FCCE88]" />
                 </div>
 
                 <!-- Data filter -->
                 <DropdownMenu>
                     <DropdownMenuTrigger as-child>
-                        <Button variant="outline" size="sm" class="h-9">
+                        <Button variant="outline" size="sm" class="h-9 border-[#C8B8BB] dark:border-[rgba(252,206,136,0.25)] bg-white dark:bg-[#1E040B] text-foreground dark:text-[#FAF4EB] hover:bg-[#FAF4ED] dark:hover:bg-[#350612]">
                             <Filter class="size-4" />
                         </Button>
                     </DropdownMenuTrigger>
@@ -338,7 +338,7 @@ watch(isViewDialogOpen, (newValue) => {
                 <!-- Bulk Send Credentials button -->
                 <Dialog v-model:open="isBulkDialogOpen">
                     <DialogTrigger as-child>
-                        <Button variant="outline" size="sm" class="h-9 gap-1.5 border-amber-600/40 text-amber-700 dark:text-amber-300 hover:bg-amber-500/10" title="Kirim password ke email">
+                        <Button variant="outline" size="sm" class="h-9 gap-1.5 border-amber-600/40 text-amber-700 dark:text-amber-300 bg-white dark:bg-[#1E040B] hover:bg-amber-500/10" title="Kirim password ke email">
                             <Mail class="h-4 w-4 text-amber-600 dark:text-amber-400" />
                             <span class="text-xs font-semibold">Kirim Massal</span>
                         </Button>
@@ -396,7 +396,7 @@ watch(isViewDialogOpen, (newValue) => {
                 <!-- Sync Data Mahasiswa button -->
                 <Dialog v-model:open="isSyncDialogOpen">
                     <DialogTrigger as-child>
-                        <Button variant="outline" size="sm" class="h-9" title="Sinkronkan dari Excel">
+                        <Button variant="outline" size="sm" class="h-9 border-[#C8B8BB] dark:border-[rgba(252,206,136,0.25)] bg-white dark:bg-[#1E040B] text-foreground dark:text-[#FAF4EB] hover:bg-[#FAF4ED] dark:hover:bg-[#350612]" title="Sinkronkan dari Excel">
                             <RefreshCw class="h-4 w-4" />
                         </Button>
                     </DialogTrigger>
@@ -430,7 +430,7 @@ watch(isViewDialogOpen, (newValue) => {
 
                 <!-- Create button -->
                 <Dialog v-model:open="isDialogOpen">
-                    <DialogTrigger :class="cn(buttonVariants({ variant: 'default', size: 'sm' }), 'h-9')">
+                    <DialogTrigger :class="cn(buttonVariants({ variant: 'default', size: 'sm' }), 'h-9 bg-[#51071B] dark:bg-[#FCCE88] text-[#EBCE67] dark:text-[#2A050E] hover:bg-[#3B0613] dark:hover:bg-[#FCCE88]/90 font-semibold shadow-sm')">
                         <Plus class="size-4" />
                         Tambah
                     </DialogTrigger>
@@ -440,17 +440,17 @@ watch(isViewDialogOpen, (newValue) => {
         </div>
 
         <!-- Data Table -->
-        <div class="rounded-xl overflow-hidden" style="border:1.5px solid #C8B8BB; box-shadow: 0 2px 8px rgba(81,7,27,0.06);">
+        <div class="rounded-xl overflow-hidden bg-white dark:bg-[#1C040A] border border-[#C8B8BB] dark:border-[rgba(252,206,136,0.2)] shadow-sm dark:shadow-[0_4px_20px_rgba(0,0,0,0.5)]">
             <Table>
                 <!-- Active Filters -->
                 <TableHeader v-if="globalFilter || activeFilters.length > 0">
-                    <TableRow>
+                    <TableRow class="bg-[#F8F2EA] dark:bg-[#23050D] border-b border-[#E3D7D9] dark:border-[rgba(252,206,136,0.15)]">
                         <TableCell :colspan="columns.length + 1">
                             <div class="flex items-center gap-2 py-1 px-4 flex-wrap">
-                                <span class="text-sm font-medium">Filter aktif:</span>
+                                <span class="text-sm font-medium text-[#3B0613] dark:text-[#FAF4EB]">Filter aktif:</span>
 
                                 <!-- Global Filter Badge -->
-                                <Button v-if="globalFilter" variant="secondary" size="sm" class="h-6 px-2"
+                                <Button v-if="globalFilter" variant="secondary" size="sm" class="h-6 px-2 bg-[#E3D7D9] dark:bg-[#3D0B18] text-[#3B0613] dark:text-[#FAF4EB] border border-transparent dark:border-[rgba(252,206,136,0.2)]"
                                     @click="table.setGlobalFilter('')">
                                     Pencarian: {{ globalFilter }}
                                     <CircleX class="ml-2 size-4" />
@@ -459,7 +459,7 @@ watch(isViewDialogOpen, (newValue) => {
                                 <!-- Column Filters Badges -->
                                 <template v-for="filter in activeFilters" :key="filter.id">
                                     <Button v-if="columnFiltersConfig.find(c => c.columnId === filter.id)"
-                                        variant="secondary" size="sm" class="h-6 px-2"
+                                        variant="secondary" size="sm" class="h-6 px-2 bg-[#E3D7D9] dark:bg-[#3D0B18] text-[#3B0613] dark:text-[#FAF4EB] border border-transparent dark:border-[rgba(252,206,136,0.2)]"
                                         @click="table.getColumn(filter.id)?.setFilterValue(undefined)">
                                         <span class="capitalize">
                                             {{columnFiltersConfig.find(c => c.columnId === filter.id)?.label}}:
@@ -476,14 +476,12 @@ watch(isViewDialogOpen, (newValue) => {
                 <!-- Table Header -->
                 <TableHeader v-if="table.getRowModel().rows?.length">
                     <TableRow v-for="headerGroup in table.getHeaderGroups()" :key="headerGroup.id"
-                        style="background-color:#51071B; border-bottom:none;">
-                        <TableHead v-for="header in headerGroup.headers" :key="header.id" class="py-3"
-                            style="color:#EBCE67; font-weight:700; font-size:0.8rem; letter-spacing:0.05em; text-transform:uppercase;">
+                        class="bg-[#51071B] dark:bg-[#350612] border-b border-[#3B0613] dark:border-[rgba(252,206,136,0.2)]">
+                        <TableHead v-for="header in headerGroup.headers" :key="header.id" class="py-3 text-[#EBCE67] dark:text-[#FCCE88] font-bold text-[0.8rem] tracking-wider uppercase [&_button]:text-[#EBCE67] dark:[&_button]:text-[#FCCE88] [&_button]:hover:bg-white/10">
                             <FlexRender v-if="!header.isPlaceholder" :render="header.column.columnDef.header"
                                 :props="header.getContext()" />
                         </TableHead>
-                        <TableHead class="py-3 text-right pr-4"
-                            style="color:#EBCE67; font-weight:700; font-size:0.8rem; letter-spacing:0.05em; text-transform:uppercase;">
+                        <TableHead class="py-3 text-right pr-4 text-[#EBCE67] dark:text-[#FCCE88] font-bold text-[0.8rem] tracking-wider uppercase">
                             Email
                         </TableHead>
                     </TableRow>
@@ -522,7 +520,7 @@ watch(isViewDialogOpen, (newValue) => {
                             <TableCell :colspan="columns.length + 1" class="h-36 text-center">
                                 <div class="flex flex-col items-center gap-2">
                                     <CircleX class="size-8 text-primary/70" />
-                                    <p>Tidak ada data yang ditemukan.</p>
+                                    <p class="text-muted-foreground dark:text-[#FAF4EB]/70">Tidak ada data yang ditemukan.</p>
                                 </div>
                             </TableCell>
                         </TableRow>
@@ -533,7 +531,7 @@ watch(isViewDialogOpen, (newValue) => {
 
         <!-- Pagination -->
         <div v-if="table.getRowCount() > 0" class="flex items-center mt-2 justify-between px-2">
-            <div class="text-muted-foreground text-sm">
+            <div class="text-muted-foreground dark:text-[#FAF4EB]/70 text-sm">
                 {{ table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1 }} -
                 {{
                     Math.min(
@@ -544,10 +542,10 @@ watch(isViewDialogOpen, (newValue) => {
             </div>
 
             <div class="flex items-center space-x-2">
-                <p class="text-sm font-medium hidden sm:flex">Per halaman</p>
+                <p class="text-sm font-medium hidden sm:flex text-[#3B0613] dark:text-[#FAF4EB]">Per halaman</p>
                 <Select :model-value="`${table.getState().pagination.pageSize}`"
                     @update:model-value="(value) => table.setPageSize(Number(value))">
-                    <SelectTrigger class="h-8 w-[70px]">
+                    <SelectTrigger class="h-8 w-[70px] bg-white dark:bg-[#1E040B] border-[#C8B8BB] dark:border-[rgba(252,206,136,0.25)] text-foreground dark:text-[#FAF4EB]">
                         <SelectValue :placeholder="`${table.getState().pagination.pageSize}`" />
                     </SelectTrigger>
                     <SelectContent side="top">
@@ -559,27 +557,27 @@ watch(isViewDialogOpen, (newValue) => {
             </div>
 
             <div class="flex items-center space-x-4 lg:space-x-6">
-                <div class="hidden w-auto md:flex md:items-center md:justify-center text-sm font-medium">
+                <div class="hidden w-auto md:flex md:items-center md:justify-center text-sm font-medium text-[#3B0613] dark:text-[#FAF4EB]">
                     Halaman {{ table.getState().pagination.pageIndex + 1 }} dari
                     {{ table.getPageCount() }}
                 </div>
                 <div class="flex items-center space-x-2">
-                    <Button variant="outline" class="hidden w-8 h-8 p-0 lg:flex" :disabled="!table.getCanPreviousPage()"
+                    <Button variant="outline" class="hidden w-8 h-8 p-0 lg:flex border-[#C8B8BB] dark:border-[rgba(252,206,136,0.25)] bg-white dark:bg-[#1E040B] text-[#3B0613] dark:text-[#FAF4EB] hover:bg-[#FAF4ED] dark:hover:bg-[#350612] disabled:opacity-40" :disabled="!table.getCanPreviousPage()"
                         @click="table.setPageIndex(0)">
                         <span class="sr-only">Ke halaman pertama</span>
                         <ChevronsLeft class="w-4 h-4" />
                     </Button>
-                    <Button variant="outline" class="w-8 h-8 p-0" :disabled="!table.getCanPreviousPage()"
+                    <Button variant="outline" class="w-8 h-8 p-0 border-[#C8B8BB] dark:border-[rgba(252,206,136,0.25)] bg-white dark:bg-[#1E040B] text-[#3B0613] dark:text-[#FAF4EB] hover:bg-[#FAF4ED] dark:hover:bg-[#350612] disabled:opacity-40" :disabled="!table.getCanPreviousPage()"
                         @click="table.previousPage()">
                         <span class="sr-only">Ke halaman sebelumnya</span>
                         <ChevronLeft class="w-4 h-4" />
                     </Button>
-                    <Button variant="outline" class="w-8 h-8 p-0" :disabled="!table.getCanNextPage()"
+                    <Button variant="outline" class="w-8 h-8 p-0 border-[#C8B8BB] dark:border-[rgba(252,206,136,0.25)] bg-white dark:bg-[#1E040B] text-[#3B0613] dark:text-[#FAF4EB] hover:bg-[#FAF4ED] dark:hover:bg-[#350612] disabled:opacity-40" :disabled="!table.getCanNextPage()"
                         @click="table.nextPage()">
                         <span class="sr-only">Ke halaman selanjutnya</span>
                         <ChevronRight class="w-4 h-4" />
                     </Button>
-                    <Button variant="outline" class="hidden w-8 h-8 p-0 lg:flex" :disabled="!table.getCanNextPage()"
+                    <Button variant="outline" class="hidden w-8 h-8 p-0 lg:flex border-[#C8B8BB] dark:border-[rgba(252,206,136,0.25)] bg-white dark:bg-[#1E040B] text-[#3B0613] dark:text-[#FAF4EB] hover:bg-[#FAF4ED] dark:hover:bg-[#350612] disabled:opacity-40" :disabled="!table.getCanNextPage()"
                         @click="table.setPageIndex(table.getPageCount() - 1)">
                         <span class="sr-only">Ke halaman terakhir</span>
                         <ChevronsRight class="w-4 h-4" />

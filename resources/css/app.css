@@ -336,7 +336,6 @@
 
 .musma-section-title {
     font-family: "Playfair Display", "Georgia", serif;
-    color: #51071B;
     font-weight: 700;
 }
 
@@ -372,3 +371,4 @@
 
 /* Admin panel table theme */
 .musma-table-header th { color: #51071B; }
+.dark .musma-table-header th { color: #FCCE88; }
