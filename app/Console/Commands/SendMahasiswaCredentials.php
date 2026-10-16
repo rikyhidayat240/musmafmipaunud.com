@@ -102,12 +102,6 @@ class SendMahasiswaCredentials extends Command
 
     private function generatePassword(): string
     {
-        // 8-char password: 2 uppercase + 4 lowercase + 2 digit
-        $upper  = strtoupper(Str::random(2));
-        $lower  = strtolower(Str::random(4));
-        $digits = rand(10, 99);
-        $chars = str_split($upper . $lower . $digits);
-        shuffle($chars);
-        return implode('', $chars);
+        return Str::password(12, letters: true, numbers: true, symbols: false, spaces: false);
     }
 }
