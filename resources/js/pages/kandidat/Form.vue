@@ -30,7 +30,7 @@ const emit = defineEmits<{
 // define form fields
 const form = useForm({
   id: props.kandidatData?.id || null,
-  id_kegiatan: props.kandidatData?.id || null,
+  id_kegiatan: props.kandidatData?.id_kegiatan || null,
   no_urut: props.kandidatData?.no_urut || '',
   visi: props.kandidatData?.visi || '',
   misi: props.kandidatData?.misi || '',
@@ -47,7 +47,7 @@ const availableMahasiswaForKetua = computed(() => {
   if (!form.id_kegiatan) return props.mahasiswa;
 
   const existingKandidatNim = props.kandidat
-    .filter(k => k.id === form.id_kegiatan && k.id !== form.id)
+    .filter(k => k.id_kegiatan === form.id_kegiatan && k.id !== form.id)
     .flatMap(k => k.mahasiswa?.map(m => m.nim) || []);
 
   return props.mahasiswa.filter(m => !existingKandidatNim.includes(m.nim));
@@ -86,11 +86,11 @@ const selectKetua = (mahasiswa: User) => {
 };
 
 // Handle blur with delay
-// const handleKetuaBlur = () => {
-//   window.setTimeout(() => {
-//     showKetuaSuggestions.value = false;
-//   }, 200);
-// };
+const handleKetuaBlur = () => {
+  window.setTimeout(() => {
+    showKetuaSuggestions.value = false;
+  }, 200);
+};
 
 // Initialize search values
 if ((props.mode === 'edit' || props.mode === 'view') && props.kandidatData) {
@@ -151,9 +151,9 @@ const submit = () => {
 </script>
 
 <template>
-  <DialogContent class="max-w-5xl">
+  <DialogContent class="max-w-4xl max-h-[92vh] flex flex-col p-6 overflow-hidden">
     <!-- Dialog Header -->
-    <DialogHeader>
+    <DialogHeader class="shrink-0 pb-2">
       <DialogTitle>
         {{ mode === 'create' ? 'Tambah' : mode === 'edit' ? 'Ubah' : 'Detail' }} Data Kandidat
       </DialogTitle>
@@ -168,8 +168,8 @@ const submit = () => {
     </DialogHeader>
 
     <!-- Form Content -->
-    <form method="POST" @submit.prevent="submit">
-      <div class="mt-2 grid sm:grid-cols-2 overflow-y-auto items-start gap-4">
+    <form method="POST" @submit.prevent="submit" class="flex flex-col flex-1 min-h-0">
+      <div class="mt-2 grid sm:grid-cols-2 overflow-y-auto max-h-[calc(92vh-10rem)] pr-2 items-start gap-6">
         <div class="grid grid-cols-3 items-start gap-4">
           <!-- Kegiatan -->
           <div class="grid col-span-3 lg:col-span-2 gap-2">
@@ -209,14 +209,16 @@ const submit = () => {
               <span v-if="mode !== 'view'" class='text-red-500'>*</span>
             </Label>
             <Input id="nim_ketua" type="text" :tabindex="3" v-model="searchKetua" @focus="showKetuaSuggestions = true"
+              @blur="handleKetuaBlur"
               :disabled="form.processing || mode === 'view' || !form.id_kegiatan" :readonly="mode === 'view'"
               placeholder="Cari mahasiswa..." autocomplete="off" />
-            <!-- Suggestions Dropdown -->
+            <!-- Suggestions Dropdown with clear readable theme colors -->
             <div v-if="showKetuaSuggestions && filteredKetuaSuggestions.length > 0 && mode !== 'view'"
-              class="absolute top-full left-0 right-0 mt-1 bg-white border rounded-md shadow-lg max-h-60 overflow-y-auto z-50">
-              <div v-for="m in filteredKetuaSuggestions" :key="m.nim" @click="selectKetua(m)"
-                class="px-3 py-2 hover:bg-gray-100 cursor-pointer text-sm">
-                {{ m.nama }} ({{ m.nim }})
+              class="absolute top-full left-0 right-0 mt-1 bg-[#28030B] border border-[#EBCE67]/30 rounded-md shadow-2xl max-h-56 overflow-y-auto z-50 divide-y divide-[#EBCE67]/10">
+              <div v-for="m in filteredKetuaSuggestions" :key="m.nim" @mousedown.prevent="selectKetua(m)"
+                class="px-3 py-2.5 hover:bg-[#50071B] cursor-pointer text-sm transition-colors flex items-center justify-between text-[#FAF4EB]">
+                <span class="font-medium text-[#FAF4EB]">{{ m.nama }}</span>
+                <span class="text-xs text-[#EBCE67] font-mono ml-2">({{ m.nim }})</span>
               </div>
             </div>
             <p v-if="!form.id_kegiatan" class="text-xs text-muted-foreground">
@@ -231,8 +233,9 @@ const submit = () => {
               Visi
               <span v-if="mode !== 'view'" class='text-red-500'>*</span>
             </Label>
-            <Input id="visi" type="text" :tabindex="5" v-model="form.visi" :required="mode !== 'view'"
-              :disabled="form.processing || mode === 'view'" :readonly="mode === 'view'" placeholder="Masukkan Visi" />
+            <Textarea id="visi" :tabindex="5" v-model="form.visi" :required="mode !== 'view'"
+              :disabled="form.processing || mode === 'view'" :readonly="mode === 'view'" placeholder="Masukkan Visi"
+              class="min-h-20" />
             <InputError :message="form.errors.visi" />
           </div>
 
@@ -243,7 +246,8 @@ const submit = () => {
               <span v-if="mode !== 'view'" class='text-red-500'>*</span>
             </Label>
             <Textarea id="misi" :tabindex="6" v-model="form.misi" :required="mode !== 'view'"
-              :disabled="form.processing || mode === 'view'" :readonly="mode === 'view'" placeholder="Masukkan Misi" />
+              :disabled="form.processing || mode === 'view'" :readonly="mode === 'view'" placeholder="Masukkan Misi"
+              class="min-h-24" />
             <InputError :message="form.errors.misi" />
           </div>
         </div>
@@ -261,14 +265,14 @@ const submit = () => {
             <InputError :message="form.errors.foto" />
           </div>
           <div class="grid col-span-2 gap-4">
-            <AspectRatio :ratio="16 / 11" class="relative">
+            <AspectRatio :ratio="16 / 11" class="relative max-h-72 flex items-center justify-center bg-black/10 rounded-md overflow-hidden">
               <img v-if="fotoPreview !== null" :src="fotoPreview" alt="Foto Preview"
-                class="aspect-video h-full w-full border rounded-md object-contain" />
+                class="h-full w-full border rounded-md object-contain" />
               <img v-else :src="kandidatData?.foto
                 ? `/storage/${kandidatData.foto}`
                 : '/assets/blank-profile-picture.webp'" alt="Foto" :class="cn(
                   form.errors.foto ? 'border-red-500' : '',
-                  'aspect-video h-full w-full border rounded-md object-contain'
+                  'h-full w-full border rounded-md object-contain'
                 )" />
             </AspectRatio>
           </div>
@@ -276,7 +280,7 @@ const submit = () => {
       </div>
 
       <!-- Form Actions -->
-      <div v-if="mode !== 'view'" class="flex justify-end gap-2 mt-4">
+      <div v-if="mode !== 'view'" class="flex justify-end gap-2 mt-4 pt-2 border-t border-border/50 shrink-0">
         <Button type="submit" :disabled="form.processing">
           <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
           {{ mode === 'create' ? 'Tambah' : 'Simpan' }}
