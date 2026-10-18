@@ -7,7 +7,7 @@ import dayjs from "dayjs";
   <footer class="w-full bg-[#3B0613] dark:bg-[#140206] text-white relative z-40 overflow-hidden border-t border-white/10 dark:border-[#FCCE88]/20 transition-colors">
     <!-- Subtle Corner Flourishes inside footer -->
     <img
-      src="/image 62.png"
+      src="/image 62.webp"
       alt=""
       width="144"
       height="192"
@@ -16,7 +16,7 @@ import dayjs from "dayjs";
       class="absolute -bottom-8 -left-8 w-28 sm:w-36 h-auto opacity-15 pointer-events-none select-none"
     />
     <img
-      src="/image 63.png"
+      src="/image 63.webp"
       alt=""
       width="144"
       height="288"
@@ -29,7 +29,7 @@ import dayjs from "dayjs";
       <!-- Center: Logo + Organization Info -->
       <Link href="/" class="flex items-center gap-3 group">
         <img
-          src="/logo 2026.png"
+          src="/logo 2026.webp"
           alt="Logo DPM"
           width="40"
           height="40"

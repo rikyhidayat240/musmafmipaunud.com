@@ -37,9 +37,9 @@ const breadcrumbs: BreadcrumbItem[] = [
 
         <!-- Hero Header -->
         <div class="relative overflow-hidden" style="background: linear-gradient(135deg, #51071B 0%, #3B0312 100%); min-height: 120px;">
-            <img src="/image 62.png" class="absolute top-0 left-0 w-28 md:w-44 h-auto object-contain opacity-20 rotate-180 select-none pointer-events-none" alt="" />
-            <img src="/image 63.png" class="absolute top-0 right-0 w-16 md:w-28 h-auto object-contain opacity-20 rotate-180 select-none pointer-events-none" alt="" />
-            <img src="/image 61.png" class="absolute -bottom-4 right-1/3 h-24 w-auto opacity-10 select-none pointer-events-none" alt="" />
+            <img src="/image 62.webp" class="absolute top-0 left-0 w-28 md:w-44 h-auto object-contain opacity-20 rotate-180 select-none pointer-events-none" alt="" />
+            <img src="/image 63.webp" class="absolute top-0 right-0 w-16 md:w-28 h-auto object-contain opacity-20 rotate-180 select-none pointer-events-none" alt="" />
+            <img src="/image 61.webp" class="absolute -bottom-4 right-1/3 h-24 w-auto opacity-10 select-none pointer-events-none" alt="" />
             <div class="relative z-10 px-8 py-7">
                 <p class="text-xs font-bold tracking-widest uppercase mb-1" style="color:rgba(235,206,103,0.6);">Admin Panel · MUSMA LM FMIPA</p>
                 <h1 class="text-2xl md:text-3xl font-bold text-white" style="font-family:'Playfair Display',serif;">Data Mahasiswa</h1>
@@ -52,7 +52,7 @@ const breadcrumbs: BreadcrumbItem[] = [
             <!-- Decorative divider -->
             <div class="flex items-center gap-3 mb-6">
                 <div class="h-px flex-1 bg-gradient-to-r from-[#51071B]/15 dark:from-[rgba(252,206,136,0.25)] to-transparent"></div>
-                <img src="/image 61.png" class="h-6 w-auto opacity-40 dark:opacity-60 dark:invert" alt="" />
+                <img src="/image 61.webp" class="h-6 w-auto opacity-40 dark:opacity-60 dark:invert" alt="" />
                 <div class="h-px flex-1 bg-gradient-to-r from-transparent to-[#51071B]/15 dark:to-[rgba(252,206,136,0.25)]"></div>
             </div>
 

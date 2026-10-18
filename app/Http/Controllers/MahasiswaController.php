@@ -7,6 +7,7 @@ use App\Models\ProgramStudi;
 use App\Models\User;
 use App\Services\AuditLogService;
 use App\Services\CredentialMailer;
+use App\Services\ImageUploadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
@@ -289,16 +290,7 @@ class MahasiswaController extends Controller
         try {
             $avatarPath = null;
             if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
-                $avatarFile = $request->file('avatar');
-                $avatarName = $avatarFile->hashName();
-
-                $avatarDestination = Storage::disk('public')->path('foto-mahasiswa');
-                if (!file_exists($avatarDestination)) {
-                    mkdir($avatarDestination, 0755, true);
-                }
-
-                Storage::disk('public')->putFileAs('foto-mahasiswa', $avatarFile, $avatarName);
-                $avatarPath = 'foto-mahasiswa/' . $avatarName;
+                $avatarPath = ImageUploadService::storeStudent($request->file('avatar'));
             }
 
             $plainPassword = $this->generatePassword();
@@ -397,16 +389,7 @@ class MahasiswaController extends Controller
                     Storage::disk('public')->delete($avatarPath);
                 }
 
-                $avatarFile = $request->file('avatar');
-                $avatarName = $avatarFile->hashName();
-
-                $avatarDestination = Storage::disk('public')->path('foto-mahasiswa');
-                if (!file_exists($avatarDestination)) {
-                    mkdir($avatarDestination, 0755, true);
-                }
-
-                Storage::disk('public')->putFileAs('foto-mahasiswa', $avatarFile, $avatarName);
-                $avatarPath = 'foto-mahasiswa/' . $avatarName;
+                $avatarPath = ImageUploadService::storeStudent($request->file('avatar'));
             }
 
             $updateData = [

@@ -27,7 +27,7 @@ const resolvedSize = computed(() => {
   >
     <img
       v-if="resolvedSize === 'sm'"
-      src="/image 66.png"
+      src="/image 66.webp"
       alt="Ornamen"
       width="120"
       height="24"
@@ -37,7 +37,7 @@ const resolvedSize = computed(() => {
     />
     <img
       v-else-if="resolvedSize === 'lg'"
-      src="/image 66.png"
+      src="/image 66.webp"
       alt="Ornamen"
       width="180"
       height="36"
@@ -47,7 +47,7 @@ const resolvedSize = computed(() => {
     />
     <img
       v-else
-      src="/image 66.png"
+      src="/image 66.webp"
       alt="Ornamen"
       width="150"
       height="32"

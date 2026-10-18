@@ -206,7 +206,7 @@ const submit = () => {
               <img v-else-if="kegiatanData?.foto" :src="`/storage/${kegiatanData.foto}`"
                 alt="Foto" class="aspect-video h-full w-full border rounded-md object-contain" />
               <div v-else class="aspect-video h-full w-full border rounded-md flex flex-col items-center justify-center gap-2" style="background-color:#F5ECEE; border-color:#E3D7D9;">
-                <img src="/image 61.png" class="w-12 h-auto opacity-30" alt="" />
+                <img src="/image 61.webp" class="w-12 h-auto opacity-30" alt="" />
                 <span class="text-xs" style="color:#9A6A72;">Belum ada foto</span>
               </div>
             </AspectRatio>

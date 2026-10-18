@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Models\Kegiatan;
 use App\Models\ProgramStudi;
 use App\Services\AuditLogService;
+use App\Services\ImageUploadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -61,16 +62,7 @@ class EventController extends Controller
             // Store foto if exists
             $fotoPath = null;
             if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
-                $fotoFile = $request->file('foto');
-                $fotoName = $fotoFile->hashName();
-
-                $fotoDestination = Storage::disk('public')->path('foto-kegiatan');
-                if (!file_exists($fotoDestination)) {
-                    mkdir($fotoDestination, 0755, true);
-                }
-
-                Storage::disk('public')->putFileAs('foto-kegiatan', $fotoFile, $fotoName);
-                $fotoPath = 'foto-kegiatan/' . $fotoName;
+                $fotoPath = ImageUploadService::storeEvent($request->file('foto'));
             }
 
             // Create new kegiatan record
@@ -147,10 +139,7 @@ class EventController extends Controller
                     Storage::disk('public')->delete($fotoPath);
                 }
 
-                $fotoFile = $request->file('foto');
-                $fotoName = $fotoFile->hashName();
-                Storage::disk('public')->putFileAs('foto-kegiatan', $fotoFile, $fotoName);
-                $fotoPath = 'foto-kegiatan/' . $fotoName;
+                $fotoPath = ImageUploadService::storeEvent($request->file('foto'));
             }
 
             // Update kegiatan

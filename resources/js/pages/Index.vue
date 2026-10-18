@@ -127,7 +127,7 @@ const accordionItems = [
       
       <!-- Top-Right Balinese Botanical Corner Foliage (Figma Asset) -->
       <img
-        src="/image 63.png"
+        src="/image 63.webp"
         alt=""
         width="384"
         height="768"
@@ -137,7 +137,7 @@ const accordionItems = [
 
       <!-- Bottom-Left Balinese Botanical Corner Foliage (Figma Asset) -->
       <img
-        src="/image 62.png"
+        src="/image 62.webp"
         alt=""
         width="384"
         height="512"
@@ -148,7 +148,7 @@ const accordionItems = [
 
       <!-- Center Background Subtle Watermark -->
       <img
-        src="/logo 2026.png"
+        src="/logo 2026.webp"
         alt=""
         width="540"
         height="360"

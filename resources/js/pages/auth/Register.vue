@@ -80,11 +80,11 @@ const submit = () => {
         <!-- Register Card with Musma Design Tokens -->
         <div class="relative bg-[#FFFDFB] rounded-3xl p-8 max-w-md w-full shadow-2xl border border-[#3B0613]/15 overflow-hidden">
             <!-- Balinese corner ornament watermark -->
-            <img src="/image 63.png" class="absolute -top-3 -right-3 w-24 h-auto opacity-20 pointer-events-none select-none" alt="" />
+            <img src="/image 63.webp" class="absolute -top-3 -right-3 w-24 h-auto opacity-20 pointer-events-none select-none" alt="" />
 
             <!-- Card Header -->
             <div class="flex items-center gap-3.5 mb-3 relative z-10">
-                <img src="/logo 2026.png" alt="Logo" class="h-10 w-auto object-contain select-none" />
+                <img src="/logo 2026.webp" alt="Logo" class="h-10 w-auto object-contain select-none" />
                 <div>
                     <p class="text-[10px] font-bold tracking-[0.2em] text-[#DA8278] uppercase">MUSMA LM FMIPA {{ new Date().getFullYear() }}</p>
                     <h2 class="font-serif font-bold text-2xl text-[#3B0613] leading-tight">Daftar Akun Baru</h2>

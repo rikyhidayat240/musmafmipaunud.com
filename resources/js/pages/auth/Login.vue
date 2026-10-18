@@ -34,11 +34,11 @@ const submit = () => {
         <!-- Login Card matching Figma Node 251:936 -->
         <div class="relative bg-[#FFFDFB] dark:bg-[#27060F] rounded-3xl p-8 max-w-md w-full shadow-2xl border border-[#3B0613]/15 dark:border-[#FCCE88]/25 overflow-hidden">
             <!-- Balinese corner ornament watermark -->
-            <img src="/image 63.png" class="absolute -top-3 -right-3 w-24 h-auto opacity-20 dark:opacity-10 pointer-events-none select-none" alt="" />
+            <img src="/image 63.webp" class="absolute -top-3 -right-3 w-24 h-auto opacity-20 dark:opacity-10 pointer-events-none select-none" alt="" />
 
             <!-- Card Header -->
             <div class="flex items-center gap-3.5 mb-3 relative z-10">
-                <img src="/logo 2026.png" alt="Logo" class="h-10 w-auto object-contain select-none" />
+                <img src="/logo 2026.webp" alt="Logo" class="h-10 w-auto object-contain select-none" />
                 <div>
                     <p class="text-[10px] font-bold tracking-[0.2em] text-[#DA8278] dark:text-[#FCCE88]/90 uppercase">MUSMA LM FMIPA {{ new Date().getFullYear() }}</p>
                     <h2 class="font-serif font-bold text-2xl text-[#3B0613] dark:text-[#FAF4EB] leading-tight">Login Pemilih</h2>

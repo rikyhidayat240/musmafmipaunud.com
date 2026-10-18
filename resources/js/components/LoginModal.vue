@@ -53,14 +53,14 @@ const submit = () => {
     >
       <!-- Top Subtle Background Flueron watermark -->
       <img
-        src="/image 63.png"
+        src="/image 63.webp"
         class="absolute -top-6 -right-6 w-32 h-auto opacity-10 dark:opacity-[0.07] pointer-events-none select-none rotate-180"
         alt=""
       />
 
       <!-- Header with Logo -->
       <div class="flex items-center gap-3.5 mb-2">
-        <img src="/logo 2026.png" alt="Logo" class="h-11 w-auto object-contain shrink-0" />
+        <img src="/logo 2026.webp" alt="Logo" class="h-11 w-auto object-contain shrink-0" />
         <div class="flex flex-col">
           <span class="text-[11px] font-bold uppercase tracking-[0.18em] text-[#DA8278] dark:text-[#FCCE88]/90">
             MUSMA LM FMIPA {{ year }}

@@ -59,7 +59,7 @@ const isActive = (href: string) => page.url === href;
       <!-- Left: Logo & Organization Name -->
       <Link href="/" class="flex items-center gap-2 sm:gap-3 group min-w-0">
         <img
-          src="/logo 2026.png"
+          src="/logo 2026.webp"
           alt="DPM FMIPA Logo"
           width="44"
           height="44"
@@ -122,7 +122,7 @@ const isActive = (href: string) => page.url === href;
               <SheetTitle class="sr-only">Menu Navigasi</SheetTitle>
               <SheetHeader class="p-6 border-b border-white/10">
                 <div class="flex items-center gap-2.5">
-                  <img src="/logo 2026.png" alt="Logo" width="32" height="32" loading="lazy" decoding="async" class="h-8 w-auto object-contain" />
+                  <img src="/logo 2026.webp" alt="Logo" width="32" height="32" loading="lazy" decoding="async" class="h-8 w-auto object-contain" />
                   <span class="text-sm font-bold text-white">MUSMA FMIPA {{ dayjs().year() }}</span>
                 </div>
               </SheetHeader>

@@ -6,6 +6,7 @@ use App\Models\Kandidat;
 use App\Models\Kegiatan;
 use App\Models\User;
 use App\Services\AuditLogService;
+use App\Services\ImageUploadService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -105,19 +106,7 @@ class KandidatController extends Controller
             // Store foto if exists
             $fotoPath = null;
             if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
-                // Get the uploaded file
-                $fotoFile = $request->file('foto');
-                $fotoName = $fotoFile->hashName();
-
-                // Define the foto destination path
-                $fotoDestination = Storage::disk('public')->path('foto-kandidat');
-                if (!file_exists($fotoDestination)) {
-                    mkdir($fotoDestination, 0755, true);
-                }
-
-                // Store the foto file
-                Storage::disk('public')->putFileAs('foto-kandidat', $fotoFile, $fotoName);
-                $fotoPath = 'foto-kandidat/' . $fotoName;
+                $fotoPath = ImageUploadService::storeCandidate($request->file('foto'));
             }
 
             // Create new kandidat record
@@ -209,11 +198,7 @@ class KandidatController extends Controller
                     Storage::disk('public')->delete($fotoPath);
                 }
 
-                // Store new foto
-                $fotoFile = $request->file('foto');
-                $fotoName = $fotoFile->hashName();
-                Storage::disk('public')->putFileAs('foto-kandidat', $fotoFile, $fotoName);
-                $fotoPath = 'foto-kandidat/' . $fotoName;
+                $fotoPath = ImageUploadService::storeCandidate($request->file('foto'));
             }
 
             // Update kandidat

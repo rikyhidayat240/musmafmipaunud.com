@@ -84,23 +84,23 @@ const kandidat = computed(() => {
 
       <!-- Global Background Ornaments -->
       <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <img src="/logo 2026.png" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] md:w-[600px] h-auto object-contain opacity-[0.035] select-none" alt="" />
-        <img src="/image 62.png" class="absolute top-0 left-0 w-[140px] md:w-[220px] h-auto object-contain opacity-25 rotate-180 -translate-x-1/4 -translate-y-1/4 select-none" alt="" />
-        <img src="/image 63.png" class="absolute top-0 right-0 w-[110px] md:w-[180px] h-auto object-contain opacity-25 rotate-180 translate-x-1/4 -translate-y-1/4 select-none" alt="" />
-        <img src="/image 63.png" class="absolute bottom-0 left-0 w-[110px] md:w-[180px] h-auto object-contain opacity-25 -translate-x-1/4 translate-y-1/4 select-none" alt="" />
-        <img src="/image 62.png" class="absolute bottom-0 right-0 w-[140px] md:w-[220px] h-auto object-contain opacity-25 translate-x-1/4 translate-y-1/4 select-none" alt="" />
+        <img src="/logo 2026.webp" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] md:w-[600px] h-auto object-contain opacity-[0.035] select-none" alt="" />
+        <img src="/image 62.webp" class="absolute top-0 left-0 w-[140px] md:w-[220px] h-auto object-contain opacity-25 rotate-180 -translate-x-1/4 -translate-y-1/4 select-none" alt="" />
+        <img src="/image 63.webp" class="absolute top-0 right-0 w-[110px] md:w-[180px] h-auto object-contain opacity-25 rotate-180 translate-x-1/4 -translate-y-1/4 select-none" alt="" />
+        <img src="/image 63.webp" class="absolute bottom-0 left-0 w-[110px] md:w-[180px] h-auto object-contain opacity-25 -translate-x-1/4 translate-y-1/4 select-none" alt="" />
+        <img src="/image 62.webp" class="absolute bottom-0 right-0 w-[140px] md:w-[220px] h-auto object-contain opacity-25 translate-x-1/4 translate-y-1/4 select-none" alt="" />
       </div>
 
       <!-- ===== HERO HEADER ===== -->
       <div class="relative w-full overflow-hidden border-b border-[#3B0613]/20" style="background: linear-gradient(135deg, #3B0613 0%, #20020A 100%); min-height: 180px;">
         <!-- Ornaments inside hero -->
-        <img src="/image 62.png" class="absolute top-0 left-0 w-32 md:w-52 h-auto object-contain opacity-20 rotate-180 select-none pointer-events-none" alt="" />
-        <img src="/image 63.png" class="absolute top-0 right-0 w-24 md:w-40 h-auto object-contain opacity-20 rotate-180 select-none pointer-events-none" alt="" />
-        <img src="/image 61.png" class="absolute bottom-0 left-1/2 -translate-x-1/2 h-28 w-auto opacity-10 select-none pointer-events-none" alt="" />
+        <img src="/image 62.webp" class="absolute top-0 left-0 w-32 md:w-52 h-auto object-contain opacity-20 rotate-180 select-none pointer-events-none" alt="" />
+        <img src="/image 63.webp" class="absolute top-0 right-0 w-24 md:w-40 h-auto object-contain opacity-20 rotate-180 select-none pointer-events-none" alt="" />
+        <img src="/image 61.webp" class="absolute bottom-0 left-1/2 -translate-x-1/2 h-28 w-auto opacity-10 select-none pointer-events-none" alt="" />
 
         <!-- Header Content -->
         <div class="relative z-10 flex flex-col items-center justify-center py-12 px-4 text-center">
-          <img src="/logo 2026.png" alt="Logo" class="h-14 w-auto object-contain mb-3 select-none" />
+          <img src="/logo 2026.webp" alt="Logo" class="h-14 w-auto object-contain mb-3 select-none" />
           <p class="text-xs font-bold tracking-[0.25em] uppercase text-[#F5C249] mb-1">
             HASIL PERHITUNGAN SUARA
           </p>
@@ -119,7 +119,7 @@ const kandidat = computed(() => {
         <!-- No event state -->
         <div v-if="!kegiatan || !kegiatan.kandidat || kegiatan.kandidat.length === 0"
           class="flex flex-col items-center justify-center py-20 px-6 text-center bg-[#FFFDFB] dark:bg-[#27060F] rounded-3xl border border-[#3B0613]/15 dark:border-[#FCCE88]/20 shadow-md">
-          <img src="/image 61.png" class="w-24 h-auto opacity-30 mb-4" alt="" />
+          <img src="/image 61.webp" class="w-24 h-auto opacity-30 mb-4" alt="" />
           <h2 class="font-serif text-2xl font-bold text-[#3B0613] dark:text-[#FAF4EB] mb-2">Tidak Ada Pemilihan yang Berlangsung</h2>
           <p class="text-sm text-[#9A6A72] dark:text-[#D4BAC1] max-w-sm mb-6">Hasil perolehan suara akan ditampilkan secara otomatis setelah kegiatan pemilihan selesai.</p>
           <div class="flex flex-wrap items-center justify-center gap-3">
@@ -145,7 +145,7 @@ const kandidat = computed(() => {
           <div class="flex justify-center mb-10">
             <div class="text-center px-12 py-6 shadow-xl rounded-3xl border border-[#3B0613]/20 dark:border-[#FCCE88]/25 relative overflow-hidden"
                  style="background: linear-gradient(135deg, #3B0613 0%, #51071B 100%);">
-              <img src="/image 63.png" class="absolute -top-3 -right-3 w-16 h-auto opacity-15 rotate-180 pointer-events-none select-none" alt="" />
+              <img src="/image 63.webp" class="absolute -top-3 -right-3 w-16 h-auto opacity-15 rotate-180 pointer-events-none select-none" alt="" />
               <p class="text-xs font-bold tracking-[0.2em] uppercase mb-1 text-[#F5C249]">Total Suara Masuk</p>
               <p class="text-5xl md:text-6xl font-serif font-black text-white">{{ totalSuara }}</p>
               <p class="text-xs mt-1 text-white/60">Suara sah dari seluruh pemilih</p>
