@@ -229,7 +229,7 @@
         </div>
 
         <div class="btn-container">
-            <a href="{{ $loginUrl }}" class="btn">Masuk ke Sistem MUSMA</a>
+            <a href="{{ $siteUrl ?? $loginUrl }}" class="btn">Buka Website MUSMA</a>
         </div>
 
         <div class="warning">
@@ -237,23 +237,29 @@
         </div>
 
         <div class="steps">
-            <p>Cara Login:</p>
+            <p>Petunjuk Masuk:</p>
             <table class="step-table">
                 <tr>
                     <td class="step-num-td"><div class="step-num">1</div></td>
-                    <td class="step-text-td">Buka link <a href="{{ $loginUrl }}" style="color: #EBCE67; text-decoration: none;">{{ $loginUrl }}</a></td>
+                    <td class="step-text-td">Kunjungi website utama MUSMA melalui link <a href="{{ $siteUrl ?? $loginUrl }}" style="color: #EBCE67; text-decoration: none;">{{ $siteUrl ?? $loginUrl }}</a></td>
                 </tr>
             </table>
             <table class="step-table">
                 <tr>
                     <td class="step-num-td"><div class="step-num">2</div></td>
-                    <td class="step-text-td">Masukkan <strong style="color: #ffffff;">NIM</strong> dan <strong style="color: #ffffff;">password</strong> seperti yang tertera di atas.</td>
+                    <td class="step-text-td">Klik tombol <strong style="color: #ffffff;">"Masuk"</strong> pada halaman utama.</td>
                 </tr>
             </table>
             <table class="step-table">
                 <tr>
                     <td class="step-num-td"><div class="step-num">3</div></td>
-                    <td class="step-text-td">Klik "Masuk" dan ikuti jalannya kegiatan.</td>
+                    <td class="step-text-td">Masukkan <strong style="color: #ffffff;">NIM</strong> dan <strong style="color: #ffffff;">password</strong> seperti yang tertera di atas.</td>
+                </tr>
+            </table>
+            <table class="step-table">
+                <tr>
+                    <td class="step-num-td"><div class="step-num">4</div></td>
+                    <td class="step-text-td">Masuk ke sistem MUSMA dan ikuti jalannya kegiatan.</td>
                 </tr>
             </table>
         </div>
