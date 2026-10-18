@@ -54,6 +54,8 @@ class CleanupObsoleteAssetsTest extends TestCase
         'assets/blank-profile-picture.webp',
         'favicon.svg',
         'favicon.ico',
+        'favicon.png',
+        'favicon-32x32.png',
         'apple-touch-icon.png',
     ];
 

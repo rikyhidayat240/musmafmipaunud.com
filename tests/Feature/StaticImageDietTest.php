@@ -94,6 +94,8 @@ class StaticImageDietTest extends TestCase
             '/image 61.webp',
             '/assets/musma-logo.svg',
             '/favicon.svg',
+            '/favicon.png',
+            '/favicon-32x32.png',
             '/apple-touch-icon.png',
         ];
 
