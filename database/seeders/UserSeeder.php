@@ -14,7 +14,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
+        $admin = User::factory()->create([
             'nim' => '2008511001',
             'id_program_studi' => 1,
             'nama' => 'Admin DPM FMIPA',
@@ -22,8 +22,9 @@ class UserSeeder extends Seeder
             'email' => 'dpmfmipaunud2025@gmail.com',
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
-            'is_admin' => true
         ]);
+        $admin->is_admin = true;
+        $admin->save();
         User::factory()->create([
             'nim' => '2308561000',
             'id_program_studi' => 1,

@@ -30,12 +30,13 @@ class Kegiatan extends Model
 
     public function kandidat()
     {
-        return $this->hasMany(Kandidat::class, 'id_kegiatan');
+        return $this->hasMany(Kandidat::class, 'id_kegiatan')->orderBy('no_urut', 'asc');
     }
 
     public function mahasiswa()
     {
         return $this->belongsToMany(User::class, 'surat_suara', 'id_kegiatan', 'nim')
+            ->using(SuratSuara::class)
             ->withPivot('has_vote')
             ->withTimestamps();
     }

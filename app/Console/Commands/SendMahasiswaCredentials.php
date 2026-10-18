@@ -2,17 +2,15 @@
 
 namespace App\Console\Commands;
 
-use App\Mail\MahasiswaCredentials;
 use App\Models\User;
+use App\Services\CredentialMailer;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 class SendMahasiswaCredentials extends Command
 {
     protected $signature = 'mahasiswa:send-credentials
-                            {--limit=100 : Maximum emails to send in this run}
+                            {--limit=100 : Maximum emails to send in this run (0 = tanpa batas)}
                             {--prodi= : Filter by program studi ID}
                             {--angkatan= : Filter by angkatan year}
                             {--resend : Resend even if already sent before}
@@ -20,16 +18,17 @@ class SendMahasiswaCredentials extends Command
 
     protected $description = 'Send login credentials to students who have not received them yet';
 
-    public function handle(): int
+    public function handle(CredentialMailer $mailer): int
     {
-        $limit   = (int) $this->option('limit');
-        $prodi   = $this->option('prodi');
+        $limit    = (int) $this->option('limit');
+        $prodi    = $this->option('prodi');
         $angkatan = $this->option('angkatan');
-        $resend  = $this->option('resend');
-        $nimOnly = $this->option('nim');
+        $resend   = $this->option('resend');
+        $nimOnly  = $this->option('nim');
 
         $query = User::where('is_admin', false)
-            ->whereNotNull('email');
+            ->whereNotNull('email')
+            ->where('email', '!=', '');
 
         // Filter: specific NIM
         if ($nimOnly) {
@@ -56,52 +55,65 @@ class SendMahasiswaCredentials extends Command
             return self::SUCCESS;
         }
 
-        $this->info("Total yang akan diproses: {$total}");
-        $this->info("Limit pengiriman saat ini: {$limit} email");
+        $lock = Cache::lock(CredentialMailer::BULK_LOCK_KEY, CredentialMailer::BULK_LOCK_SECONDS);
+        if (! $lock->get()) {
+            $this->warn('Pengiriman email massal lain sedang berlangsung (lock aktif). Silakan tunggu hingga selesai.');
+            return self::FAILURE;
+        }
 
-        $mahasiswaList = $query->limit($limit)->get();
-        $sent  = 0;
-        $failed = 0;
+        try {
+            $throttleDelayMs = $mailer->throttleDelayMs();
+            $maxRetries      = $mailer->maxRetries();
 
-        $bar = $this->output->createProgressBar($mahasiswaList->count());
-        $bar->start();
-
-        foreach ($mahasiswaList as $mahasiswa) {
-            try {
-                $plainPassword = $this->generatePassword();
-                $mahasiswa->update([
-                    'password' => Hash::make($plainPassword),
-                    'email_verified_at' => now(),
-                ]);
-
-                Mail::to($mahasiswa->email)->send(new MahasiswaCredentials($mahasiswa, $plainPassword));
-
-                $mahasiswa->update(['credentials_sent_at' => now()]);
-                $sent++;
-            } catch (\Exception $e) {
-                $failed++;
-                $this->newLine();
-                $this->error("Gagal kirim ke {$mahasiswa->nim} ({$mahasiswa->email}): " . $e->getMessage());
+            $this->info("Total yang akan diproses: {$total}");
+            if ($limit > 0) {
+                $this->info("Limit pengiriman saat ini: {$limit} email");
+                $query->limit($limit);
+            } else {
+                $this->info('Mode pengiriman: tanpa limit');
             }
 
-            $bar->advance();
+            $mahasiswaList = $query->get();
+            $sent   = 0;
+            $failed = 0;
+
+            $bar = $this->output->createProgressBar($mahasiswaList->count());
+            $bar->start();
+
+            foreach ($mahasiswaList->values() as $index => $mahasiswa) {
+                if ($index > 0 && $throttleDelayMs > 0) {
+                    usleep($throttleDelayMs * 1000);
+                }
+
+                $ok = $mailer->send($mahasiswa, $maxRetries, function (string $message) {
+                    $this->newLine();
+                    $this->warn($message);
+                });
+
+                if ($ok) {
+                    $sent++;
+                } else {
+                    $failed++;
+                    $this->newLine();
+                    $this->error("Gagal kirim ke {$mahasiswa->nim} ({$mahasiswa->email}): {$mailer->lastError}");
+                }
+
+                $bar->advance();
+            }
+
+            $bar->finish();
+            $this->newLine(2);
+
+            $remaining = max(0, $total - $sent);
+            $this->info("✅ Berhasil terkirim : {$sent}");
+            if ($failed > 0) {
+                $this->warn("❌ Gagal             : {$failed}");
+            }
+            $this->info("📬 Sisa belum terkirim: {$remaining}");
+
+            return self::SUCCESS;
+        } finally {
+            $lock->release();
         }
-
-        $bar->finish();
-        $this->newLine(2);
-
-        $remaining = max(0, $total - $sent);
-        $this->info("✅ Berhasil terkirim : {$sent}");
-        if ($failed > 0) {
-            $this->warn("❌ Gagal             : {$failed}");
-        }
-        $this->info("📬 Sisa belum terkirim: {$remaining}");
-
-        return self::SUCCESS;
-    }
-
-    private function generatePassword(): string
-    {
-        return Str::password(12, letters: true, numbers: true, symbols: false, spaces: false);
     }
 }

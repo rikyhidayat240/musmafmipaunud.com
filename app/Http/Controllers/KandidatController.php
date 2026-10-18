@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kandidat;
 use App\Models\Kegiatan;
 use App\Models\User;
+use App\Services\AuditLogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -37,6 +38,7 @@ class KandidatController extends Controller
         // Fetch kandidat data with related kegiatan and mahasiswa kandidat
         $kandidat = Kandidat::with('kegiatan', 'mahasiswa')
             ->orderBy('id_kegiatan', 'asc')
+            ->orderBy('no_urut', 'asc')
             ->get();
         $kegiatan = Kegiatan::where('tahun', now()->year)
             ->withCount(['mahasiswa as total_mahasiswa'])
@@ -105,7 +107,7 @@ class KandidatController extends Controller
             if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
                 // Get the uploaded file
                 $fotoFile = $request->file('foto');
-                $fotoName = time() . '_' . $fotoFile->getClientOriginalName();
+                $fotoName = $fotoFile->hashName();
 
                 // Define the foto destination path
                 $fotoDestination = Storage::disk('public')->path('foto-kandidat');
@@ -136,6 +138,11 @@ class KandidatController extends Controller
                     'updated_at' => now()->toDateTime(),
                 ]);
             }
+
+            AuditLogService::log('kandidat.create', 'kandidat', (string) $kandidat->id, [
+                'id_kegiatan' => $kandidat->id_kegiatan,
+                'no_urut'     => $kandidat->no_urut,
+            ]);
 
             // Redirect with success message
             return to_route('candidates.index')->with('alert', ['type' => 'success', 'title' => 'Berhasil menambah kandidat', 'message' => 'Data kandidat berhasil dibuat']);
@@ -204,7 +211,7 @@ class KandidatController extends Controller
 
                 // Store new foto
                 $fotoFile = $request->file('foto');
-                $fotoName = time() . '_' . $fotoFile->getClientOriginalName();
+                $fotoName = $fotoFile->hashName();
                 Storage::disk('public')->putFileAs('foto-kandidat', $fotoFile, $fotoName);
                 $fotoPath = 'foto-kandidat/' . $fotoName;
             }
@@ -228,6 +235,11 @@ class KandidatController extends Controller
                 ];
             }
             $kandidat->mahasiswa()->sync($mahasiswaSync);
+
+            AuditLogService::log('kandidat.update', 'kandidat', (string) $kandidat->id, [
+                'id_kegiatan' => $kandidat->id_kegiatan,
+                'no_urut'     => $kandidat->no_urut,
+            ]);
 
             // Redirect with success message
             return to_route('candidates.index')->with('alert', ['type' => 'success', 'title' => 'Berhasil mengedit kandidat', 'message' => 'Data kandidat berhasil diedit']);
@@ -261,6 +273,11 @@ class KandidatController extends Controller
 
             // Delete kandidat
             $kandidat->delete();
+
+            AuditLogService::log('kandidat.delete', 'kandidat', (string) $id, [
+                'id_kegiatan' => $kandidat->id_kegiatan,
+                'no_urut'     => $kandidat->no_urut,
+            ]);
             
             return redirect()->back()->with('success', 'Data kandidat berhasil dihapus.');
         } catch (\Exception $e) {

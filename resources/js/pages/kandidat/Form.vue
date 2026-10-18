@@ -117,7 +117,6 @@ const submit = () => {
     ...form.data(),
     mahasiswa: [
       { nim: form.nim_ketua, jabatan: 'ketua' },
-      // ...(isKegiatanFakultas.value ? [{ nim: form.nim_wakil, jabatan: 'wakil' }] : [])
     ].filter(m => m.nim)
   };
 

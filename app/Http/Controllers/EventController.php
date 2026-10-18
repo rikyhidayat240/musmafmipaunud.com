@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Inertia\Inertia;
 use App\Models\Kegiatan;
 use App\Models\ProgramStudi;
+use App\Services\AuditLogService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -61,8 +62,7 @@ class EventController extends Controller
             $fotoPath = null;
             if ($request->hasFile('foto') && $request->file('foto')->isValid()) {
                 $fotoFile = $request->file('foto');
-                // SECURITY: Use random name only — never trust client-supplied filename
-                $fotoName = time() . '_' . Str::random(16) . '.' . $fotoFile->getClientOriginalExtension();
+                $fotoName = $fotoFile->hashName();
 
                 $fotoDestination = Storage::disk('public')->path('foto-kegiatan');
                 if (!file_exists($fotoDestination)) {
@@ -74,13 +74,21 @@ class EventController extends Controller
             }
 
             // Create new kegiatan record
-            Kegiatan::create([
+            $kegiatan = Kegiatan::create([
                 'nama' => $validatedData['nama'],
                 'ruang_lingkup' =>'fakultas',
                 'tahun' => $validatedData['tahun'],
                 'waktu_mulai' => $validatedData['waktu_mulai'],
                 'waktu_selesai' => $validatedData['waktu_selesai'],
                 'foto' => $fotoPath,
+            ]);
+
+            AuditLogService::log('kegiatan.create', 'kegiatan', (string) $kegiatan->id, [
+                'nama'          => $kegiatan->nama,
+                'ruang_lingkup' => $kegiatan->ruang_lingkup,
+                'tahun'         => $kegiatan->tahun,
+                'waktu_mulai'   => (string) $kegiatan->waktu_mulai,
+                'waktu_selesai' => (string) $kegiatan->waktu_selesai,
             ]);
 
             // Redirect with success message
@@ -140,8 +148,7 @@ class EventController extends Controller
                 }
 
                 $fotoFile = $request->file('foto');
-                // SECURITY: Use random name only — never trust client-supplied filename
-                $fotoName = time() . '_' . Str::random(16) . '.' . $fotoFile->getClientOriginalExtension();
+                $fotoName = $fotoFile->hashName();
                 Storage::disk('public')->putFileAs('foto-kegiatan', $fotoFile, $fotoName);
                 $fotoPath = 'foto-kegiatan/' . $fotoName;
             }
@@ -153,6 +160,14 @@ class EventController extends Controller
                 'waktu_mulai' => $validatedData['waktu_mulai'],
                 'waktu_selesai' => $validatedData['waktu_selesai'],
                 'foto' => $fotoPath,
+            ]);
+
+            AuditLogService::log('kegiatan.update', 'kegiatan', (string) $kegiatan->id, [
+                'nama'          => $kegiatan->nama,
+                'ruang_lingkup' => $kegiatan->ruang_lingkup,
+                'tahun'         => $kegiatan->tahun,
+                'waktu_mulai'   => (string) $kegiatan->waktu_mulai,
+                'waktu_selesai' => (string) $kegiatan->waktu_selesai,
             ]);
 
             // Redirect with success message
@@ -176,19 +191,20 @@ class EventController extends Controller
         $kegiatan = Kegiatan::where('tahun', now()->year)
             ->where('waktu_selesai', '>', now())
             ->with(['kandidat' => function ($query) {
-                $query->limit(2);
-            }, 'kandidat.mahasiswa.program_studi'])->get()->first();
+                $query->orderBy('no_urut', 'asc');
+            }, 'kandidat.mahasiswa.program_studi'])->first();
             
-        if ($kegiatan) {
-            $kegiatan->toResource();
-        }
-        
         if (!$kegiatan) {
             $kegiatan = Kegiatan::where('tahun', now()->year)
                 ->with(['kandidat' => function ($query) {
-                    $query->limit(2);
+                    $query->orderBy('no_urut', 'asc');
                 }, 'kandidat.mahasiswa.program_studi'])->latest('waktu_selesai')->first();
         }
+
+        if ($kegiatan) {
+            $kegiatan->kandidat->each->makeVisible('jumlah_suara');
+        }
+
         return Inertia::render('events/Hasil', ['kegiatan' => $kegiatan]);
     }
 }

@@ -13,7 +13,7 @@ class DemoSeeder extends Seeder
      */
     public function run(): void
     {
-        User::factory()->create([
+        $admin = User::factory()->create([
             'nim' => '2008511001',
             'id_program_studi' => 1,
             'nama' => 'Admin DPM FMIPA',
@@ -21,8 +21,9 @@ class DemoSeeder extends Seeder
             'email' => 'dpmfmipaunud2025@gmail.com',
             'email_verified_at' => now(),
             'password' => bcrypt('password'),
-            'is_admin' => true
         ]);
+        $admin->is_admin = true;
+        $admin->save();
         User::factory()->createMany([
             ["nim" => "2208511021", "nama" => "Ni Putu Wulan Kusuma Dewi", "angkatan" => 2022, "id_program_studi" => 1],
             ["nim" => "2308551049", "nama" => "Kadek Bintang Arya Mahardika", "angkatan" => 2023, "id_program_studi" => 5],

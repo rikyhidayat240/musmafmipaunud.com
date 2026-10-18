@@ -251,7 +251,8 @@ const formatMisi = (misi: string): string[] => {
             <!-- ============================
                  STEP 2: VOTE / MIIH (Node 252:1743)
                  ============================ -->
-            <div v-if="step === 2" class="relative z-10 flex flex-col items-center px-4 pt-10 pb-16 max-w-4xl mx-auto w-full">
+            <div v-if="step === 2" class="relative z-10 flex flex-col items-center px-4 pt-10 pb-16 mx-auto w-full"
+                 :class="(kegiatan?.kandidat?.length ?? 0) >= 3 ? 'max-w-6xl' : 'max-w-4xl'">
 
                 <!-- Page tag -->
                 <p class="text-xs font-bold tracking-[0.25em] uppercase text-[#9A6A72] dark:text-[#FCCE88]/80 mb-3 text-center">BILIK SUARA DIGITAL</p>
@@ -264,8 +265,9 @@ const formatMisi = (misi: string): string[] => {
                 <!-- Large Flourish Divider -->
                 <OrnamentDivider variant="large" class="mb-8" />
 
-                <!-- Voting Ballot Cards (2 columns on desktop) -->
-                <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch">
+                <!-- Voting Ballot Cards (2 columns for <=2 candidates, 3 columns on large screens for >=3 candidates) -->
+                <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch"
+                     :class="(kegiatan?.kandidat?.length ?? 0) >= 3 ? 'lg:grid-cols-3' : ''">
                     <div v-for="kandidat in kegiatan?.kandidat" :key="kandidat.id"
                          class="rounded-3xl overflow-hidden shadow-xl border border-[#3B0613]/15 dark:border-[#FCCE88]/25 flex flex-col bg-[#FFFDFB] dark:bg-[#27060F]">
 

@@ -36,8 +36,6 @@ class User extends Authenticatable
         'email',
         'password',
         'avatar',
-        'status',
-        'is_admin',
         'email_verified_at',
         'credentials_sent_at',
     ];
@@ -74,6 +72,7 @@ class User extends Authenticatable
     public function kegiatan()
     {
         return $this->belongsToMany(Kegiatan::class, 'surat_suara', 'nim', 'id_kegiatan')
+            ->using(SuratSuara::class)
             ->withPivot('has_vote')
             ->withTimestamps();
     }

@@ -25,11 +25,13 @@ const refreshHasil = () => {
   });
 };
 
-const totalSuara = props.kegiatan?.kandidat?.reduce((acc, val) => acc + val.jumlah_suara, 0) || 0;
+const totalSuara = computed(() =>
+  props.kegiatan?.kandidat?.reduce((acc, val) => acc + (val.jumlah_suara || 0), 0) || 0
+);
 const kandidat = computed(() => {
   return props.kegiatan?.kandidat?.map(calon => ({
     ...calon,
-    jumlah_suara_persen: totalSuara > 0 ? parseFloat((calon.jumlah_suara / totalSuara * 100).toFixed(2)) : 0
+    jumlah_suara_persen: totalSuara.value > 0 ? parseFloat(((calon.jumlah_suara || 0) / totalSuara.value * 100).toFixed(2)) : 0
   })) || []
 })
 </script>
@@ -110,7 +112,8 @@ const kandidat = computed(() => {
           </div>
 
           <!-- Candidates Result Cards -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch max-w-4xl mx-auto">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch mx-auto"
+               :class="kandidat.length >= 3 ? 'lg:grid-cols-3 max-w-6xl' : 'max-w-4xl'">
             <div
               v-for="(calon, i) in kandidat"
               :key="calon.id"

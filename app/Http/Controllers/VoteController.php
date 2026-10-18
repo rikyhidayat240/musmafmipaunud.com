@@ -34,71 +34,54 @@ class VoteController extends Controller
         return Inertia::render('Vote', ['kegiatan' => $kegiatan]);
     }
 
-    public function vote(string $id, Request $request)
+    public function vote(string $id, \App\Http\Requests\VoteRequest $request)
     {
         $user = Auth::user();
-
-        // SECURITY: Validate kandidat exists AND belongs to this specific kegiatan
-        $data = $request->validate([
-            'kandidat' => [
-                'required',
-                'integer',
-                Rule::exists('kandidat', 'id')->where('id_kegiatan', $id),
-            ],
-        ], [
-            'kandidat.required' => 'Pilihan kandidat wajib ada.',
-            'kandidat.integer'  => 'Data kandidat tidak valid.',
-            'kandidat.exists'   => 'Kandidat tidak ditemukan atau bukan bagian dari kegiatan ini.',
-        ]);
-
         $kegiatan = Kegiatan::findOrFail($id);
 
-        // SECURITY: Ensure the kegiatan is still active
-        if (now()->isAfter($kegiatan->waktu_selesai)) {
-            Log::warning('[VOTE] Attempt to vote on ended kegiatan', [
+        try {
+            return DB::transaction(function () use ($user, $request, $kegiatan, $id) {
+                // Kunci baris user untuk isolasi transaksi voting akun ini
+                User::where('nim', $user->nim)->lockForUpdate()->first();
+
+                // Cek apakah sudah memilih
+                $alreadyVoted = DB::table('surat_suara')
+                    ->where('nim', $user->nim)
+                    ->where('id_kegiatan', $id)
+                    ->whereNotNull('has_vote')
+                    ->exists();
+
+                if ($alreadyVoted) {
+                    Log::warning('[SECURITY] Double-vote attempt detected', [
+                        'nim'         => $user->nim,
+                        'id_kegiatan' => $id,
+                        'ip'          => $request->ip(),
+                        'user_agent'  => $request->userAgent(),
+                    ]);
+                    return to_route('home')->with('alert', ['type' => 'error', 'title' => 'Anda sudah vote', 'message' => 'Anda sudah memberikan suara! Suara ganda ditolak.']);
+                }
+
+                // Tandai sudah vote dengan presisi jam (HH:00:00)
+                $coarsenedTime = now()->startOfHour();
+                $kegiatan->mahasiswa()->syncWithoutDetaching([$user->nim => ['has_vote' => $coarsenedTime]]);
+
+                // Increment atomik via query builder tanpa mengubah updated_at kandidat
+                DB::table('kandidat')->where('id', $request->kandidat)->where('id_kegiatan', $id)->increment('jumlah_suara');
+
+                Log::info('[VOTE] Vote cast successfully', [
+                    'nim'         => $user->nim,
+                    'id_kegiatan' => $id,
+                ]);
+
+                return to_route('home')->with('alert', ['type' => 'success', 'title' => 'Vote berhasil dilakukan', 'message' => 'Terima kasih sudah memilih calon ketua DPM FMIPA']);
+            });
+        } catch (\Illuminate\Database\QueryException $e) {
+            Log::warning('[SECURITY] Double-vote detected via unique constraint', [
                 'nim'         => $user->nim,
                 'id_kegiatan' => $id,
                 'ip'          => $request->ip(),
             ]);
-            return to_route('home')->with('alert', ['type' => 'error', 'title' => 'Pemilihan telah berakhir', 'message' => 'Waktu pemilihan sudah habis.']);
+            return to_route('home')->with('alert', ['type' => 'error', 'title' => 'Anda sudah vote', 'message' => 'Anda sudah memberikan suara! Suara ganda ditolak.']);
         }
-        
-        return DB::transaction(function () use ($user, $data, $kegiatan, $id, $request) {
-            // SECURITY: Double-vote check inside transaction with row lock
-            $alreadyVoted = DB::table('surat_suara')
-                ->where('nim', $user->nim)
-                ->where('id_kegiatan', $id)
-                ->whereNotNull('has_vote')
-                ->lockForUpdate()
-                ->exists();
-
-            if ($alreadyVoted) {
-                Log::warning('[SECURITY] Double-vote attempt detected', [
-                    'nim'         => $user->nim,
-                    'id_kegiatan' => $id,
-                    'kandidat_id' => $data['kandidat'],
-                    'ip'          => $request->ip(),
-                    'user_agent'  => $request->userAgent(),
-                ]);
-                return to_route('home')->with('alert', ['type' => 'error', 'title' => 'Anda sudah vote', 'message' => 'Anda sudah memberikan suara! Suara ganda ditolak.']);
-            }
-
-            // Mark as voted
-            $kegiatan->mahasiswa()->syncWithoutDetaching([$user->nim => ['has_vote' => now()]]);
-            
-            // Increment candidate vote with lock
-            $kandidat = $kegiatan->kandidat()->where('id', $data['kandidat'])->lockForUpdate()->first();
-            if ($kandidat) {
-                $kandidat->increment('jumlah_suara');
-            }
-
-            Log::info('[VOTE] Vote cast successfully', [
-                'nim'         => $user->nim,
-                'id_kegiatan' => $id,
-                'kandidat_id' => $data['kandidat'],
-            ]);
-
-            return to_route('home')->with('alert', ['type' => 'success', 'title' => 'Vote berhasil dilakukan', 'message' => 'Terima kasih sudah memilih calon ketua DPM FMIPA']);
-        });
     }
 }

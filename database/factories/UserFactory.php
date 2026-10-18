@@ -29,11 +29,12 @@ class UserFactory extends Factory
             'nim' => fake()->unique()->numerify(static::$nimPattern),
             'id_program_studi' => fake()->numberBetween(1, 6),
             'nama' => fake()->name(),
-            'angkatan' => fake()->year(),
-            'email' => null,
-            'email_verified_at' => null,
-            // 'password' => static::$password ??= Hash::make('musmafmipa'),
-            'password' => null,
+            'angkatan' => fake()->numberBetween(2020, 2025),
+            'email' => fake()->unique()->safeEmail(),
+            'email_verified_at' => now(),
+            'password' => static::$password ??= Hash::make('password'),
+            'status' => 'aktif',
+            'is_admin' => false,
             'remember_token' => Str::random(10),
         ];
     }
@@ -45,6 +46,40 @@ class UserFactory extends Factory
     {
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
+        ]);
+    }
+
+    /**
+     * Indicate that the model should be an admin.
+     */
+    public function admin(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'is_admin' => true,
+        ]);
+    }
+
+    /**
+     * Indicate that the model has two factor authentication disabled.
+     */
+    public function withoutTwoFactor(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'two_factor_secret' => null,
+            'two_factor_recovery_codes' => null,
+            'two_factor_confirmed_at' => null,
+        ]);
+    }
+
+    /**
+     * Indicate that the model has two factor authentication enabled.
+     */
+    public function withTwoFactor(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'two_factor_secret' => encrypt('test-secret'),
+            'two_factor_recovery_codes' => encrypt(json_encode(['code1', 'code2'])),
+            'two_factor_confirmed_at' => now(),
         ]);
     }
 }

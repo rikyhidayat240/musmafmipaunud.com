@@ -42,7 +42,7 @@ class ProfileController extends Controller
             if ($request->hasFile('avatar') && $request->file('avatar')->isValid()) {
                 // Get the uploaded file
                 $avatarFile = $request->file('avatar');
-                $avatarName = time() . '_' . $avatarFile->getClientOriginalName();
+                $avatarName = $avatarFile->hashName();
 
                 // Define the avatar destination path
                 $avatarDestination = Storage::disk('public')->path('foto-mahasiswa');
@@ -72,24 +72,4 @@ class ProfileController extends Controller
         }
     }
 
-    /**
-     * Delete the user's profile.
-     */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validate([
-            'password' => ['required', 'current_password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/');
-    }
 }
