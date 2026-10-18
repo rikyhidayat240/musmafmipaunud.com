@@ -265,9 +265,9 @@ const formatMisi = (misi: string): string[] => {
                 <!-- Large Flourish Divider -->
                 <OrnamentDivider variant="large" class="mb-8" />
 
-                <!-- Voting Ballot Cards (2 columns for <=2 candidates, 3 columns on large screens for >=3 candidates) -->
-                <div class="w-full grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch"
-                     :class="(kegiatan?.kandidat?.length ?? 0) >= 3 ? 'lg:grid-cols-3' : ''">
+                <!-- Voting Ballot Cards (2 columns for <=2 candidates, 3 columns for >=3 candidates) -->
+                <div class="w-full grid grid-cols-1 gap-6 lg:gap-8 items-stretch"
+                     :class="(kegiatan?.kandidat?.length ?? 0) >= 3 ? 'md:grid-cols-3' : 'md:grid-cols-2'">
                     <div v-for="kandidat in kegiatan?.kandidat" :key="kandidat.id"
                          class="rounded-3xl overflow-hidden shadow-xl border border-[#3B0613]/15 dark:border-[#FCCE88]/25 flex flex-col bg-[#FFFDFB] dark:bg-[#27060F]">
 

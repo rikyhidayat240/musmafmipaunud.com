@@ -25,6 +25,47 @@ const refreshHasil = () => {
   });
 };
 
+const candidatePalettes = [
+  {
+    gradient: 'linear-gradient(90deg, #3B0613, #7D2D3D)',
+    badgeBg: '#3B0613',
+    badgeText: '#FFFFFF',
+    percentColor: '#DA8278',
+  },
+  {
+    gradient: 'linear-gradient(90deg, #C5AA6C, #F5C249)',
+    badgeBg: '#F5C249',
+    badgeText: '#3B0613',
+    percentColor: '#D49B27',
+  },
+  {
+    gradient: 'linear-gradient(90deg, #134E4A, #2E8B78)',
+    badgeBg: '#134E4A',
+    badgeText: '#FFFFFF',
+    percentColor: '#2E8B78',
+  },
+  {
+    gradient: 'linear-gradient(90deg, #1E3A5F, #3B6EA5)',
+    badgeBg: '#1E3A5F',
+    badgeText: '#FFFFFF',
+    percentColor: '#4A88C7',
+  },
+  {
+    gradient: 'linear-gradient(90deg, #4A1D5E, #8446A0)',
+    badgeBg: '#4A1D5E',
+    badgeText: '#FFFFFF',
+    percentColor: '#9B59B6',
+  },
+  {
+    gradient: 'linear-gradient(90deg, #6B2D14, #C2592B)',
+    badgeBg: '#6B2D14',
+    badgeText: '#FFFFFF',
+    percentColor: '#D96B38',
+  },
+];
+
+const getPalette = (index: number) => candidatePalettes[index % candidatePalettes.length];
+
 const totalSuara = computed(() =>
   props.kegiatan?.kandidat?.reduce((acc, val) => acc + (val.jumlah_suara || 0), 0) || 0
 );
@@ -112,8 +153,8 @@ const kandidat = computed(() => {
           </div>
 
           <!-- Candidates Result Cards -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch mx-auto"
-               :class="kandidat.length >= 3 ? 'lg:grid-cols-3 max-w-6xl' : 'max-w-4xl'">
+          <div class="grid grid-cols-1 gap-6 lg:gap-8 items-stretch mx-auto"
+               :class="kandidat.length >= 3 ? 'md:grid-cols-3 max-w-6xl' : 'md:grid-cols-2 max-w-4xl'">
             <div
               v-for="(calon, i) in kandidat"
               :key="calon.id"
@@ -121,16 +162,14 @@ const kandidat = computed(() => {
             >
               <!-- Top accent banner -->
               <div class="h-2.5 w-full" :style="{
-                background: i % 2 === 0
-                  ? 'linear-gradient(90deg, #3B0613, #7D2D3D)'
-                  : 'linear-gradient(90deg, #C5AA6C, #F5C249)'
+                background: getPalette(i).gradient
               }"></div>
 
               <!-- Number badge -->
               <div class="absolute top-5 left-5 w-12 h-12 rounded-full flex items-center justify-center shadow-lg z-10 font-serif font-bold text-xl border-2 border-white dark:border-[#FCCE88]/60"
                    :style="{
-                     background: i % 2 === 0 ? '#3B0613' : '#F5C249',
-                     color: i % 2 === 0 ? '#FFFFFF' : '#3B0613',
+                     background: getPalette(i).badgeBg,
+                     color: getPalette(i).badgeText,
                    }">
                 {{ String(calon.no_urut).padStart(2, '0') }}
               </div>
@@ -173,7 +212,7 @@ const kandidat = computed(() => {
                 <div class="mt-auto pt-2">
                   <div class="flex items-center justify-between mb-2 text-xs font-bold">
                     <span class="text-[#9A6A72] dark:text-[#D4BAC1]">Perolehan</span>
-                    <span class="text-base font-serif" :style="{ color: i % 2 === 0 ? '#DA8278' : '#F5C249' }">
+                    <span class="text-base font-serif" :style="{ color: getPalette(i).percentColor }">
                       {{ calon.jumlah_suara_persen }}%
                     </span>
                   </div>
@@ -183,9 +222,7 @@ const kandidat = computed(() => {
                       class="h-full rounded-full transition-all duration-1000 ease-out"
                       :style="{
                         width: `${calon.jumlah_suara_persen}%`,
-                        background: i % 2 === 0
-                          ? 'linear-gradient(90deg, #3B0613, #7D2D3D)'
-                          : 'linear-gradient(90deg, #C5AA6C, #F5C249)'
+                        background: getPalette(i).gradient
                       }"
                     ></div>
                   </div>
