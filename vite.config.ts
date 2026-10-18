@@ -24,4 +24,46 @@ export default defineConfig({
             },
         }),
     ],
+    build: {
+        rollupOptions: {
+            output: {
+                manualChunks(id) {
+                    if (id.includes('node_modules')) {
+                        if (
+                            id.includes('@laravel/echo-vue') ||
+                            id.includes('laravel-echo') ||
+                            id.includes('pusher-js')
+                        ) {
+                            return 'vendor-echo';
+                        }
+                        if (
+                            id.includes('@tanstack/vue-table') ||
+                            id.includes('@tanstack')
+                        ) {
+                            return 'vendor-table';
+                        }
+                        if (
+                            id.includes('lucide-vue-next') ||
+                            id.includes('reka-ui') ||
+                            id.includes('radix-vue')
+                        ) {
+                            return 'vendor-ui';
+                        }
+                        if (
+                            id.includes('/vue/') ||
+                            id.includes('\\vue\\') ||
+                            id.includes('/@vue/') ||
+                            id.includes('\\@vue\\') ||
+                            id.includes('@inertiajs') ||
+                            id.includes('pinia')
+                        ) {
+                            return 'vendor-vue';
+                        }
+
+                    }
+                },
+            },
+        },
+    },
 });
+

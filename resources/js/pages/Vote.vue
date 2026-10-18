@@ -65,12 +65,12 @@ const formatMisi = (misi: string): string[] => {
             <!-- Global Background Ornaments -->
             <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
                 <!-- Center Watermark (Foxes) -->
-                <img src="/logo 2026.png" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] md:w-[600px] h-auto object-contain opacity-[0.035] dark:opacity-[0.05] select-none" alt="" />
+                <img src="/logo 2026.png" width="600" height="400" decoding="async" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] md:w-[600px] h-auto object-contain opacity-[0.035] dark:opacity-[0.05] select-none" alt="" />
                 <!-- Corner Balinese Ornaments -->
-                <img src="/image 62.png" class="absolute top-0 left-0 w-[140px] md:w-[220px] h-auto object-contain opacity-25 dark:opacity-15 rotate-180 -translate-x-1/4 -translate-y-1/4 select-none" alt="" />
-                <img src="/image 63.png" class="absolute top-0 right-0 w-[110px] md:w-[180px] h-auto object-contain opacity-25 dark:opacity-15 rotate-180 translate-x-1/4 -translate-y-1/4 select-none" alt="" />
-                <img src="/image 63.png" class="absolute bottom-0 left-0 w-[110px] md:w-[180px] h-auto object-contain opacity-25 dark:opacity-15 -translate-x-1/4 translate-y-1/4 select-none" alt="" />
-                <img src="/image 62.png" class="absolute bottom-0 right-0 w-[140px] md:w-[220px] h-auto object-contain opacity-25 dark:opacity-15 translate-x-1/4 translate-y-1/4 select-none" alt="" />
+                <img src="/image 62.png" width="220" height="293" decoding="async" class="absolute top-0 left-0 w-[140px] md:w-[220px] h-auto object-contain opacity-25 dark:opacity-15 rotate-180 -translate-x-1/4 -translate-y-1/4 select-none" alt="" />
+                <img src="/image 63.png" width="180" height="360" decoding="async" class="absolute top-0 right-0 w-[110px] md:w-[180px] h-auto object-contain opacity-25 dark:opacity-15 rotate-180 translate-x-1/4 -translate-y-1/4 select-none" alt="" />
+                <img src="/image 63.png" width="180" height="360" loading="lazy" decoding="async" class="absolute bottom-0 left-0 w-[110px] md:w-[180px] h-auto object-contain opacity-25 dark:opacity-15 -translate-x-1/4 translate-y-1/4 select-none" alt="" />
+                <img src="/image 62.png" width="220" height="293" loading="lazy" decoding="async" class="absolute bottom-0 right-0 w-[140px] md:w-[220px] h-auto object-contain opacity-25 dark:opacity-15 translate-x-1/4 translate-y-1/4 select-none" alt="" />
             </div>
 
             <!-- ============================
@@ -111,7 +111,7 @@ const formatMisi = (misi: string): string[] => {
                 <div class="w-full max-w-md rounded-2xl overflow-hidden shadow-xl border border-[#3B0613]/15 dark:border-[#FCCE88]/20 mb-8 sm:mb-10 transition-transform duration-300 hover:scale-[1.01]">
                     <!-- Top warm cream header with logo -->
                     <div class="bg-[#FAF7F2] dark:bg-[#1A0308] py-5 sm:py-6 px-4 sm:px-6 flex flex-col items-center justify-center border-b border-[#3B0613]/10 dark:border-[#FCCE88]/15">
-                        <img src="/logo 2026.png" class="h-12 sm:h-14 w-auto object-contain mb-2 select-none" alt="Musma Logo" />
+                        <img src="/logo 2026.png" width="56" height="56" decoding="async" class="h-12 sm:h-14 w-auto object-contain mb-2 select-none" alt="Musma Logo" />
                         <p class="text-[10px] sm:text-[11px] font-bold tracking-[0.2em] text-[#3B0613] dark:text-[#FAF4EB] uppercase">MUSMA LM FMIPA &bull; {{ dayjs().year() }}</p>
                     </div>
                     <!-- Bottom deep wine section -->
@@ -175,6 +175,10 @@ const formatMisi = (misi: string): string[] => {
                                         <img
                                             :src="kandidat.foto ? `/storage/${kandidat.foto}` : '/assets/blank-profile-picture.webp'"
                                             alt="Foto Kandidat"
+                                            width="144"
+                                            height="144"
+                                            loading="lazy"
+                                            decoding="async"
                                             class="w-full h-full object-cover object-top"
                                         />
                                     </div>
@@ -275,7 +279,7 @@ const formatMisi = (misi: string): string[] => {
                         <div class="relative pt-5 sm:pt-6 pb-0 px-4 sm:px-6 flex flex-col justify-between overflow-hidden"
                              style="background: linear-gradient(135deg, #7D2D3D 0%, #3B0613 100%); min-height: 200px;">
                             <!-- Subtle corner ornament watermark -->
-                            <img src="/image 63.png" class="absolute -top-4 -right-4 w-20 sm:w-24 h-auto opacity-20 rotate-180 pointer-events-none select-none" alt="" />
+                            <img src="/image 63.png" width="96" height="192" loading="lazy" decoding="async" class="absolute -top-4 -right-4 w-20 sm:w-24 h-auto opacity-20 rotate-180 pointer-events-none select-none" alt="" />
 
                             <!-- Candidate info overlay top left -->
                             <div class="relative z-10 text-left">
@@ -295,6 +299,10 @@ const formatMisi = (misi: string): string[] => {
                                     <img
                                         :src="kandidat.foto ? `/storage/${kandidat.foto}` : '/assets/blank-profile-picture.webp'"
                                         alt="Foto Kandidat"
+                                        width="144"
+                                        height="176"
+                                        loading="lazy"
+                                        decoding="async"
                                         class="w-full h-full object-cover object-top"
                                     />
                                 </div>
@@ -366,7 +374,7 @@ const formatMisi = (misi: string): string[] => {
             <div v-if="step === 4" class="relative z-10 flex flex-col items-center justify-center px-4 pt-12 pb-16 text-center max-w-xl mx-auto w-full min-h-[65vh]">
 
                 <!-- Mandala graphic -->
-                <img src="/image 61.png" class="w-32 md:w-36 h-auto object-contain mb-4 select-none opacity-90 dark:opacity-80" alt="Mandala" />
+                <img src="/image 61.png" width="144" height="144" loading="lazy" decoding="async" class="w-32 md:w-36 h-auto object-contain mb-4 select-none opacity-90 dark:opacity-80" alt="Mandala" />
 
                 <!-- Large Flourish Divider -->
                 <OrnamentDivider variant="large" class="mb-4" />
@@ -396,7 +404,7 @@ const formatMisi = (misi: string): string[] => {
                     </p>
                     <p class="text-xs text-[#9A6A72] dark:text-[#FCCE88]/60 mb-5">Anda tidak dapat melakukan pemilihan ulang.</p>
                     <div class="flex items-center justify-center gap-2">
-                        <img src="/logo 2026.png" class="h-6 w-auto object-contain opacity-80" alt="Logo" />
+                        <img src="/logo 2026.png" width="24" height="24" loading="lazy" decoding="async" class="h-6 w-auto object-contain opacity-80" alt="Logo" />
                         <span class="text-xs font-bold text-[#3B0613] dark:text-[#FAF4EB] tracking-wider uppercase">MUSMA LM FMIPA {{ dayjs().year() }}</span>
                     </div>
                 </div>
@@ -415,7 +423,7 @@ const formatMisi = (misi: string): string[] => {
                 <!-- Modal dialog -->
                 <div class="relative bg-[#FFFDFB] dark:bg-[#27060F] rounded-3xl p-8 max-w-sm w-full text-center shadow-2xl border border-[#3B0613]/15 dark:border-[#FCCE88]/25 overflow-hidden animate-in fade-in zoom-in-95 duration-200">
                     <!-- Mandala watermark in top right -->
-                    <img src="/image 61.png" class="absolute -top-8 -right-8 w-32 h-auto opacity-15 dark:opacity-10 pointer-events-none select-none" alt="" />
+                    <img src="/image 61.png" width="128" height="128" loading="lazy" decoding="async" class="absolute -top-8 -right-8 w-32 h-auto opacity-15 dark:opacity-10 pointer-events-none select-none" alt="" />
 
                     <!-- Candidate number badge -->
                     <div class="w-14 h-14 rounded-full bg-[#3B0613] dark:bg-[#FCCE88] text-white dark:text-[#27060F] font-black text-2xl flex items-center justify-center mx-auto mb-4 shadow-md">

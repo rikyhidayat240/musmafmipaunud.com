@@ -57,17 +57,21 @@ const isActive = (href: string) => page.url === href;
     <div class="mx-auto flex h-16 sm:h-[72px] items-center justify-between px-4 sm:px-8 max-w-7xl w-full">
 
       <!-- Left: Logo & Organization Name -->
-      <Link href="/" class="flex items-center gap-3 group">
+      <Link href="/" class="flex items-center gap-2 sm:gap-3 group min-w-0">
         <img
           src="/logo 2026.png"
           alt="DPM FMIPA Logo"
-          class="h-10 sm:h-11 w-auto object-contain shrink-0 transition-transform group-hover:scale-105"
+          width="44"
+          height="44"
+          fetchpriority="high"
+          decoding="async"
+          class="h-9 sm:h-11 w-auto object-contain shrink-0 transition-transform group-hover:scale-105"
         />
-        <div class="flex flex-col leading-tight">
-          <span class="text-[10px] sm:text-[11px] font-medium tracking-[0.18em] uppercase text-white/70">
+        <div class="flex flex-col leading-tight min-w-0">
+          <span class="text-[9px] sm:text-[11px] font-medium tracking-wider sm:tracking-[0.18em] uppercase text-white/70 truncate">
             Dewan Perwakilan Mahasiswa
           </span>
-          <span class="text-xs sm:text-sm font-bold text-white group-hover:text-white/90 transition-colors">
+          <span class="text-xs sm:text-sm font-bold text-white group-hover:text-white/90 transition-colors truncate">
             MUSMA LM FMIPA {{ dayjs().year() }}
           </span>
         </div>
@@ -118,7 +122,7 @@ const isActive = (href: string) => page.url === href;
               <SheetTitle class="sr-only">Menu Navigasi</SheetTitle>
               <SheetHeader class="p-6 border-b border-white/10">
                 <div class="flex items-center gap-2.5">
-                  <img src="/logo 2026.png" alt="Logo" class="h-8 w-auto object-contain" />
+                  <img src="/logo 2026.png" alt="Logo" width="32" height="32" loading="lazy" decoding="async" class="h-8 w-auto object-contain" />
                   <span class="text-sm font-bold text-white">MUSMA FMIPA {{ dayjs().year() }}</span>
                 </div>
               </SheetHeader>
@@ -140,11 +144,11 @@ const isActive = (href: string) => page.url === href;
         <!-- Authenticated User Profile Pill (Figma: initials circle + name) -->
         <DropdownMenu v-if="auth.user">
           <DropdownMenuTrigger :as-child="true">
-            <button class="flex items-center gap-2.5 rounded-full py-1 pl-1 pr-3.5 transition-all hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-[#FCCE88]/40 border border-white/10 dark:border-[#FCCE88]/30">
+            <button class="flex items-center gap-2 sm:gap-2.5 rounded-full p-1 sm:py-1 sm:pl-1 sm:pr-3.5 transition-all hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-[#FCCE88]/40 border border-white/10 dark:border-[#FCCE88]/30">
               <div class="size-8 rounded-full flex items-center justify-center font-bold text-xs bg-[#E5D9C3] text-[#3B0613] shadow-sm shrink-0">
                 {{ getInitials(auth.user?.nama) }}
               </div>
-              <span class="text-xs sm:text-sm font-semibold text-white max-w-[130px] sm:max-w-[180px] truncate">
+              <span class="hidden sm:inline text-xs sm:text-sm font-semibold text-white max-w-[180px] truncate">
                 {{ auth.user.nama }}
               </span>
             </button>

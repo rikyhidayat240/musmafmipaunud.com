@@ -129,6 +129,9 @@ const accordionItems = [
       <img
         src="/image 63.png"
         alt=""
+        width="384"
+        height="768"
+        decoding="async"
         class="absolute -top-10 -right-10 w-44 sm:w-72 lg:w-96 h-auto opacity-75 dark:opacity-25 select-none pointer-events-none z-0"
       />
 
@@ -136,6 +139,10 @@ const accordionItems = [
       <img
         src="/image 62.png"
         alt=""
+        width="384"
+        height="512"
+        loading="lazy"
+        decoding="async"
         class="absolute -bottom-10 -left-10 w-44 sm:w-72 lg:w-96 h-auto opacity-75 dark:opacity-25 select-none pointer-events-none z-0"
       />
 
@@ -143,6 +150,9 @@ const accordionItems = [
       <img
         src="/logo 2026.png"
         alt=""
+        width="540"
+        height="360"
+        decoding="async"
         class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[380px] sm:w-[540px] h-auto object-contain opacity-[0.035] dark:opacity-[0.06] select-none pointer-events-none z-0"
       />
 

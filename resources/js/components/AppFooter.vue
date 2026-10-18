@@ -9,11 +9,19 @@ import dayjs from "dayjs";
     <img
       src="/image 62.png"
       alt=""
+      width="144"
+      height="192"
+      loading="lazy"
+      decoding="async"
       class="absolute -bottom-8 -left-8 w-28 sm:w-36 h-auto opacity-15 pointer-events-none select-none"
     />
     <img
       src="/image 63.png"
       alt=""
+      width="144"
+      height="288"
+      loading="lazy"
+      decoding="async"
       class="absolute -bottom-8 -right-8 w-28 sm:w-36 h-auto opacity-15 pointer-events-none select-none rotate-180"
     />
 
@@ -23,6 +31,10 @@ import dayjs from "dayjs";
         <img
           src="/logo 2026.png"
           alt="Logo DPM"
+          width="40"
+          height="40"
+          loading="lazy"
+          decoding="async"
           class="h-9 sm:h-10 w-auto object-contain shrink-0 opacity-90 group-hover:opacity-100 transition-opacity"
         />
         <div class="flex flex-col text-left leading-tight">
