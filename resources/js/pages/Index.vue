@@ -1,19 +1,18 @@
 <script setup lang="ts">
 import AppLayout from "@/layouts/AppLayout.vue";
 import KotakSuaraIllustration from "@/components/KotakSuaraIllustration.vue";
-import LoginModal from "@/components/LoginModal.vue";
 import OrnamentDivider from "@/components/OrnamentDivider.vue";
 import { BreadcrumbItem, Kegiatan } from "@/types";
 import { Head, Link, usePage } from "@inertiajs/vue3";
 import dayjs from "dayjs";
 import MaterialIcon from "@/components/MaterialIcon.vue";
-import { computed, onMounted, onUnmounted, ref } from "vue";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+import { computed, defineAsyncComponent, onMounted, onUnmounted, ref } from "vue";
+
+const LoginModal = defineAsyncComponent(() => import("@/components/LoginModal.vue"));
+const Accordion = defineAsyncComponent(() => import("@/components/ui/accordion/Accordion.vue"));
+const AccordionContent = defineAsyncComponent(() => import("@/components/ui/accordion/AccordionContent.vue"));
+const AccordionItem = defineAsyncComponent(() => import("@/components/ui/accordion/AccordionItem.vue"));
+const AccordionTrigger = defineAsyncComponent(() => import("@/components/ui/accordion/AccordionTrigger.vue"));
 
 const props = defineProps<{
   kegiatan?: Kegiatan;
